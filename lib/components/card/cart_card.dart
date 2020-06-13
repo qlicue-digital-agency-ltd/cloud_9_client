@@ -8,39 +8,46 @@ class CartCard extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 20, left: 20),
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-            height: 180,
-            child: Row(children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 60, top: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'LOSARTAN',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+            child: Material(
+              elevation: 4,
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(20)),
+                height: 180,
+                child: Row(children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 60, top: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'LOSARTAN',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            'Schedule an e-vist and the',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Schedule an e-vist and the',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ]),
               ),
-            ]),
+            ),
           ),
           Positioned(
             right: 0,
@@ -56,7 +63,7 @@ class CartCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 60,
+            top: 65,
             child: Container(
               height: 80,
               width: 80,
@@ -73,7 +80,7 @@ class CartCard extends StatelessWidget {
               child: Text(
                 'Medicine',
                 style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
               )),
           Positioned(
               bottom: 10,
