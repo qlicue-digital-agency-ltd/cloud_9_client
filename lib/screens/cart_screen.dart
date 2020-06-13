@@ -25,7 +25,7 @@ class CartScreen extends StatelessWidget {
                     child: Container(
                       child: Icon(
                         Icons.arrow_back_ios,
-                        color: Colors.black,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
@@ -35,7 +35,7 @@ class CartScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(
                     Icons.clear_all,
-                    color: Colors.blue,
+                    color: Colors.white,
                     size: 30,
                   ),
                   onPressed: () {},
@@ -47,7 +47,7 @@ class CartScreen extends StatelessWidget {
                 centerTitle: true,
                 title: Text(
                   'Shopping Cart',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),

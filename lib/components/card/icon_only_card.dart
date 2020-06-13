@@ -21,15 +21,19 @@ class IconOnlyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: Icon(
-          icon,
-          color: iconColor,
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        elevation: 2,
+        child: Container(
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: Icon(
+            icon,
+            color: iconColor,
+          ),
         ),
       ),
     );

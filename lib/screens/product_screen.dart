@@ -27,7 +27,7 @@ class ProductScreen extends StatelessWidget {
                     child: Container(
                       child: Icon(
                         Icons.arrow_back_ios,
-                        color: Colors.black,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
@@ -37,7 +37,7 @@ class ProductScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(
                     Icons.shopping_cart,
-                    color: Colors.blue,
+                    color: Colors.white,
                     size: 30,
                   ),
                   onPressed: () {
@@ -52,7 +52,7 @@ class ProductScreen extends StatelessWidget {
                 centerTitle: true,
                 title: Text(
                   'Products',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -94,7 +94,7 @@ class ProductScreen extends StatelessWidget {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10, top: 5,bottom: 5),
                       child: IconOnlyCard(
                           iconColor: Colors.blue,
                           icon: Icons.favorite,
@@ -102,6 +102,7 @@ class ProductScreen extends StatelessWidget {
                           onTap: () {}),
                     );
                   },
+                  itemCount: 4,
                   scrollDirection: Axis.horizontal,
                 ),
               ),

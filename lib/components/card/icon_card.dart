@@ -23,24 +23,29 @@ class IconCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                icon,
-                color: iconColor,
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        elevation: 2,
+              child: Container(
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.all(Radius.circular(20))
               ),
-              Text(
-                title,
-                style: TextStyle(color: textColor),
-              )
-            ]),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  icon,
+                  color: iconColor,
+                ),
+                Text(
+                  title,
+                  style: TextStyle(color: textColor),
+                )
+              ]),
+        ),
       ),
     );
   }

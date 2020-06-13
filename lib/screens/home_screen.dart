@@ -2,12 +2,14 @@ import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/notification_card.dart';
 import 'package:cloud_9_client/pages/product_page.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
+        
         child: Container(
           padding: EdgeInsets.all(20),
           child: Column(
@@ -46,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
-                    Icon(Icons.add_box, size: 30, color: Colors.blue)
+                    Icon(FontAwesomeIcons.female, size: 30, color: Colors.blue)
                   ],
                 ),
                 SizedBox(height: 20),
@@ -74,8 +76,8 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.white,
-                          icon: Icons.accessibility,
-                          title: 'Diagnosis',
+                          icon: Icons.calendar_today,
+                          title: 'Appointment',
                           textColor: Colors.white,
                           backgroundColor: Colors.deepOrange,
                           onTap: () {
@@ -95,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                         child: IconCard(
                           iconColor: Colors.blue,
                           icon: Icons.stay_primary_landscape,
-                          title: 'Shots',
+                          title: 'Diagnosis',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,
                           onTap: () {
