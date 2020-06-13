@@ -1,5 +1,6 @@
 import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/notification_card.dart';
+import 'package:cloud_9_client/pages/appointment_page.dart';
 import 'package:cloud_9_client/pages/product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,7 +10,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        
         child: Container(
           padding: EdgeInsets.all(20),
           child: Column(
@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductPage(),
+                                  builder: (context) => AppointmentPage(),
                                 ));
                           },
                         ),
