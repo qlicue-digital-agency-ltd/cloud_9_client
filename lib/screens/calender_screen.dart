@@ -1,12 +1,13 @@
 import 'package:cloud_9_client/components/calender/calender_carousel.dart';
 import 'package:cloud_9_client/components/card/appointment_card.dart';
-import 'package:cloud_9_client/pages/cart_page.dart';
+import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
 class CalenderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Background(
+        screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
         child: CustomScrollView(
@@ -43,12 +44,11 @@ class CalenderScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
               ),
               SizedBox(height: 10),
-               Container(
+              Container(
                 margin: EdgeInsets.all(16.0),
                 color: Color(0xff465466),
                 child: CalendarCarouselCard(),
               ),
-              
             ])),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
@@ -68,6 +68,6 @@ class CalenderScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

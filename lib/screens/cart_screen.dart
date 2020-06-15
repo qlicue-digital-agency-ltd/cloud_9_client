@@ -1,17 +1,19 @@
 import 'package:cloud_9_client/components/card/cart_card.dart';
+import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Background(
+        screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
               elevation: 0,
-               expandedHeight: 120.0,
+              expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
               leading: InkWell(
                 onTap: () {
@@ -62,6 +64,6 @@ class CartScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

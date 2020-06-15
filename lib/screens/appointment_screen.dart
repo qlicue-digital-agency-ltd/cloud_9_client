@@ -1,12 +1,15 @@
 import 'package:cloud_9_client/components/card/appointment_card.dart';
-import 'package:cloud_9_client/pages/calender_page.dart';
+
+import 'package:cloud_9_client/screens/background.dart';
+import 'package:cloud_9_client/screens/calender_screen.dart';
 
 import 'package:flutter/material.dart';
 
 class AppointmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Background(
+        screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
         child: CustomScrollView(
@@ -41,8 +44,10 @@ class AppointmentScreen extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CalenderPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CalenderScreen()));
                   },
                 )
               ],
@@ -83,6 +88,6 @@ class AppointmentScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

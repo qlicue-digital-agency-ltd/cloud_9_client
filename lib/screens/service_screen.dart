@@ -1,17 +1,17 @@
 import 'package:cloud_9_client/components/card/category_card.dart';
-import 'package:cloud_9_client/components/card/icon_card.dart';
-import 'package:cloud_9_client/components/card/product_list_card.dart';
 import 'package:cloud_9_client/components/card/service_card.dart';
 import 'package:cloud_9_client/models/category.dart';
 import 'package:cloud_9_client/models/service.dart';
-import 'package:cloud_9_client/pages/appointment_page.dart';
-import 'package:cloud_9_client/pages/calender_page.dart';
+import 'package:cloud_9_client/screens/background.dart';
+import 'package:cloud_9_client/screens/calender_screen.dart';
+import 'package:cloud_9_client/screens/service_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ServiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Background(
+        screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
         child: CustomScrollView(
@@ -90,12 +90,17 @@ class ServiceScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CalenderPage(),
+                            builder: (context) => CalenderScreen(),
                           ));
                     },
                     service: serviceList[index],
                     onTapMore: () {
                       print('moreeeee');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ServiceDetailScreen(),
+                          ));
                     },
                   ),
                 );
@@ -104,6 +109,6 @@ class ServiceScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

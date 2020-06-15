@@ -1,5 +1,6 @@
 
-import 'package:cloud_9_client/pages/home_page.dart';
+
+import 'package:cloud_9_client/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -14,7 +15,7 @@ class App extends StatelessWidget {
         
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: HomeScreen(),
     );
   }
 }

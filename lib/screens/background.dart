@@ -1,8 +1,10 @@
 import 'package:cloud_9_client/animations/backgroud/home_background_major_clipper.dart';
-import 'package:cloud_9_client/screens/calender_screen.dart';
 import 'package:flutter/material.dart';
 
-class CalenderPage extends StatelessWidget {
+class Background extends StatelessWidget {
+  final Widget screen;
+
+  const Background({Key key, @required this.screen}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,7 @@ class CalenderPage extends StatelessWidget {
                       end: Alignment.bottomRight)),
             ),
           ),
-          CalenderScreen()
+          screen
         ]),
       ),
     );

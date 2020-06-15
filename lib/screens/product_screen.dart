@@ -1,12 +1,14 @@
 import 'package:cloud_9_client/components/card/icon_only_card.dart';
 import 'package:cloud_9_client/components/card/product_list_card.dart';
-import 'package:cloud_9_client/pages/cart_page.dart';
+import 'package:cloud_9_client/screens/background.dart';
+import 'package:cloud_9_client/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Background(
+        screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
         child: CustomScrollView(
@@ -42,7 +44,7 @@ class ProductScreen extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CartPage()));
+                        MaterialPageRoute(builder: (context) => CartScreen()));
                   },
                 )
               ],
@@ -58,7 +60,7 @@ class ProductScreen extends StatelessWidget {
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-           SizedBox(height: 50),
+              SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -94,7 +96,8 @@ class ProductScreen extends StatelessWidget {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 5,bottom: 5),
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
                       child: IconOnlyCard(
                           iconColor: Colors.blue,
                           icon: Icons.favorite,
@@ -125,6 +128,6 @@ class ProductScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
