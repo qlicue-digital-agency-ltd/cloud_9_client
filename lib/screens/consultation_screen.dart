@@ -1,3 +1,5 @@
+import 'package:cloud_9_client/components/card/consultation_card.dart';
+import 'package:cloud_9_client/models/staff.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +55,35 @@ class ConsultationScreen extends StatelessWidget {
               ),
             ),
             SliverList(
-              delegate: SliverChildListDelegate([]),
+              delegate: SliverChildListDelegate([
+                Consultation(
+                  staff: staffList[0],
+                  subtitle: 'For Doctor Consultation',
+                  onTapMail: () {},
+                  onTapCall: () {},
+                  onTapEmail: () {},
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Consultation(
+                  staff: staffList[1],
+                  subtitle: 'For Agent Consultation',
+                  onTapMail: () {},
+                  onTapCall: () {},
+                  onTapEmail: () {},
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Consultation(
+                  staff: staffList[2],
+                  subtitle: 'For Hospital Consultation',
+                  onTapMail: () {},
+                  onTapCall: () {},
+                  onTapEmail: () {},
+                )
+              ]),
             )
           ],
         ),
