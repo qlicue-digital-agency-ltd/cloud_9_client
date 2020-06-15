@@ -1,9 +1,9 @@
+import 'package:cloud_9_client/components/calender/calender_carousel.dart';
 import 'package:cloud_9_client/components/card/appointment_card.dart';
-import 'package:cloud_9_client/pages/calender_page.dart';
-
+import 'package:cloud_9_client/pages/cart_page.dart';
 import 'package:flutter/material.dart';
 
-class AppointmentScreen extends StatelessWidget {
+class CalenderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,37 +33,22 @@ class AppointmentScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.calendar_today,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CalenderPage()));
-                  },
-                )
-              ],
+              actions: <Widget>[],
               pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                centerTitle: true,
-                title: Text(
-                  'Appointments',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-              SizedBox(height: 50),
               Text(
                 'Scheduled Appointments',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
               ),
               SizedBox(height: 10),
+               Container(
+                margin: EdgeInsets.all(16.0),
+                color: Color(0xff465466),
+                child: CalendarCarouselCard(),
+              ),
+              
             ])),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {

@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   font_awesome_flutter: ^8.8.1
   flutter_calendar_carousel: ^1.4.12
+  table_calendar: ^2.2.3
 
 dev_dependencies:
   flutter_test:
