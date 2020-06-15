@@ -1,6 +1,11 @@
-import 'package:cloud_9_client/components/card/icon_only_card.dart';
+import 'package:cloud_9_client/components/card/category_card.dart';
+import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/product_list_card.dart';
-import 'package:cloud_9_client/pages/cart_page.dart';
+import 'package:cloud_9_client/components/card/service_card.dart';
+import 'package:cloud_9_client/models/category.dart';
+import 'package:cloud_9_client/models/service.dart';
+import 'package:cloud_9_client/pages/appointment_page.dart';
+import 'package:cloud_9_client/pages/calender_page.dart';
 import 'package:flutter/material.dart';
 
 class ServiceScreen extends StatelessWidget {
@@ -33,42 +38,18 @@ class ServiceScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CartPage()));
-                  },
-                )
-              ],
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Products',
+                  'Services',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-           SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Top Products',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
-                  ),
-                  Icon(Icons.star, color: Colors.yellow, size: 40)
-                ],
-              ),
               SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,13 +58,6 @@ class ServiceScreen extends StatelessWidget {
                     'Categories',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
                   ),
-                  Text(
-                    'see all',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w100),
-                  )
                 ],
               ),
               SizedBox(height: 10),
@@ -94,15 +68,15 @@ class ServiceScreen extends StatelessWidget {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 5,bottom: 5),
-                      child: IconOnlyCard(
-                          iconColor: Colors.blue,
-                          icon: Icons.favorite,
-                          backgroundColor: Colors.white,
-                          onTap: () {}),
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      child: CategoryCard(
+                        onTap: () {},
+                        category: serviceCategories[index],
+                      ),
                     );
                   },
-                  itemCount: 4,
+                  itemCount: serviceCategories.length,
                   scrollDirection: Axis.horizontal,
                 ),
               ),
@@ -111,16 +85,21 @@ class ServiceScreen extends StatelessWidget {
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: ProductListCard(
-                    productListCardOnTap: () {
-                      print('----------ppppppp-----');
+                  child: ServiceCard(
+                    onTapCalender: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CalenderPage(),
+                          ));
                     },
-                    productOrderOnTap: () {
-                      print('---object-------');
+                    service: serviceList[index],
+                    onTapMore: () {
+                      print('moreeeee');
                     },
                   ),
                 );
-              }, childCount: 10),
+              }, childCount: serviceList.length),
             )
           ],
         ),
