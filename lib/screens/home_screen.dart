@@ -96,8 +96,8 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.blue,
-                          icon: Icons.stay_primary_landscape,
-                          title: 'Diagnosis',
+                          icon: Icons.room_service,
+                          title: 'Services',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,
                           onTap: () {
