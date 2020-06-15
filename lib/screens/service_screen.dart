@@ -99,7 +99,9 @@ class ServiceScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ServiceDetailScreen(),
+                            builder: (context) => ServiceDetailScreen(
+                              service: serviceList[index],
+                            ),
                           ));
                     },
                   ),

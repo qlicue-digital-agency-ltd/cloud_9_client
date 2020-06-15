@@ -1,8 +1,13 @@
+import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/calender_screen.dart';
 import 'package:flutter/material.dart';
 
 class ServiceDetailScreen extends StatelessWidget {
+  final Service service;
+
+  const ServiceDetailScreen({Key key, @required this.service})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -53,7 +58,8 @@ class ServiceDetailScreen extends StatelessWidget {
             SliverList(
                 delegate: SliverChildListDelegate([
               Text(
-                'Title of Service',
+                service.title,
+                maxLines: 1,
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
               ),
               SizedBox(height: 50),
@@ -66,7 +72,7 @@ class ServiceDetailScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                                image: AssetImage('assets/images/lisa.jpeg'),
+                                image: AssetImage(service.image),
                                 fit: BoxFit.cover)),
                         height: 150,
                       )),
@@ -81,8 +87,7 @@ class ServiceDetailScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/lisa.jpeg'),
+                                    image: AssetImage(service.image),
                                     fit: BoxFit.cover)),
                             height: 150,
                           ),
@@ -107,7 +112,7 @@ class ServiceDetailScreen extends StatelessWidget {
             SliverList(
                 delegate: SliverChildListDelegate([
               Text(
-                'Apple pie croissant bear claw tootsie roll carrot cake cotton candy toffee candy sweet. Brownie sugar plum gummies pastry brownie lollipop pastry marshmallow tiramisu. Wafer chocolate bar lemon drops cotton candy jelly-o cupcake gummi bears jujubes. Jujubes donut liquorice jelly beans. Oat cake powder powder jelly. Lemon drops jelly-o oat cake dragée cookie bear claw carrot cake. Apple pie gummies macaroon bear claw halvah tootsie roll halvah danish sweet roll. Cake ice cream pudding. Candy canes marshmallow cupcake dragée jujubes. Chocolate topping croissant chocolate gingerbread wafer danish gummi bears jelly beans. Danish pie cheesecake cheesecake sweet roll candy bonbon liquorice oat cake.',
+                service.body,
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               )
             ]))

@@ -49,12 +49,12 @@ class NotificationCard extends StatelessWidget {
             child: CircleAvatar(
               child: IconButton(
                 icon: Icon(Icons.close),
-                color: Colors.white,
+                color: Colors.blue,
                 onPressed: () {
                   print('object');
                 },
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.white,
             ),
           ),
         ],

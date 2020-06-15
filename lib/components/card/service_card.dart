@@ -58,6 +58,7 @@ class ServiceCard extends StatelessWidget {
                   color: Colors.blue,
                   icon: Icon(Icons.calendar_today),
                   onPressed: onTapCalender,
+                  tooltip: 'Schedule Appointment',
                 ),
                 FlatButton(
                   onPressed: onTapMore,

@@ -7,6 +7,8 @@ import 'package:cloud_9_client/screens/service_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'consultation_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -117,11 +119,11 @@ class HomeScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
-                          iconColor: Colors.blue,
-                          icon: Icons.call,
-                          title: 'Consultation',
-                          textColor: Colors.black,
-                          backgroundColor: Colors.white,
+                          iconColor: Colors.white,
+                          icon: Icons.fastfood,
+                          title: 'Products',
+                          textColor: Colors.white,
+                          backgroundColor: Colors.deepOrange,
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -141,15 +143,15 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.blue,
-                          icon: Icons.album,
-                          title: 'Ambulance',
+                          icon: Icons.call,
+                          title: 'Consultation',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductScreen(),
+                                  builder: (context) => ConsultationScreen(),
                                 ));
                           },
                         ),
@@ -161,7 +163,7 @@ class HomeScreen extends StatelessWidget {
                         child: IconCard(
                           iconColor: Colors.white,
                           icon: Icons.airline_seat_recline_normal,
-                          title: 'Nurse',
+                          title: 'Agents',
                           textColor: Colors.white,
                           backgroundColor: Colors.deepOrange,
                           onTap: () {
