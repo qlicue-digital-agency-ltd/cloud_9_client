@@ -1,4 +1,6 @@
 import 'package:cloud_9_client/components/card/agent_list_card.dart';
+import 'package:cloud_9_client/components/card/consultation_card.dart';
+import 'package:cloud_9_client/models/staff.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +67,17 @@ class AgentScreen extends StatelessWidget {
                   ),
                 );
               }, childCount: 10),
-            )
+            ),
+            SliverList(
+                delegate: SliverChildListDelegate([
+              ConsultationCard(
+                onTapCall: () {},
+                onTapEmail: () {},
+                onTapMail: () {},
+                staff: staffList[1],
+                subtitle: 'My Agent',
+              )
+            ])),
           ],
         ),
       ),

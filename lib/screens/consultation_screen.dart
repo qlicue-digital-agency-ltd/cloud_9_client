@@ -56,7 +56,7 @@ class ConsultationScreen extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                Consultation(
+                ConsultationCard(
                   staff: staffList[0],
                   subtitle: 'For Doctor Consultation',
                   onTapMail: () {},
@@ -66,7 +66,7 @@ class ConsultationScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Consultation(
+                ConsultationCard(
                   staff: staffList[1],
                   subtitle: 'For Agent Consultation',
                   onTapMail: () {},
@@ -76,7 +76,7 @@ class ConsultationScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Consultation(
+                ConsultationCard(
                   staff: staffList[2],
                   subtitle: 'For Hospital Consultation',
                   onTapMail: () {},

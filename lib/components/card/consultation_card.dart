@@ -2,16 +2,16 @@ import 'package:cloud_9_client/models/staff.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-typedef ConsultationOnTap = Function();
+typedef ConsultationCardOnTap = Function();
 
-class Consultation extends StatelessWidget {
-  final ConsultationOnTap onTapCall;
-  final ConsultationOnTap onTapMail;
-  final ConsultationOnTap onTapEmail;
+class ConsultationCard extends StatelessWidget {
+  final ConsultationCardOnTap onTapCall;
+  final ConsultationCardOnTap onTapMail;
+  final ConsultationCardOnTap onTapEmail;
   final String subtitle;
   final Staff staff;
 
-  const Consultation(
+  const ConsultationCard(
       {Key key,
       @required this.subtitle,
       @required this.staff,
