@@ -1,10 +1,9 @@
 import 'package:cloud_9_client/components/card/transaction_list_card.dart';
 import 'package:cloud_9_client/models/transaction.dart';
 import 'package:cloud_9_client/screens/background.dart';
-
 import 'package:flutter/material.dart';
 
-class TransactionScreen extends StatelessWidget {
+class AppointmentListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -40,7 +39,7 @@ class TransactionScreen extends StatelessWidget {
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Transactions',
+                  'Appointments',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -61,5 +60,6 @@ class TransactionScreen extends StatelessWidget {
         ),
       ),
     ));
+  
   }
 }
