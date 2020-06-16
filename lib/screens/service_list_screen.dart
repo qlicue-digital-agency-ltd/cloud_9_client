@@ -1,9 +1,9 @@
-import 'package:cloud_9_client/components/card/transaction_list_card.dart';
-import 'package:cloud_9_client/models/transaction.dart';
+import 'package:cloud_9_client/components/card/service_list_card.dart';
+import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
-class AppointmentListScreen extends StatelessWidget {
+class ServiceListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -39,7 +39,7 @@ class AppointmentListScreen extends StatelessWidget {
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Appointments',
+                  'Services',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -48,18 +48,17 @@ class AppointmentListScreen extends StatelessWidget {
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: TransactionListCard(
-                    onDeleteTap: () {},
+                  child: ServiceListCard(
                     onViewTap: () {},
-                    transaction: transactionList[index],
+                    service: serviceList[index],
+                    onBookTap: () {},
                   ),
                 );
-              }, childCount: transactionList.length),
+              }, childCount: serviceList.length),
             )
           ],
         ),
       ),
     ));
-  
   }
 }
