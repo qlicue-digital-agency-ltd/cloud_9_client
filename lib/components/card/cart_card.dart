@@ -72,6 +72,7 @@ class CartCard extends StatelessWidget {
                   color: Colors.blue,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   image: DecorationImage(
+                    fit: BoxFit.fill,
                       image: AssetImage('assets/images/lisa.jpeg'))),
             ),
           ),
