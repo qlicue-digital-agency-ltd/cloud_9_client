@@ -1,6 +1,8 @@
 import 'package:cloud_9_client/components/card/service_list_card.dart';
 import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/screens/background.dart';
+import 'package:cloud_9_client/screens/calender_screen.dart';
+import 'package:cloud_9_client/screens/service_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class ServiceListScreen extends StatelessWidget {
@@ -49,9 +51,23 @@ class ServiceListScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: ServiceListCard(
-                    onViewTap: () {},
+                    onViewTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ServiceDetailScreen(
+                              service: serviceList[index],
+                            ),
+                          ));
+                    },
                     service: serviceList[index],
-                    onBookTap: () {},
+                    onBookTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CalenderScreen(),
+                          ));
+                    },
                   ),
                 );
               }, childCount: serviceList.length),

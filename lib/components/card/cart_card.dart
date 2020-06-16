@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CartCard extends StatelessWidget {
   @override
@@ -54,12 +55,12 @@ class CartCard extends StatelessWidget {
             child: CircleAvatar(
               child: IconButton(
                 icon: Icon(Icons.close),
-                color: Colors.white,
+                color: Colors.deepOrange,
                 onPressed: () {
                   print('object');
                 },
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.white,
             ),
           ),
           Positioned(
@@ -79,8 +80,10 @@ class CartCard extends StatelessWidget {
               left: 30,
               child: Text(
                 'Medicine',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
               )),
           Positioned(
               bottom: 10,
@@ -95,7 +98,12 @@ class CartCard extends StatelessWidget {
               left: 30,
               child: Row(
                 children: <Widget>[
-                  Material(elevation: 2, child: Icon(Icons.add)),
+                  Material(
+                      elevation: 2,
+                      child: Icon(
+                        FontAwesomeIcons.minus,
+                        color: Colors.deepOrange,
+                      )),
                   SizedBox(width: 5),
                   Material(
                       elevation: 2,
@@ -110,7 +118,12 @@ class CartCard extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           )))),
                   SizedBox(width: 5),
-                  Material(elevation: 2, child: Icon(Icons.add)),
+                  Material(
+                      elevation: 2,
+                      child: Icon(
+                        FontAwesomeIcons.plus,
+                        color: Colors.blue,
+                      )),
                 ],
               ))
         ],
