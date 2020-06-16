@@ -4,6 +4,7 @@ import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/product_screen.dart';
 import 'package:cloud_9_client/screens/service_screen.dart';
+import 'package:cloud_9_client/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -182,14 +183,14 @@ class HomeScreen extends StatelessWidget {
                         child: IconCard(
                           iconColor: Colors.blue,
                           icon: Icons.pie_chart,
-                          title: 'Lab Work',
+                          title: 'Transaction',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductScreen(),
+                                  builder: (context) => TransactionScreen(),
                                 ));
                           },
                         ),

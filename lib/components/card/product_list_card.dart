@@ -17,15 +17,21 @@ class ProductListCard extends StatelessWidget {
     return InkWell(
       onTap: productListCardOnTap,
       child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
           clipBehavior: Clip.antiAlias,
           child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    'assets/images/lisa.jpeg',
-                    height: 80,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/images/lisa.jpeg',
+                      height: 80,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -35,13 +41,16 @@ class ProductListCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('Name of Product', style: TextStyle(fontSize:18,fontWeight: FontWeight.bold ),),
+                        Text(
+                          'Name of Product',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                         Text('Product description'),
                       ],
                     ),
                   ),
                 ),
-                
                 InkWell(
                   onTap: productOrderOnTap,
                   child: Container(
