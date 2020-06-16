@@ -37,7 +37,7 @@ class _CalendarCarouselCardState extends State<CalendarCarouselCard> {
         weekdayStyle: TextStyle(color: Colors.white),
         weekendStyle: TextStyle(color: Colors.white),
         outsideStyle: TextStyle(color: Colors.grey),
-        unavailableStyle: TextStyle(color: Colors.grey),
+        unavailableStyle: TextStyle(color: Colors.black),
         outsideWeekendStyle: TextStyle(color: Colors.grey),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
@@ -47,16 +47,25 @@ class _CalendarCarouselCardState extends State<CalendarCarouselCard> {
               .substring(0, 3)
               .toUpperCase();
         },
-        weekdayStyle: TextStyle(color: Colors.grey),
-        weekendStyle: TextStyle(color: Colors.grey),
+        weekdayStyle: TextStyle(color: Colors.white),
+        weekendStyle: TextStyle(color: Colors.white),
       ),
-      headerVisible: false,
+      headerVisible: true,
+      
+      headerStyle: HeaderStyle(
+        titleTextStyle: TextStyle(fontSize:30, color:Colors.white),
+        formatButtonDecoration: BoxDecoration(
+          color: Colors.red,
+          
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+      ),
       builders: CalendarBuilders(
         markersBuilder: (context, date, events, holidays) {
           return [
             Container(
               decoration: new BoxDecoration(
-                color: Color(0xFF30A9B2),
+                color: Colors.green,
                 shape: BoxShape.circle,
               ),
               margin: const EdgeInsets.all(4.0),
@@ -68,7 +77,7 @@ class _CalendarCarouselCardState extends State<CalendarCarouselCard> {
         selectedDayBuilder: (context, date, _) {
           return Container(
             decoration: new BoxDecoration(
-              color: Color(0xFF30A9B2),
+              color: Colors.deepOrange,
               shape: BoxShape.circle,
             ),
             margin: const EdgeInsets.all(4.0),

@@ -98,9 +98,7 @@ class Consultation extends StatelessWidget {
                     color: Colors.white,
                     icon: Icon(Icons.call),
                     tooltip: 'call',
-                    onPressed: () {
-                      print(staff.phone);
-                    }),
+                    onPressed: onTapCall),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -111,23 +109,19 @@ class Consultation extends StatelessWidget {
                     color: Colors.white,
                     icon: Icon(Icons.message),
                     tooltip: 'message',
-                    onPressed: () {
-                      print(staff.phone);
-                    }),
+                    onPressed: onTapMail),
               ),
               Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.blue,
-                ),
-                child: IconButton(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.blue,
+                  ),
+                  child: IconButton(
                     color: Colors.white,
                     icon: Icon(Icons.email),
                     tooltip: 'email',
-                    onPressed: () {
-                      print(staff.email);
-                    }),
-              ),
+                    onPressed: onTapEmail,
+                  )),
             ])
       ]),
     );

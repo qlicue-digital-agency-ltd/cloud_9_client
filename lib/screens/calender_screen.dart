@@ -1,5 +1,6 @@
 import 'package:cloud_9_client/components/calender/calender_carousel.dart';
-import 'package:cloud_9_client/components/card/appointment_card.dart';
+
+import 'package:cloud_9_client/components/card/calender_card.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +10,17 @@ class CalenderScreen extends StatelessWidget {
     return Background(
         screen: SafeArea(
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.only(top: 20, left: 5, right: 5),
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
               elevation: 0,
               expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
+              title: Text(
+                'Scheduled Appointments',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
+              ),
               leading: InkWell(
                 onTap: () {
                   Navigator.pop(context);
@@ -39,32 +44,14 @@ class CalenderScreen extends StatelessWidget {
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-              Text(
-                'Scheduled Appointments',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
-              ),
               SizedBox(height: 10),
               Container(
                 margin: EdgeInsets.all(16.0),
-                color: Color(0xff465466),
+                color: Colors.blue,
                 child: CalendarCarouselCard(),
               ),
+              CalenderCard(onTapConfirm: () {}, user: null)
             ])),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: AppointmentCard(
-                    appointmentListCardOnTap: () {
-                      print('----------ppppppp-----');
-                    },
-                    appointmentMoreOnTap: () {
-                      print('---object-------');
-                    },
-                  ),
-                );
-              }, childCount: 5),
-            )
           ],
         ),
       ),

@@ -68,7 +68,7 @@ class ProductScreen extends StatelessWidget {
                     'Top Products',
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
                   ),
-                  Icon(Icons.star, color: Colors.yellow, size: 40)
+                  Icon(Icons.star, color: Colors.deepOrange, size: 40)
                 ],
               ),
               SizedBox(height: 50),

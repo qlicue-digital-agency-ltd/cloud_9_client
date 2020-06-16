@@ -1,6 +1,7 @@
 import 'package:cloud_9_client/components/card/transaction_list_card.dart';
 import 'package:cloud_9_client/models/transaction.dart';
 import 'package:cloud_9_client/screens/background.dart';
+import 'package:cloud_9_client/screens/receipt_screen.dart';
 
 import 'package:flutter/material.dart';
 
@@ -51,7 +52,13 @@ class TransactionScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10),
                   child: TransactionListCard(
                     onDeleteTap: () {},
-                    onViewTap: () {},
+                    onViewTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReceiptScreen(),
+                          ));
+                    },
                     transaction: transactionList[index],
                   ),
                 );
