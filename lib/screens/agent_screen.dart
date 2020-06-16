@@ -1,10 +1,8 @@
-import 'package:cloud_9_client/components/card/appointment_card.dart';
+import 'package:cloud_9_client/components/card/agent_list_card.dart';
 import 'package:cloud_9_client/screens/background.dart';
-import 'package:cloud_9_client/screens/service_list_screen.dart';
-
 import 'package:flutter/material.dart';
 
-class AppointmentScreen extends StatelessWidget {
+class AgentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -35,50 +33,38 @@ class AppointmentScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.calendar_today,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ServiceListScreen()));
-                  },
-                )
-              ],
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'My Appointments',
+                  'Agent',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-            
-              SizedBox(height: 10),
+              SizedBox(height: 50),
+              Material(
+                color: Colors.white,
+                elevation: 2,
+                borderRadius: BorderRadius.circular(20),
+                child: ListTile(
+                  leading: Icon(Icons.search),
+                  title: Text('Search.....'),
+                ),
+              ),
             ])),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: AppointmentCard(
-                    appointmentListCardOnTap: () {
-                      print('----------ppppppp-----');
-                    },
-                    appointmentMoreOnTap: () {
-                      print('---object-------');
-                    },
+                  child: AgentListCard(
+                    agentListMoreOnTap: () {},
                   ),
                 );
-              }, childCount: 5),
+              }, childCount: 10),
             )
           ],
         ),
