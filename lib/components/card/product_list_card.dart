@@ -26,12 +26,16 @@ class ProductListCard extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/images/lisa.jpeg',
-                      height: 80,
-                    ),
+                  child: Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage(
+                              'assets/images/4.jpg',
+                            ))),
                   ),
                 ),
                 Expanded(

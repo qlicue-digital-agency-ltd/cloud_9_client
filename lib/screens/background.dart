@@ -1,6 +1,8 @@
 import 'package:cloud_9_client/animations/backgroud/home_background_major_clipper.dart';
 import 'package:flutter/material.dart';
 
+import 'drawer_sreen.dart';
+
 class Background extends StatelessWidget {
   final Widget screen;
 
@@ -29,6 +31,7 @@ class Background extends StatelessWidget {
           screen
         ]),
       ),
+      endDrawer: DrawerScreen(),
     );
   }
 }
