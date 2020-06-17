@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/screens/terms_and_condition.dart';
 import 'package:flutter/material.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -52,6 +53,12 @@ class DrawerScreen extends StatelessWidget {
                 child: ListTile(
                   onTap: () {
                     print('object');
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TermsAndConditionsScreen(),
+                        ));
                   },
                   leading: Icon(Icons.book),
                   title: Text('Terms & Conditions'),
