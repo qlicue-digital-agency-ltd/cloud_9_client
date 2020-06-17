@@ -23,8 +23,10 @@ class HomeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(children: <Widget>[
-                  Container(
+                AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  leading: Container(
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
@@ -33,15 +35,7 @@ class HomeScreen extends StatelessWidget {
                         image: DecorationImage(
                             image: AssetImage('assets/images/lisa.jpeg'))),
                   ),
-                  Spacer(),
-                  IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      size: 30,
-                    ),
-                    onPressed: () {},
-                  )
-                ]),
+                ),
                 SizedBox(height: 100),
                 Text(
                   'Hello,',
@@ -83,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.white,
-                          icon: Icons.calendar_today,
+                          icon: 'assets/icons/calendar.png',
                           title: 'Appointment',
                           textColor: Colors.white,
                           backgroundColor: Colors.deepOrange,
@@ -103,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.blue,
-                          icon: Icons.room_service,
+                          icon: 'assets/icons/service.png',
                           title: 'Services',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,
@@ -122,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.white,
-                          icon: Icons.fastfood,
+                          icon: 'assets/icons/product.png',
                           title: 'Products',
                           textColor: Colors.white,
                           backgroundColor: Colors.deepOrange,
@@ -145,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.blue,
-                          icon: Icons.call,
+                          icon: 'assets/icons/consultation.png',
                           title: 'Consultation',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,
@@ -164,7 +158,7 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.white,
-                          icon: Icons.airline_seat_recline_normal,
+                          icon: 'assets/icons/agent.png',
                           title: 'Agents',
                           textColor: Colors.white,
                           backgroundColor: Colors.deepOrange,
@@ -183,7 +177,7 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.blue,
-                          icon: Icons.receipt,
+                          icon: 'assets/icons/transaction.png',
                           title: 'Transaction',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,

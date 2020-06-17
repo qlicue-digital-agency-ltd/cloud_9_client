@@ -5,7 +5,7 @@ typedef IconCardOnTap = Function();
 class IconCard extends StatelessWidget {
   final Color iconColor;
   final Color textColor;
-  final IconData icon;
+  final String icon;
   final String title;
   final Color backgroundColor;
   final IconCardOnTap onTap;
@@ -36,10 +36,8 @@ class IconCard extends StatelessWidget {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(
-                  icon,
-                  color: iconColor,
-                ),
+                Image.asset(icon,
+                height: 40,),
                 Text(
                   title,
                   style: TextStyle(color: textColor),

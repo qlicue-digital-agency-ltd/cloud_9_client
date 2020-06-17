@@ -55,7 +55,7 @@ class CartCard extends StatelessWidget {
             child: CircleAvatar(
               child: IconButton(
                 icon: Icon(Icons.close),
-                color: Colors.deepOrange,
+                color: Colors.blue,
                 onPressed: () {
                   print('object');
                 },
@@ -69,11 +69,12 @@ class CartCard extends StatelessWidget {
               height: 80,
               width: 80,
               decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                      image: AssetImage('assets/images/lisa.jpeg'))),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Center(
+                child: Image.asset('assets/icons/product.png'),
+              ),
             ),
           ),
           Positioned(

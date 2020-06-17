@@ -22,7 +22,7 @@ class AppointmentCard extends StatelessWidget {
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Image.asset(
-              'assets/images/lisa.jpeg',
+              'assets/icons/calendar.png',
               height: 80,
             ),
           ),

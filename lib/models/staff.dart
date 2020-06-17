@@ -30,7 +30,7 @@ List<Staff> staffList = <Staff>[
       email: 'doctor@cloud9.com',
       phone: '0715123456'),
   Staff(
-      id: 1,
+      id: 2,
       title: 'Super Agent',
       firstname: 'Christian',
       lastname: 'Makabwe',
@@ -38,10 +38,18 @@ List<Staff> staffList = <Staff>[
       email: 'agent@cloud9.com',
       phone: '0715123456'),
   Staff(
-      id: 1,
+      id: 3,
       title: 'Hospital Attendant',
       firstname: 'Boris',
       lastname: 'Mukiza',
+      avatar: 'assets/images/matty.jpg',
+      email: 'attendant@cloud9.com',
+      phone: '0715123456'),
+  Staff(
+      id: 4,
+      title: 'Agent',
+      firstname: 'Petrol',
+      lastname: 'Simon',
       avatar: 'assets/images/matty.jpg',
       email: 'attendant@cloud9.com',
       phone: '0715123456')

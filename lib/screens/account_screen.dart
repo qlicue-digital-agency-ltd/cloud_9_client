@@ -49,7 +49,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Terms & Conditions',
+                  'Account',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -60,7 +60,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 height: 15,
               ),
               ListTile(
-                leading: const Icon(Icons.lock, color: Colors.blue),
+                leading: const Icon(Icons.lock, color: Colors.deepOrange),
                 title: Text('Reset Password'),
               ),
               Divider(),

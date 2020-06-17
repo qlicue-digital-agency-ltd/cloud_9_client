@@ -6,9 +6,12 @@ import 'drawer_sreen.dart';
 class Background extends StatelessWidget {
   final Widget screen;
 
-  const Background({Key key, @required this.screen}) : super(key: key);
+
+  const Background({Key key, @required this.screen})
+      : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(

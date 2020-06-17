@@ -1,10 +1,24 @@
 import 'package:cloud_9_client/components/card/agent_list_card.dart';
 import 'package:cloud_9_client/components/card/consultation_card.dart';
+import 'package:cloud_9_client/models/agent.dart';
 import 'package:cloud_9_client/models/staff.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
-class AgentScreen extends StatelessWidget {
+class AgentScreen extends StatefulWidget {
+  @override
+  _AgentScreenState createState() => _AgentScreenState();
+}
+
+class _AgentScreenState extends State<AgentScreen> {
+  bool _hasAgent = false;
+
+  _addAgent() {
+    setState(() {
+      _hasAgent = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -48,36 +62,42 @@ class AgentScreen extends StatelessWidget {
             SliverList(
                 delegate: SliverChildListDelegate([
               SizedBox(height: 50),
-              Material(
-                color: Colors.white,
-                elevation: 2,
-                borderRadius: BorderRadius.circular(20),
-                child: ListTile(
-                  leading: Icon(Icons.search),
-                  title: Text('Search.....'),
-                ),
-              ),
+              _hasAgent
+                  ? Container()
+                  : Material(
+                      color: Colors.white,
+                      elevation: 2,
+                      borderRadius: BorderRadius.circular(20),
+                      child: ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text('Search.....'),
+                      ),
+                    ),
             ])),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: AgentListCard(
-                    agentListMoreOnTap: () {},
+            _hasAgent
+                ? SliverList(
+                    delegate: SliverChildListDelegate([
+                    ConsultationCard(
+                      onTapCall: () {},
+                      onTapEmail: () {},
+                      onTapMail: () {},
+                      staff: staffList[3],
+                      subtitle: 'My Agent',
+                    )
+                  ]))
+                : SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: AgentListCard(
+                          agentListMoreOnTap: () {
+                            _addAgent();
+                          },
+                          agent: agentList[index],
+                        ),
+                      );
+                    }, childCount: agentList.length),
                   ),
-                );
-              }, childCount: 10),
-            ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              ConsultationCard(
-                onTapCall: () {},
-                onTapEmail: () {},
-                onTapMail: () {},
-                staff: staffList[1],
-                subtitle: 'My Agent',
-              )
-            ])),
           ],
         ),
       ),

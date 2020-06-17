@@ -2,7 +2,7 @@ import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class TermsAndConditionsScreen extends StatelessWidget {
+class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -49,7 +49,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
                 height: 15,
               ),
               ListTile(
-                  leading: const Icon(Icons.call, color: Colors.blue),
+                  leading: const Icon(Icons.call, color: Colors.deepOrange),
                   title: Text('Call Us'),
                   onTap: () {
                     print('Call Us');
@@ -58,7 +58,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
               Divider(),
               ListTile(
                 leading:
-                    const Icon(Icons.mail_outline, color: Colors.blue),
+                    const Icon(Icons.mail_outline, color: Colors.deepOrange),
                 title: Text('Message us'),
                 onTap: () {
                   print('Message');
@@ -67,7 +67,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
               ),
               Divider(),
               ListTile(
-                  leading: const Icon(Icons.email, color: Colors.blue),
+                  leading: const Icon(Icons.email, color: Colors.deepOrange),
                   title: Text(' Email us'),
                   onTap: () {
                     print('Email us');
