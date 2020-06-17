@@ -37,7 +37,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Services',
+                  'Terms & Conditions',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
