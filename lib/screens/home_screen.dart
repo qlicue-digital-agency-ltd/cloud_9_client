@@ -1,8 +1,8 @@
 import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/notification_card.dart';
-import 'package:cloud_9_client/screens/agent_screen.dart';
 import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';
+import 'package:cloud_9_client/screens/education_screen.dart';
 import 'package:cloud_9_client/screens/product_screen.dart';
 import 'package:cloud_9_client/screens/service_screen.dart';
 import 'package:cloud_9_client/screens/transactions_screen.dart';
@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => AgentScreen(),
+                                  builder: (context) => EducationScreen(),
                                 ));
                           },
                         ),

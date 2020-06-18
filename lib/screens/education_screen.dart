@@ -1,10 +1,11 @@
-import 'package:cloud_9_client/components/card/consultation_card.dart';
-import 'package:cloud_9_client/models/staff.dart';
+import 'package:cloud_9_client/components/card/post_card.dart';
+import 'package:cloud_9_client/models/agent.dart';
+import 'package:cloud_9_client/models/post.dart';
+
 import 'package:cloud_9_client/screens/background.dart';
-import 'package:cloud_9_client/screens/service_list_screen.dart';
 import 'package:flutter/material.dart';
 
-class ConsultationScreen extends StatelessWidget {
+class EducationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -35,42 +36,41 @@ class ConsultationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.clear_all,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () {},
-                )
-              ],
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Consultation',
+                  'Agent',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: ConsultationCard(
-                  staff: staffList[index],
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ServiceListScreen(),
-                        ));
-                  },
+                delegate: SliverChildListDelegate([
+              SizedBox(height: 50),
+              Material(
+                color: Colors.white,
+                elevation: 2,
+                borderRadius: BorderRadius.circular(20),
+                child: ListTile(
+                  leading: Icon(Icons.search),
+                  title: Text('Search.....'),
                 ),
-              );
-            }, childCount: staffList.length))
+              ),
+            ])),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: PostCard(
+                    onLike: () {},
+                    onShare: () {},
+                    post: postList[index],
+                  ),
+                );
+              }, childCount: postList.length),
+            ),
           ],
         ),
       ),

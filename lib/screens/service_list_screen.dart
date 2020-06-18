@@ -62,11 +62,12 @@ class ServiceListScreen extends StatelessWidget {
                     },
                     service: serviceList[index],
                     onBookTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CalenderScreen(),
-                          ));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => CalenderScreen(),
+                      //     ));
+                      _showDialog(context);
                     },
                   ),
                 );
@@ -76,5 +77,55 @@ class ServiceListScreen extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  void _showDialog(context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Text("Book Appointment"),
+          content: Text("Booking an appointment for?"),
+          actions: <Widget>[
+            FlatButton(
+              color: Colors.deepOrange,
+              child: Text(
+                "Consultation",
+                style: TextStyle(
+                    // color: Colors.deepOrange,
+                    ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _calenderNavigator(context, 'Consultation');
+              },
+            ),
+            FlatButton(
+              color: Colors.blue,
+              child: Text(
+                "Procedure",
+                style: TextStyle(
+                    // color: Colors.blue,
+                    ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _calenderNavigator(context, 'Procedure');
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _calenderNavigator(context, appointmentType) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CalenderScreen(),
+        ));
   }
 }
