@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                         child: IconCard(
                           iconColor: Colors.blue,
                           icon: 'assets/icons/service.png',
-                          title: 'Services',
+                          title: 'Procedures',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,
                           onTap: () {
@@ -159,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                         child: IconCard(
                           iconColor: Colors.white,
                           icon: 'assets/icons/agent.png',
-                          title: 'Agents',
+                          title: 'Eduction',
                           textColor: Colors.white,
                           backgroundColor: Colors.deepOrange,
                           onTap: () {

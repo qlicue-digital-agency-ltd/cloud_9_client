@@ -78,11 +78,8 @@ class _AgentScreenState extends State<AgentScreen> {
                 ? SliverList(
                     delegate: SliverChildListDelegate([
                     ConsultationCard(
-                      onTapCall: () {},
-                      onTapEmail: () {},
-                      onTapMail: () {},
+                      onTap: () {},
                       staff: staffList[3],
-                      subtitle: 'My Agent',
                     )
                   ]))
                 : SliverList(

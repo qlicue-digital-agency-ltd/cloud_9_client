@@ -55,36 +55,15 @@ class ConsultationScreen extends StatelessWidget {
               ),
             ),
             SliverList(
-              delegate: SliverChildListDelegate([
-                ConsultationCard(
-                  staff: staffList[0],
-                  subtitle: 'For Doctor Consultation',
-                  onTapMail: () {},
-                  onTapCall: () {},
-                  onTapEmail: () {},
+                delegate: SliverChildBuilderDelegate((context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: ConsultationCard(
+                  staff: staffList[index],
+                  onTap: () {},
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                ConsultationCard(
-                  staff: staffList[1],
-                  subtitle: 'For Agent Consultation',
-                  onTapMail: () {},
-                  onTapCall: () {},
-                  onTapEmail: () {},
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ConsultationCard(
-                  staff: staffList[2],
-                  subtitle: 'For Hospital Consultation',
-                  onTapMail: () {},
-                  onTapCall: () {},
-                  onTapEmail: () {},
-                )
-              ]),
-            )
+              );
+            }, childCount: staffList.length))
           ],
         ),
       ),

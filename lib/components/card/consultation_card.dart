@@ -5,20 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 typedef ConsultationCardOnTap = Function();
 
 class ConsultationCard extends StatelessWidget {
-  final ConsultationCardOnTap onTapCall;
-  final ConsultationCardOnTap onTapMail;
-  final ConsultationCardOnTap onTapEmail;
-  final String subtitle;
+  final ConsultationCardOnTap onTap;
+
   final Staff staff;
 
-  const ConsultationCard(
-      {Key key,
-      @required this.subtitle,
-      @required this.staff,
-      @required this.onTapCall,
-      @required this.onTapMail,
-      @required this.onTapEmail})
-      : super(key: key);
+  const ConsultationCard({
+    Key key,
+    @required this.staff,
+    @required this.onTap,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +37,7 @@ class ConsultationCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 10, top: 8.0),
                   child: Text(
-                    subtitle,
+                    'For ' + staff.title + ' Consultation',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -89,39 +84,12 @@ class ConsultationCard extends StatelessWidget {
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+              RaisedButton.icon(
+                  onPressed: onTap,
                   color: Colors.blue,
-                ),
-                child: IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.call),
-                    tooltip: 'call',
-                    onPressed: onTapCall),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.blue,
-                ),
-                child: IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.message),
-                    tooltip: 'message',
-                    onPressed: onTapMail),
-              ),
-              Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.blue,
-                  ),
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.email),
-                    tooltip: 'email',
-                    onPressed: onTapEmail,
-                  )),
+                  textColor: Colors.white,
+                  icon: Icon(Icons.calendar_today),
+                  label: Text('Book Now'))
             ])
       ]),
     );
