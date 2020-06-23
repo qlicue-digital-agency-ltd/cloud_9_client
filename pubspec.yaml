@@ -30,6 +30,11 @@ dependencies:
   http: ^0.12.1
   flutter_launcher_icons: ^0.7.5
   url_launcher: ^5.4.10
+  shared_preferences: ^0.5.7+3
+  rxdart: ^0.24.1
+  image_picker: ^0.6.7+2
+  dio: ^3.0.9
+
 
 
 dev_dependencies:
