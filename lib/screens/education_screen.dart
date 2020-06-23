@@ -1,5 +1,4 @@
 import 'package:cloud_9_client/components/card/post_card.dart';
-import 'package:cloud_9_client/models/agent.dart';
 import 'package:cloud_9_client/models/post.dart';
 
 import 'package:cloud_9_client/screens/background.dart';
@@ -41,7 +40,7 @@ class EducationScreen extends StatelessWidget {
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Agent',
+                  'Education',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

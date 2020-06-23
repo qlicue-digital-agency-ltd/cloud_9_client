@@ -55,11 +55,11 @@ class PostCard extends StatelessWidget {
               Row(children: [
                 IconButton(
                   onPressed: onLike,
-                  icon: Icon(Icons.favorite),
+                  icon: Icon(Icons.favorite, color:Colors.red),
                 ),
                 IconButton(
                   onPressed: onShare,
-                  icon: Icon(Icons.share),
+                  icon: Icon(Icons.share, color: Colors.blue),
                 ),
                 Spacer(),
               ])
