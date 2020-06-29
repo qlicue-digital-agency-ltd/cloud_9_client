@@ -46,13 +46,11 @@ class _LoginPageState extends State<LoginPage> {
               height: 100,
             ),
             Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: new Image(
-                  width: 150.0,
-                  height: 150.0,
-                  fit: BoxFit.fill,
-                  image: new AssetImage('assets/icons/cloud9_logo.png')),
-            ),
+                padding: EdgeInsets.only(top: 10.0),
+                child: CircleAvatar(
+                  radius: 60,
+                    backgroundImage:
+                        AssetImage('assets/icons/cloud9_logo.png'))),
             Padding(
               padding: EdgeInsets.only(top: 1.0),
               child: Text('CLOUD9',
@@ -204,15 +202,16 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _authProvider
-                          .signInUser(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((val) {
-                         Navigator.of(context).pushReplacementNamed(homeScreen);
-                      });
-                    }
+                    Navigator.of(context).pushReplacementNamed(homeScreen);
+                    // if (_formKey.currentState.validate()) {
+                    //   _authProvider
+                    //       .signInUser(
+                    //           email: emailController.text,
+                    //           password: passwordController.text)
+                    //       .then((val) {
+                    //     Navigator.of(context).pushReplacementNamed(homeScreen);
+                    //   });
+                    // }
                   }),
             ),
             Padding(

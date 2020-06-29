@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/user.dart';
+import 'package:cloud_9_client/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class AuthProvider with ChangeNotifier {
+  SharedPref _sharedPref = SharedPref();
   User _authenticatedUser;
   bool _isSignInUser = false;
 
@@ -22,11 +23,10 @@ class AuthProvider with ChangeNotifier {
   bool get isSignInUser => _isSignInUser;
 
   Future<void> autoAuthenticate() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString('token');
+    final String token = _sharedPref.read('token');
     if (token != null) {
-      final String userEmail = prefs.getString('email');
-      final int userId = prefs.getInt('id');
+      final String userEmail = _sharedPref.read('email');
+      final int userId = _sharedPref.read('id');
 
       _authenticatedUser = User(
         id: userId,
@@ -44,11 +44,9 @@ class AuthProvider with ChangeNotifier {
     userSubject.add(false);
     notifyListeners();
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('id');
-    prefs.remove('token');
-    prefs.remove('name');
-    prefs.remove('email');
+    _sharedPref.remove('id');
+    _sharedPref.remove('token');
+    _sharedPref.remove('email');
 
     notifyListeners();
   }
@@ -67,35 +65,34 @@ class AuthProvider with ChangeNotifier {
       'password': password,
     };
 
-    // final http.Response response = await http.post(
-    //   api + "register",
-    //   body: json.encode(authData),
-    //   headers: {'Content-Type': 'application/json'},
-    // );
+    final http.Response response = await http.post(
+      api + "register",
+      body: json.encode(authData),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-    //print(response);
+    print(response.body);
 
-    //final Map<String, dynamic> responseData = json.decode(response.body);
+    final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
 
-    // if (responseData.containsKey('token')) {
-    //   hasError = false;
+    if (responseData.containsKey('token')) {
+      hasError = false;
 
-    //   _authenticatedUser = User(
-    //     id: responseData['id'],
-    //     token: responseData['token'],
-    //     email: responseData['email'],
-    //   );
-    //   _userSubject.add(true);
-    //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+      _authenticatedUser = User(
+        id: responseData['id'],
+        token: responseData['token'],
+        email: responseData['email'],
+      );
+      _userSubject.add(true);
 
-    //   prefs.setInt('id', responseData['id']);
-    //   prefs.setString('token', responseData['token']);
-    //   prefs.setString('name', responseData['username']);
-    //   prefs.setString('email', responseData['email']);
-    // } else {
-    //   hasError = true;
-    // }
+      _sharedPref.save('id', responseData['id']);
+      _sharedPref.save('token', responseData['token']);
+      _sharedPref.save('email', responseData['email']);
+      
+    } else {
+      hasError = true;
+    }
     _isSignInUser = false;
     notifyListeners();
     return hasError;
