@@ -1,12 +1,15 @@
 import 'package:cloud_9_client/components/card/appointment_card.dart';
+import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/service_list_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _appointmentProvider = Provider.of<AppointmentProvider>(context);
     return Background(
         screen: SafeArea(
       child: Container(
@@ -62,24 +65,27 @@ class AppointmentScreen extends StatelessWidget {
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-            
               SizedBox(height: 10),
             ])),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: AppointmentCard(
-                    appointmentListCardOnTap: () {
-                      print('----------ppppppp-----');
+            _appointmentProvider.availableAppointments.length > 0
+                ? SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: AppointmentCard(
+                          appointmentListCardOnTap: () {},
+                          appointmentMoreOnTap: () {},
+                          appointment:
+                              _appointmentProvider.availableAppointments[index],
+                        ),
+                      );
                     },
-                    appointmentMoreOnTap: () {
-                      print('---object-------');
-                    },
-                  ),
-                );
-              }, childCount: 5),
-            )
+                        childCount:
+                            _appointmentProvider.availableAppointments.length),
+                  )
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                        [SizedBox(height: 10), Text('No appointments')])),
           ],
         ),
       ),

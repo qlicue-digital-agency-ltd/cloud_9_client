@@ -34,7 +34,7 @@ class ServiceListCard extends StatelessWidget {
                   
                     image: DecorationImage(
                   image: AssetImage(
-                    service.image,
+                    'assets/images/0.jpg',
                  
                   ),
                   fit: BoxFit.fill,

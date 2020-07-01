@@ -72,7 +72,7 @@ class ServiceDetailScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                                image: AssetImage(service.image),
+                                image: AssetImage('assets/images/1.jpg'),
                                 fit: BoxFit.cover)),
                         height: 150,
                       )),
@@ -87,7 +87,7 @@ class ServiceDetailScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
-                                    image: AssetImage(service.image),
+                                    image: AssetImage('assets/images/0.jpg'),
                                     fit: BoxFit.cover)),
                             height: 150,
                           ),

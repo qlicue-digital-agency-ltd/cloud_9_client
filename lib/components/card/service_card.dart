@@ -31,7 +31,7 @@ class ServiceCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
-                          service.image,
+                          'assets/images/0.jpg',
                         ),
                         fit: BoxFit.cover)),
               ),

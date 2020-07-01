@@ -1,15 +1,16 @@
 import 'package:cloud_9_client/components/card/category_card.dart';
 import 'package:cloud_9_client/components/card/service_card.dart';
-import 'package:cloud_9_client/models/category.dart';
-import 'package:cloud_9_client/models/service.dart';
+import 'package:cloud_9_client/provider/category_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/calender_screen.dart';
 import 'package:cloud_9_client/screens/service_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ServiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _categoryProvider = Provider.of<CategoryProvider>(context);
     return Background(
         screen: SafeArea(
       child: Container(
@@ -63,23 +64,35 @@ class ServiceScreen extends StatelessWidget {
               SizedBox(height: 10),
             ])),
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                      child: CategoryCard(
-                        onTap: () {},
-                        category: serviceCategories[index],
+              child: _categoryProvider.availableCategories.length > 0
+                  ? SizedBox(
+                      height: 100,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, top: 5, bottom: 5),
+                            child: CategoryCard(
+                              onTap: () {
+                                _categoryProvider.setSelectedServiceList =
+                                    _categoryProvider
+                                        .availableCategories[index].services;
+                                _categoryProvider.setSelectedCategory =
+                                    _categoryProvider
+                                        .availableCategories[index].id;
+                              },
+                              category:
+                                  _categoryProvider.availableCategories[index],
+                            ),
+                          );
+                        },
+                        itemCount: _categoryProvider.availableCategories.length,
+                        scrollDirection: Axis.horizontal,
                       ),
-                    );
-                  },
-                  itemCount: serviceCategories.length,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
+                    )
+                  : Container(
+                      child: Center(),
+                    ),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
@@ -93,20 +106,21 @@ class ServiceScreen extends StatelessWidget {
                             builder: (context) => CalenderScreen(),
                           ));
                     },
-                    service: serviceList[index],
+                    service: _categoryProvider.availableServices[index],
                     onTapMore: () {
                       print('moreeeee');
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ServiceDetailScreen(
-                              service: serviceList[index],
+                              service:
+                                  _categoryProvider.availableServices[index],
                             ),
                           ));
                     },
                   ),
                 );
-              }, childCount: serviceList.length),
+              }, childCount: _categoryProvider.availableServices.length),
             )
           ],
         ),

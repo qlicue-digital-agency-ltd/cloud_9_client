@@ -8,7 +8,7 @@ class Appointment {
   final String appointmentableType;
   final int appointmentableId;
   final String agentUuid;
-  final List<Appointmentable> appointmentable;
+  final Appointmentable appointmentable;
 
   Appointment({
     @required this.id,
@@ -43,9 +43,5 @@ class Appointment {
         appointmentableType = map['appointmentable_type'],
         appointmentableId = map['appointmentable_id'],
         agentUuid = map['agent_uuid'],
-        appointmentable = map['appointmentable'] != null
-            ? (map['appointmentable'] as List)
-                .map((i) => Appointmentable.fromMap(i))
-                .toList()
-            : null;
+        appointmentable = Appointmentable.fromMap(map['appointmentable']);
 }

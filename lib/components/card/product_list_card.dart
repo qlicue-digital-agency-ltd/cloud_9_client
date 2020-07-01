@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/models/product.dart';
 import 'package:flutter/material.dart';
 
 typedef ProductListCardOnTap = Function();
@@ -6,11 +7,13 @@ typedef ProductOrderOnTap = Function();
 class ProductListCard extends StatelessWidget {
   final ProductListCardOnTap productListCardOnTap;
   final ProductOrderOnTap productOrderOnTap;
+  final Product product;
 
   const ProductListCard(
       {Key key,
       @required this.productListCardOnTap,
-      @required this.productOrderOnTap})
+      @required this.productOrderOnTap,
+      @required this.product})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -33,9 +36,7 @@ class ProductListCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: AssetImage(
-                              'assets/images/4.jpg',
-                            ))),
+                            image: NetworkImage(product.image))),
                   ),
                 ),
                 Expanded(
@@ -46,11 +47,11 @@ class ProductListCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Name of Product',
+                          product.name,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        Text('Product description'),
+                        Text(product.description),
                       ],
                     ),
                   ),

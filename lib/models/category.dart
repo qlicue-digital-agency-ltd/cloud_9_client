@@ -1,24 +1,51 @@
+import 'package:cloud_9_client/models/consultation.dart';
+import 'package:cloud_9_client/models/procedure.dart';
+import 'package:cloud_9_client/models/service.dart';
 import 'package:flutter/material.dart';
 
 class Category {
   final int id;
   final String name;
-  final String image;
+  final List<Service> services;
+  final List<Procedure> procedures;
+  final List<Consultation> consultations;
+
   bool isSelected;
 
   Category(
       {@required this.id,
       @required this.name,
-      @required this.image,
+      @required this.services,
+      @required this.procedures,
+      @required this.consultations,
       this.isSelected = false});
-}
 
-List<Category> serviceCategories = <Category>[
-  Category(
-      id: 1, name: 'ALL', image: 'assets/images/lisa.jpeg', isSelected: true),
-  Category(id: 2, name: 'Acne\nTreatments', image: 'assets/images/lisa.jpeg'),
-  Category(id: 3, name: 'Hair', image: 'assets/images/lisa.jpeg'),
-  Category(id: 4, name: 'Rejuvenation', image: 'assets/images/lisa.jpeg',isSelected: true),
-  Category(id: 5, name: 'Dermatology', image: 'assets/images/lisa.jpeg'),
-  Category(id: 6, name: 'Marks\nRemoval', image: 'assets/images/lisa.jpeg'),
-];
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{'name': name};
+    if (id != null) {
+      map['id'] = id;
+    }
+    map['name'] = name;
+    return map;
+  }
+
+  Category.fromMap(Map<String, dynamic> map)
+      : assert(map['id'] != null),
+        assert(map['name'] != null),
+        id = map['id'],
+        name = map['name'],
+        isSelected = map['id'] == 1 ? true : false,
+        services = map['services'] != null
+            ? (map['services'] as List).map((i) => Service.fromMap(i)).toList()
+            : null,
+        consultations = map['consultations'] != null
+            ? (map['consultations'] as List)
+                .map((i) => Consultation.fromMap(i))
+                .toList()
+            : null,
+        procedures = map['procedures'] != null
+            ? (map['procedures'] as List)
+                .map((i) => Procedure.fromMap(i))
+                .toList()
+            : null;
+}

@@ -1,74 +1,43 @@
 import 'package:flutter/material.dart';
 
+import 'image.dart';
+
 class Service {
   final int id;
-  final String image;
   final String title;
   final String body;
   final int categoryId;
+  List<ServieImage> images;
 
-  Service(
-      {@required this.id,
-      @required this.image,
-      @required this.title,
-      @required this.body,
-      @required this.categoryId});
+  Service({
+    @required this.id,
+    @required this.title,
+    @required this.body,
+    @required this.categoryId,
+  });
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'title': title,
+      'body': body,
+      'category_id': categoryId,
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+
+  Service.fromMap(Map<String, dynamic> map)
+      : assert(map['id'] != null),
+        assert(map['title'] != null),
+        id = map['id'],
+        title = map['title'],
+        body = map['body'],
+        categoryId = map['category_id'],
+        images = map['images'] != null
+            ? (map['images'] as List)
+                .map((i) => ServieImage.fromMap(i))
+                .toList()
+            : null;
 }
-
-List<Service> serviceList = <Service>[
-  Service(
-      id: 1,
-      image: 'assets/images/3.jpg',
-      title: 'SKIN TAGS, MOLES, WARTS, MILLIA, SPOTS, CHALE',
-      body:
-          'By Plasma fibroblast and Laser technology, instant removal, no downtime!',
-      categoryId: 1),
-  Service(
-      id: 2,
-      image: 'assets/images/4.jpg',
-      title: 'UNDER EYE BAGS, SUNKEN UNDER EYE, UNDER EYE DARKNESS',
-      body:
-          'These can be removed effectively by our various options like Dermal filler, Plasma fibroblast, Laser',
-      categoryId: 1),
-  Service(
-      id: 3,
-      image: 'assets/images/2.jpg',
-      title: 'WRINKLES AND FINE LINES REMOVAL',
-      body:
-          'Anti aging: Achieved by using high technology methods such as Plasma fibroblast, Microneedling collagen induction therapy, Dermal filler, Botox, Laser',
-      categoryId: 1),
-  Service(
-      id: 4,
-      image: 'assets/images/3.jpg',
-      title: 'MELASMA, HYPERPIGMENTATION, DARKNESS',
-      body: 'We have very effective treatments for these problems',
-      categoryId: 1),
-  Service(
-      id: 5,
-      image: 'assets/images/1.jpg',
-      title: 'STRETCH MARKS',
-      body:
-          'We have effective ways to remove stretch marks! Laser, Plasma fibroblast, Microneedling',
-      categoryId: 1),
-  Service(
-      id: 6,
-      image: 'assets/images/0.jpg',
-      title:
-          'SCARS REMOVAL: ACNE SCARS, CHICKEN POX SCARS, CUT WOUND SCARS, OTHER SCARS',
-      body: 'This can be achieved by Laser, Plasma fibroblast, Microneedling,',
-      categoryId: 1),
-  Service(
-      id: 7,
-      image: 'assets/images/6.jpg',
-      title: 'MICROBLADING',
-      body:
-          'Eyebrows microblading Is a way of semi-permanent make-up, where through manual process of inserting pigment into the upper layers of skin we create the desired fullness and shape of the eyebrows. The effects last up to 12 months after which the pigment fades leaving the skin',
-      categoryId: 1),
-  Service(
-      id: 4,
-      image: 'assets/images/7.jpg',
-      title: 'SKIN REJUVENATION',
-      body:
-          'Vampire facial: for a glowing, brightening and more youthful look, Microneedling to inject PRP, Stem cell, Vitamin C and Collagen. This is Kim Kardashian’s favorite facial rejuvenation procedure',
-      categoryId: 1),
-];

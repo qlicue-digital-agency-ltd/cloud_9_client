@@ -97,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: IconCard(
                           iconColor: Colors.blue,
-                          icon: 'assets/icons/service.png',
+                          icon: 'assets/icons/procedure.png',
                           title: 'Procedures',
                           textColor: Colors.black,
                           backgroundColor: Colors.white,

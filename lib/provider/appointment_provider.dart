@@ -9,6 +9,10 @@ class AppointmentProvider with ChangeNotifier {
   bool _isFetchingAppointmentData = false;
   List<Appointment> _availableAppointments = [];
 
+  AppointmentProvider() {
+    fetchAppointments(clientId: 2);
+  }
+
 //getters
   bool get isFetchingAppointmentData => _isFetchingAppointmentData;
   List<Appointment> get availableAppointments => _availableAppointments;
@@ -28,16 +32,18 @@ class AppointmentProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         data['appointments'].forEach((appointmentData) {
           final appointment = Appointment.fromMap(appointmentData);
-
           _fetchedAppointments.add(appointment);
         });
         hasError = false;
       }
     } catch (error) {
+      print(error);
       hasError = true;
     }
+
     _availableAppointments = _fetchedAppointments;
     _isFetchingAppointmentData = false;
+    print(_availableAppointments.length);
     notifyListeners();
 
     return hasError;

@@ -56,11 +56,19 @@ class ServiceListScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ServiceDetailScreen(
-                              service: serviceList[index],
+                              service: Service(
+                                  id: 1,
+                                  title: 'the title',
+                                  body: 'the bofy',
+                                  categoryId: 1),
                             ),
                           ));
                     },
-                    service: serviceList[index],
+                    service: Service(
+                        id: 1,
+                        title: 'the title',
+                        body: 'the bofy',
+                        categoryId: 1),
                     onBookTap: () {
                       // Navigator.push(
                       //     context,
@@ -71,7 +79,7 @@ class ServiceListScreen extends StatelessWidget {
                     },
                   ),
                 );
-              }, childCount: serviceList.length),
+              }, childCount: 10),
             )
           ],
         ),

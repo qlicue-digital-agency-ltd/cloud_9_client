@@ -37,7 +37,7 @@ class AuthService {
   //Sign in User function..
   Future<bool> signInUser(
       {@required String email, @required String password}) async {
-    User _authenticatedUser;
+    //User _authenticatedUser;
     final Map<String, dynamic> authData = {
       'email': email,
       'password': password,
@@ -53,11 +53,11 @@ class AuthService {
     if (responseData.containsKey('token')) {
       hasError = false;
 
-      _authenticatedUser = User(
-        id: responseData['id'],
-        token: responseData['token'],
-        email: responseData['email'],
-      );
+      // _authenticatedUser = User(
+      //   id: responseData['id'],
+      //   token: responseData['token'],
+      //   email: responseData['email'],
+      // );
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
