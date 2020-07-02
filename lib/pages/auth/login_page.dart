@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
                 padding: EdgeInsets.only(top: 10.0),
                 child: CircleAvatar(
-                  radius: 60,
+                    radius: 60,
                     backgroundImage:
                         AssetImage('assets/icons/cloud9_logo.png'))),
             Padding(
@@ -202,16 +202,21 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(homeScreen);
-                    // if (_formKey.currentState.validate()) {
-                    //   _authProvider
-                    //       .signInUser(
-                    //           email: emailController.text,
-                    //           password: passwordController.text)
-                    //       .then((val) {
-                    //     Navigator.of(context).pushReplacementNamed(homeScreen);
-                    //   });
-                    // }
+                    if (_formKey.currentState.validate()) {
+                      _authProvider
+                          .signInUser(
+                              email: emailController.text,
+                              password: passwordController.text)
+                          .then((val) {
+                        if (!val) {
+                          Navigator.of(context)
+                              .pushReplacementNamed(homeScreen);
+                        } else {
+                          Navigator.of(context)
+                              .pushReplacementNamed(landingScreen);
+                        }
+                      });
+                    }
                   }),
             ),
             Padding(
@@ -227,7 +232,6 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: "WorkSansMedium"),
                   )),
             ),
-         
             Padding(
               padding: EdgeInsets.only(left: 40, right: 40, top: 20),
               child: Divider(),

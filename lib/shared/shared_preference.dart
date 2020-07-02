@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
-  read(String key) async {
+  Future<dynamic> read(String key) async {
     final prefs = await SharedPreferences.getInstance();
 
     final _data = prefs.getString(key);
@@ -40,7 +40,7 @@ class SharedPref {
   }
 
   //////
-  readStringleString(String key) async {
+  Future<String> readSingleString(String key) async {
     final prefs = await SharedPreferences.getInstance();
 
     final _data = prefs.getString(key);
@@ -48,7 +48,7 @@ class SharedPref {
     return _data;
   }
 
-  saveStringleString(String key, value) async {
+  saveSingleString(String key, value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
   }

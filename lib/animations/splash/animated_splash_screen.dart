@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:cloud_9_client/constants/constants.dart';
+import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AnimatedSplashScreen extends StatefulWidget {
   @override
@@ -20,7 +22,7 @@ class SplashScreenState extends State<AnimatedSplashScreen>
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed(homeScreen);
+    Navigator.of(context).pushReplacementNamed(landingScreen);
   }
 
   @override
@@ -42,6 +44,10 @@ class SplashScreenState extends State<AnimatedSplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    //final _authProvider = Provider.of<AuthProvider>(context);
+
+    ///auto authenticate user...
+   // _authProvider.autoAuthenticate();
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,

@@ -1,7 +1,10 @@
+import 'package:cloud_9_client/constants/constants.dart';
+import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/account_screen.dart';
 import 'package:cloud_9_client/screens/help_screen.dart';
 import 'package:cloud_9_client/screens/terms_and_condition.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -18,6 +21,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width * 0.8,
@@ -55,7 +59,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     SizedBox(
                       width: 16,
                     ),
-                    Icon(Icons.notifications, color: Colors.grey[600],),
+                    Icon(
+                      Icons.notifications,
+                      color: Colors.grey[600],
+                    ),
                     SizedBox(
                       width: 16,
                     ),
@@ -70,7 +77,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ],
                 ),
               ),
-
               SizedBox(height: 2),
               Material(
                 child: ListTile(
@@ -109,6 +115,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 child: ListTile(
                   onTap: () {
                     print('object');
+                    _authProvider.logout().then((value) {
+                      Navigator.of(context).pushReplacementNamed(loginScreen);
+                    });
                   },
                   leading: Icon(Icons.exit_to_app),
                   title: Text('Log Out'),

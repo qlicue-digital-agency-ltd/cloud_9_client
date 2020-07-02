@@ -1,17 +1,38 @@
 import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/notification_card.dart';
+import 'package:cloud_9_client/models/user.dart';
 import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/education_screen.dart';
 import 'package:cloud_9_client/screens/product_screen.dart';
 import 'package:cloud_9_client/screens/service_screen.dart';
 import 'package:cloud_9_client/screens/transactions_screen.dart';
+import 'package:cloud_9_client/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'consultation_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  SharedPref _sharedPref = SharedPref();
+  User _authenticatedUser;
+  @override
+  void initState() {
+    super.initState();
+    _sharedPref.read('user').then((value) {
+      print(value);
+      setState(() {
+        _authenticatedUser = User.fromMap(value);
+      });
+    });
+    print(_authenticatedUser);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -33,7 +54,9 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.blue,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         image: DecorationImage(
-                            image: AssetImage('assets/images/lisa.jpeg'))),
+                          fit: BoxFit.cover,
+                            image: NetworkImage(
+                                _authenticatedUser.profile.avatar))),
                   ),
                 ),
                 SizedBox(height: 100),
@@ -45,11 +68,16 @@ class HomeScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      'Jessica,',
+                      _authenticatedUser.profile.fullname + ',',
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
-                    Icon(FontAwesomeIcons.female, size: 30, color: Colors.blue)
+                    Icon(
+                        _authenticatedUser.profile.gender == "female"
+                            ? FontAwesomeIcons.female
+                            : FontAwesomeIcons.male,
+                        size: 30,
+                        color: Colors.blue)
                   ],
                 ),
                 SizedBox(height: 20),

@@ -23,27 +23,16 @@ class AuthProvider with ChangeNotifier {
   bool get isSignInUser => _isSignInUser;
 
   Future<void> autoAuthenticate() async {
-    final String token = _sharedPref.read('token');
-    if (token != null) {
-      final String userEmail = _sharedPref.read('email');
-      final int userId = _sharedPref.read('id');
-
-      _authenticatedUser = User(
-        id: userId,
-        email: userEmail,
-        token: token,
-      );
-
-      _userSubject.add(true);
-    }
+    _sharedPref.readSingleString('token').then((token) {
+      if (token != null) {
+        //   _authenticatedUser = User.fromMap(_sharedPref.read('user'));
+      }
+    });
 
     notifyListeners();
   }
 
   Future<void> logout() async {
-    userSubject.add(false);
-    notifyListeners();
-
     _sharedPref.remove('id');
     _sharedPref.remove('token');
     _sharedPref.remove('email');
@@ -66,30 +55,23 @@ class AuthProvider with ChangeNotifier {
     };
 
     final http.Response response = await http.post(
-      api + "register",
+      api + "login",
       body: json.encode(authData),
       headers: {'Content-Type': 'application/json'},
     );
 
-    print(response.body);
-
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
 
-    if (responseData.containsKey('token')) {
+    if (responseData.containsKey('access_token')) {
       hasError = false;
 
-      _authenticatedUser = User(
-        id: responseData['id'],
-        token: responseData['token'],
-        email: responseData['email'],
-      );
-      _userSubject.add(true);
-
-      _sharedPref.save('id', responseData['id']);
-      _sharedPref.save('token', responseData['token']);
-      _sharedPref.save('email', responseData['email']);
-      
+      _authenticatedUser = User.fromMap(responseData['user']);
+      print('loveeeeee---------eeeeeeeee');
+      print(_authenticatedUser);
+      print('=======loveeeeeeeeeeeeeee');
+      _sharedPref.save('user', responseData['user']);
+      _sharedPref.saveSingleString('token', responseData['access_token']);
     } else {
       hasError = true;
     }

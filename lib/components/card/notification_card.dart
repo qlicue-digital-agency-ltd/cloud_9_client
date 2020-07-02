@@ -18,7 +18,7 @@ class NotificationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Stay home!',
+                      'Cloud 9 has no notifications for you yet!',
                       style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -28,7 +28,7 @@ class NotificationCard extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      'Schedule an e-vist and discuss the plan with a doctor',
+                      '',
                       style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
