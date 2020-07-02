@@ -1,12 +1,14 @@
 import 'package:cloud_9_client/components/card/post_card.dart';
-import 'package:cloud_9_client/models/post.dart';
+import 'package:cloud_9_client/provider/post_provider.dart';
 
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EducationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _postProvider = Provider.of<PostProvider>(context);
     return Background(
         screen: SafeArea(
       child: Container(
@@ -65,10 +67,10 @@ class EducationScreen extends StatelessWidget {
                   child: PostCard(
                     onLike: () {},
                     onShare: () {},
-                    post: postList[index],
+                    post: _postProvider.availablePosts[index],
                   ),
                 );
-              }, childCount: postList.length),
+              }, childCount: _postProvider.availablePosts.length),
             ),
           ],
         ),

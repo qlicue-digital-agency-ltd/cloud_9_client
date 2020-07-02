@@ -1,8 +1,10 @@
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/provider/category_provider.dart';
+import 'package:cloud_9_client/provider/post_provider.dart';
 import 'package:cloud_9_client/provider/product_provider.dart';
 import 'package:cloud_9_client/provider/service_provider.dart';
+import 'package:cloud_9_client/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +19,8 @@ void main() => runApp(
           ChangeNotifierProvider(create: (_) => CategoryProvider()),
           ChangeNotifierProvider(create: (_) => ServiceProvider()),
           ChangeNotifierProvider(create: (_) => ProductProvider()),
+          ChangeNotifierProvider(create: (_) => PostProvider()),
+          ChangeNotifierProvider(create: (_) => TransactionProvider()),
         ],
         child: App(),
       ),

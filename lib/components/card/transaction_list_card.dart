@@ -45,7 +45,7 @@ class TransactionListCard extends StatelessWidget {
                     transaction.uuid,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text(transaction.title),
+                  Text(transaction.amount.toString()),
                 ],
               ),
             ),

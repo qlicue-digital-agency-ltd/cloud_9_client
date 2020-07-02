@@ -30,7 +30,7 @@ class PostCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage(
+                        image: NetworkImage(
                           post.image,
                         ),
                         fit: BoxFit.cover)),
@@ -55,7 +55,7 @@ class PostCard extends StatelessWidget {
               Row(children: [
                 IconButton(
                   onPressed: onLike,
-                  icon: Icon(Icons.favorite, color:Colors.red),
+                  icon: Icon(Icons.favorite, color: Colors.red),
                 ),
                 IconButton(
                   onPressed: onShare,

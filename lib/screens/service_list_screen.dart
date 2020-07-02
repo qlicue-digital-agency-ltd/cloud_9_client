@@ -1,13 +1,16 @@
 import 'package:cloud_9_client/components/card/service_list_card.dart';
 import 'package:cloud_9_client/models/service.dart';
+import 'package:cloud_9_client/provider/category_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/calender_screen.dart';
 import 'package:cloud_9_client/screens/service_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ServiceListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+        final _categoryProvider = Provider.of<CategoryProvider>(context);
     return Background(
         screen: SafeArea(
       child: Container(
