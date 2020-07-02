@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key key}) : super(key: key);
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
@@ -18,17 +18,17 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode confirmPasswordFocusNode = FocusNode();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  bool _obscureTextLogin = true;
+  TextEditingController _fullnameController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+
 
   @override
   void dispose() {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _fullnameController.dispose();
+    _locationController.dispose();
     super.dispose();
   }
 
@@ -47,45 +47,61 @@ class _RegisterPageState extends State<RegisterPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: AppBar(
-                
+                leading: Container(),
                 elevation: 0,
-                title: Text('Register'),
+                title: Text('Profile'),
                 backgroundColor: Colors.transparent,
-                leading: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Material(
-                      elevation: 2,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Container(
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 actions: <Widget>[],
               ),
             ),
-            Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: CircleAvatar(
-                    radius: 60,
-                    backgroundImage:
-                        AssetImage('assets/icons/cloud9_logo.png'))),
-            Padding(
-              padding: EdgeInsets.only(top: 1.0),
-              child: Text('CLOUD9',
-                  style: TextStyle(
-                      fontFamily: 'trajanProRegular',
-                      fontSize: 25.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold)),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: InkWell(
+                    onTap: () {
+                      _authProvider.chooseAmImage();
+                    },
+                    child: Center(
+                      child: _authProvider.pickedImage == null
+                          ? Container(
+                              color: Color(0xFF6395e6),
+                              height: 200,
+                              child: Center(
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 60,
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.add_a_photo,
+                                          size: 50,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      ' Select menu Image!',
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Container(
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: Image.file(
+                                _authProvider.pickedImage,
+                                height: 100,
+                              ),
+                            ),
+                    ),
+                  ),
+                )
+              ],
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -98,12 +114,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: TextFormField(
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Please enter your email';
+                      return 'Please enter your fullname';
                     } else
                       return null;
                   },
                   focusNode: emailFocusNode,
-                  controller: emailController,
+                  controller: _fullnameController,
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
@@ -115,8 +131,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(color: Colors.white)),
-                      hintText: "Email",
-                      labelText: "Email",
+                      hintText: "Fullname",
+                      labelText: "Fullname",
                       labelStyle: TextStyle(color: Colors.white),
                       hintStyle: TextStyle(
                           fontFamily: "WorkSansSemiBold",
@@ -141,14 +157,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: TextFormField(
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Please enter your password';
+                      return 'Please enter your phone';
                     } else
                       return null;
                   },
                   focusNode: passwordFocusNode,
-                  controller: passwordController,
-                  keyboardType: TextInputType.text,
-                  obscureText: _obscureTextLogin,
+                  controller: _locationController,
+                  keyboardType: TextInputType.phone,
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
@@ -159,29 +174,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      hintText: "Password",
-                      labelText: "Password",
+                      hintText: "Phone",
+                      labelText: "Phone",
                       hintStyle: TextStyle(
                           fontFamily: "WorkSansSemiBold",
                           fontSize: 17.0,
                           color: Colors.white),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          print('object');
-                          setState(() {
-                            _obscureTextLogin = !_obscureTextLogin;
-                          });
-                        },
-                        child: Icon(
-                          _obscureTextLogin
-                              ? FontAwesomeIcons.eye
-                              : FontAwesomeIcons.eyeSlash,
-                          size: 15.0,
-                          color: Colors.white,
-                        ),
-                      ),
                       prefixIcon: Icon(
-                        FontAwesomeIcons.lock,
+                        FontAwesomeIcons.phoneAlt,
                         size: 22.0,
                         color: Colors.white,
                       )),
@@ -199,14 +199,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: TextFormField(
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Please enter your password';
+                      return 'Please enter your location';
                     } else
                       return null;
                   },
                   focusNode: confirmPasswordFocusNode,
-                  controller: confirmPasswordController,
+                  controller: _phoneController,
                   keyboardType: TextInputType.text,
-                  obscureText: _obscureTextLogin,
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
@@ -217,29 +216,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      hintText: "Confirm Password",
-                      labelText: "Confirm Password",
+                      hintText: "location",
+                      labelText: "location",
                       hintStyle: TextStyle(
                           fontFamily: "WorkSansSemiBold",
                           fontSize: 17.0,
                           color: Colors.white),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          print('object');
-                          setState(() {
-                            _obscureTextLogin = !_obscureTextLogin;
-                          });
-                        },
-                        child: Icon(
-                          _obscureTextLogin
-                              ? FontAwesomeIcons.eye
-                              : FontAwesomeIcons.eyeSlash,
-                          size: 15.0,
-                          color: Colors.white,
-                        ),
-                      ),
                       prefixIcon: Icon(
-                        FontAwesomeIcons.lock,
+                        FontAwesomeIcons.locationArrow,
                         size: 22.0,
                         color: Colors.white,
                       )),
@@ -275,10 +259,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10.0, horizontal: 42.0),
-                    child: _authProvider.isSignInUser
+                    child: _authProvider.isSubmitingProfileData
                         ? CircularProgressIndicator()
                         : Text(
-                            "REGISTER",
+                            "Save & Proceed",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25.0,
@@ -287,20 +271,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      if (passwordController.text ==
-                          confirmPasswordController.text) {
+                      if (_authProvider.pickedImage != null) {
                         _authProvider
-                            .registerUser(
-                                email: emailController.text,
-                                password: passwordController.text)
+                            .updateProfile(
+                                fullname: _fullnameController.text,
+                                location: _locationController.text,
+                                phone: _phoneController.text)
                             .then((val) {
                           if (!val) {
+                            _locationController.clear();
+                            _fullnameController.clear();
+                            _phoneController.clear();
+
                             Navigator.of(context)
-                                .pushReplacementNamed(profileScreen);
+                                .pushReplacementNamed(homeScreen);
                           }
                         });
                       } else {
-                        showInSnackBar('Passwords don\'t match');
+                        showInSnackBar('Select profile Image');
                       }
                     }
                   }),
@@ -330,7 +318,7 @@ class _RegisterPageState extends State<RegisterPage> {
             fontSize: 16.0,
             fontFamily: "WorkSansSemiBold"),
       ),
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.deepOrange,
       duration: Duration(seconds: 3),
     ));
   }

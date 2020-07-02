@@ -1,40 +1,23 @@
 import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/notification_card.dart';
 import 'package:cloud_9_client/models/user.dart';
+import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/education_screen.dart';
 import 'package:cloud_9_client/screens/product_screen.dart';
 import 'package:cloud_9_client/screens/service_screen.dart';
 import 'package:cloud_9_client/screens/transactions_screen.dart';
-import 'package:cloud_9_client/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'consultation_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  SharedPref _sharedPref = SharedPref();
-  User _authenticatedUser;
-  @override
-  void initState() {
-    super.initState();
-    _sharedPref.read('user').then((value) {
-      print(value);
-      setState(() {
-        _authenticatedUser = User.fromMap(value);
-      });
-    });
-    print(_authenticatedUser);
-  }
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Background(
         screen: SafeArea(
       child: SingleChildScrollView(
@@ -47,17 +30,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 AppBar(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                            image: NetworkImage(
-                                _authenticatedUser.profile.avatar))),
-                  ),
+                  leading: _authProvider.authenticatedUser.profile.avatar ==
+                          null
+                      ? Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(_authProvider
+                                      .authenticatedUser.profile.avatar))),
+                        )
+                      : Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image:
+                                      AssetImage('assets/images/lisa.jpeg'))),
+                        ),
                 ),
                 SizedBox(height: 100),
                 Text(
@@ -68,12 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      _authenticatedUser.profile.fullname + ',',
+                      _authProvider.authenticatedUser.profile.fullname + ',',
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     Icon(
-                        _authenticatedUser.profile.gender == "female"
+                        _authProvider.authenticatedUser.profile.gender ==
+                                "female"
                             ? FontAwesomeIcons.female
                             : FontAwesomeIcons.male,
                         size: 30,

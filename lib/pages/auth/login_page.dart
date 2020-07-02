@@ -1,4 +1,5 @@
 import 'package:cloud_9_client/constants/constants.dart';
+import 'package:cloud_9_client/pages/auth/register_page.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -240,7 +241,12 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.only(top: 10.0),
               child: FlatButton(
                   onPressed: () {
-                    showInSnackBar("Not implemented yet");
+                    //showInSnackBar("Not implemented yet");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterPage(),
+                        ));
                   },
                   child: Text(
                     "Don't have an account? Sign Up!",

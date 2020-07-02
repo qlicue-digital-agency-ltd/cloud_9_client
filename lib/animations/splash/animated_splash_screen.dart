@@ -44,10 +44,7 @@ class SplashScreenState extends State<AnimatedSplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    //final _authProvider = Provider.of<AuthProvider>(context);
-
-    ///auto authenticate user...
-   // _authProvider.autoAuthenticate();
+   
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
