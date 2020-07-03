@@ -19,7 +19,7 @@ class AuthService {
       _authenticatedUser = User(
         id: userId,
         email: userEmail,
-        token: token,
+        token: token, profile: null,
       );
     }
     return _authenticatedUser;

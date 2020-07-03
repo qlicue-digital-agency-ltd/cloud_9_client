@@ -63,50 +63,54 @@ class ServiceDetailScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
               ),
               SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Expanded(
-                      flex: 2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                                image: AssetImage('assets/images/1.jpg'),
-                                fit: BoxFit.cover)),
-                        height: 150,
-                      )),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    image: AssetImage('assets/images/0.jpg'),
-                                    fit: BoxFit.cover)),
-                            height: 150,
-                          ),
-                          Positioned(
-                            top: 55,
-                            left: 40,
-                            child: Text(
-                              '+2',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        ],
-                      ))
-                ],
-              ),
+              service.images.isNotEmpty
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                            flex: 2,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image:
+                                          NetworkImage(service.images[0].url),
+                                      fit: BoxFit.cover)),
+                              height: 150,
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: Stack(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              service.images[0].url),
+                                          fit: BoxFit.cover)),
+                                  height: 150,
+                                ),
+                                Positioned(
+                                  top: 55,
+                                  left: 40,
+                                  child: Text(
+                                    '+' + service.images.length.toString(),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              ],
+                            ))
+                      ],
+                    )
+                  : Container(),
               SizedBox(height: 10),
             ])),
             SliverList(

@@ -11,6 +11,42 @@ class TransactionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _transactionProvider = Provider.of<TransactionProvider>(context);
+    _showDialog(context, Transaction transaction) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: Text("Delete Transaction?"),
+            content: Text("Transaction " +
+                transaction.uuid +
+                " will be deleted permanently"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  "Delete",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _transactionProvider.deleteTransactions(
+                      transaction: transaction);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Background(
         screen: SafeArea(
       child: Container(
@@ -54,12 +90,18 @@ class TransactionScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: TransactionListCard(
-                    onDeleteTap: () {},
+                    onDeleteTap: () {
+                      _showDialog(context,
+                          _transactionProvider.availableTransactions[index]);
+                    },
                     onViewTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ReceiptScreen(),
+                            builder: (context) => ReceiptScreen(
+                              transaction: _transactionProvider
+                                  .availableTransactions[index],
+                            ),
                           ));
                     },
                     transaction:

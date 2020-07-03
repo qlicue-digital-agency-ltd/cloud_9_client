@@ -1,3 +1,5 @@
+import 'package:cloud_9_client/models/product.dart';
+import 'package:cloud_9_client/models/transaction_service.dart';
 import 'package:flutter/material.dart';
 
 class Transaction {
@@ -9,6 +11,9 @@ class Transaction {
   final String transactionableType;
   final int transactionableId;
   final String agentUuid;
+  final Product product;
+  final TransactionService transactionService;
+  final String date;
 
   Transaction({
     @required this.id,
@@ -19,6 +24,9 @@ class Transaction {
     @required this.transactionableType,
     @required this.transactionableId,
     @required this.agentUuid,
+    @required this.product,
+    @required this.transactionService,
+    @required this.date,
   });
 
   Map<String, dynamic> toMap() {
@@ -46,5 +54,12 @@ class Transaction {
         userId = map['user_id'],
         transactionableType = map['transactionable_type'],
         transactionableId = map['transactionable_id'],
-        agentUuid = map['agent_uuid'];
+        agentUuid = map['agent_uuid'],
+        date = map['created_at'],
+        product = map['transactionable_type'] == "App\\Product"
+            ? Product.fromMap(map['transactionable'])
+            : null,
+        transactionService = map['transactionable_type'] != "App\\Product"
+            ? TransactionService.fromMap(map['transactionable'])
+            : null;
 }

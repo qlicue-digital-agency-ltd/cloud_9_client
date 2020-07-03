@@ -30,9 +30,9 @@ class ServiceCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/0.jpg',
-                        ),
+                        image: NetworkImage(service.images.isNotEmpty
+                            ? service.images[0].url
+                            : 'https://lorempixel.com/640/480/?19411'),
                         fit: BoxFit.cover)),
               ),
               SizedBox(height: 10),

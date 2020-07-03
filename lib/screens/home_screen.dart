@@ -1,6 +1,5 @@
 import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/notification_card.dart';
-import 'package:cloud_9_client/models/user.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';

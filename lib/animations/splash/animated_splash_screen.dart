@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:cloud_9_client/constants/constants.dart';
-import 'package:cloud_9_client/provider/auth_provider.dart';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 class AnimatedSplashScreen extends StatefulWidget {
   @override

@@ -1,7 +1,6 @@
 import 'package:cloud_9_client/components/card/appointment_card.dart';
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
-import 'package:cloud_9_client/screens/service_list_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,10 +45,10 @@ class AppointmentScreen extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ServiceListScreen()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => ServiceListScreen()));
                   },
                 )
               ],

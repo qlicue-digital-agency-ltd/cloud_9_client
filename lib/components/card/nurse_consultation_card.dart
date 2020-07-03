@@ -1,17 +1,17 @@
-import 'package:cloud_9_client/models/doctor.dart';
+import 'package:cloud_9_client/models/nurse.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-typedef DoctorConsultationCardOnTap = Function();
+typedef NurseConsultationCardOnTap = Function();
 
-class DoctorConsultationCard extends StatelessWidget {
-  final DoctorConsultationCardOnTap onTap;
+class NurseConsultationCard extends StatelessWidget {
+  final NurseConsultationCardOnTap onTap;
 
-  final Doctor doctor;
+  final Nurse nurse;
 
-  const DoctorConsultationCard({
+  const NurseConsultationCard({
     Key key,
-    @required this.doctor,
+    @required this.nurse,
     @required this.onTap,
   }) : super(key: key);
   @override
@@ -37,7 +37,7 @@ class DoctorConsultationCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 10, top: 8.0),
                   child: Text(
-                    'For Doctor Consultation',
+                    'For Nurse Consultation',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -53,7 +53,7 @@ class DoctorConsultationCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-                    'Doctor',
+                    'Nurse',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,
@@ -69,11 +69,11 @@ class DoctorConsultationCard extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10, left: 20),
           child: Row(children: <Widget>[
             CircleAvatar(
-              backgroundImage: NetworkImage(doctor.profile.avatar),
+              backgroundImage: NetworkImage(nurse.profile.avatar),
               radius: 30,
             ),
             SizedBox(width: 20),
-            Text(doctor.profile.fullname,
+            Text(nurse.profile.fullname,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
           ]),
         ),

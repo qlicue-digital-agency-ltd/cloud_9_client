@@ -1,22 +1,21 @@
-import 'package:cloud_9_client/models/transaction.dart';
+import 'package:cloud_9_client/models/consultation.dart';
 import 'package:flutter/material.dart';
 
-typedef TransactionListCardOnTap = Function();
+typedef ConsultationListCardOnTap = Function();
 
-class TransactionListCard extends StatelessWidget {
-  final TransactionListCardOnTap onDeleteTap;
-  final TransactionListCardOnTap onViewTap;
-  final Transaction transaction;
+class ConsultationListCard extends StatelessWidget {
+  final ConsultationListCardOnTap onBookTap;
+  final ConsultationListCardOnTap onViewTap;
+  final Consultation consultation;
 
-  const TransactionListCard(
+  const ConsultationListCard(
       {Key key,
-      @required this.onDeleteTap,
+      @required this.onBookTap,
       @required this.onViewTap,
-      @required this.transaction})
+      @required this.consultation})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
@@ -28,10 +27,16 @@ class TransactionListCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Icon(
-                Icons.receipt,
-                color: Colors.blue,
-                size: 50,
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: NetworkImage(consultation.service.images.isNotEmpty 
+                      ? consultation.service.images[0].url
+                      : 'https://lorempixel.com/640/480/?19411'),
+                  fit: BoxFit.fill,
+                )),
               ),
             ),
           ),
@@ -43,10 +48,14 @@ class TransactionListCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    transaction.uuid,
+                    consultation.service.title,
+                    maxLines: 1,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text(transaction.amount.toString()),
+                  Text(
+                    consultation.service.body,
+                    maxLines: 1,
+                  ),
                 ],
               ),
             ),
@@ -73,7 +82,7 @@ class TransactionListCard extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: onDeleteTap,
+            onTap: onBookTap,
             child: Container(
               width: 60,
               height: 80,
@@ -83,13 +92,12 @@ class TransactionListCard extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  //CircularProgressIndicator()
                   Icon(
-                    Icons.delete,
-                    color: Colors.red,
+                    Icons.calendar_today,
+                    color: Colors.blue,
                   ),
                   SizedBox(height: 3),
-                  Text('Delete'),
+                  Text('Book'),
                 ],
               ),
             ),

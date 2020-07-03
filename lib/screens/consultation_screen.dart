@@ -1,12 +1,15 @@
 import 'package:cloud_9_client/components/card/consultation_card.dart';
-import 'package:cloud_9_client/models/staff.dart';
+import 'package:cloud_9_client/components/card/nurse_consultation_card.dart';
+import 'package:cloud_9_client/provider/staff_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
-import 'package:cloud_9_client/screens/service_list_screen.dart';
+import 'package:cloud_9_client/screens/consultation_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ConsultationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _staffProvider = Provider.of<StaffProvider>(context);
     return Background(
         screen: SafeArea(
       child: Container(
@@ -59,18 +62,40 @@ class ConsultationScreen extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate((context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: ConsultationCard(
-                  staff: staffList[index],
+                child: DoctorConsultationCard(
+                  doctor: _staffProvider.availabledoctors[index],
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ServiceListScreen(),
+                          builder: (context) => ConsultationListScreen(
+                            consultations: _staffProvider
+                                .availabledoctors[index].consultations,
+                          ),
                         ));
                   },
                 ),
               );
-            }, childCount: staffList.length))
+            }, childCount: _staffProvider.availabledoctors.length)),
+            SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: NurseConsultationCard(
+                  nurse: _staffProvider.availablenurses[index],
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ConsultationListScreen(
+                            consultations: _staffProvider
+                                .availablenurses[index].consultations,
+                          ),
+                        ));
+                  },
+                ),
+              );
+            }, childCount: _staffProvider.availablenurses.length))
           ],
         ),
       ),

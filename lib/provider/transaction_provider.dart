@@ -7,6 +7,7 @@ import 'dart:convert';
 class TransactionProvider with ChangeNotifier {
   //variable declaration
   bool _isFetchingTransactionData = false;
+  bool _isdeletingTransactionData = false;
   List<Transaction> _availableTransactions = [];
 
   TransactionProvider() {
@@ -15,6 +16,7 @@ class TransactionProvider with ChangeNotifier {
 
 //getters
   bool get isFetchingTransactionData => _isFetchingTransactionData;
+  bool get isdeletingTransactionData => _isdeletingTransactionData;
   List<Transaction> get availableTransactions => _availableTransactions;
 
   Future<bool> fetchTransactions({@required int clientId}) async {
@@ -42,6 +44,31 @@ class TransactionProvider with ChangeNotifier {
     }
 
     _availableTransactions = _fetchedTransactions;
+    _isFetchingTransactionData = false;
+    print(_availableTransactions.length);
+    notifyListeners();
+
+    return hasError;
+  }
+
+  Future<bool> deleteTransactions({@required Transaction transaction}) async {
+    bool hasError = true;
+    _isFetchingTransactionData = true;
+    notifyListeners();
+
+    try {
+      final http.Response response =
+          await http.delete(api + "transaction/" + transaction.id.toString());
+      if (response.statusCode == 201) {
+        hasError = false;
+      }
+    } catch (error) {
+      hasError = true;
+    }
+
+    int _index = _availableTransactions
+        .indexWhere((element) => element.id == transaction.id);
+    _availableTransactions.removeAt(_index);
     _isFetchingTransactionData = false;
     print(_availableTransactions.length);
     notifyListeners();

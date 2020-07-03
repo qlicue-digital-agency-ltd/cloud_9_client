@@ -4,6 +4,7 @@ import 'package:cloud_9_client/provider/category_provider.dart';
 import 'package:cloud_9_client/provider/post_provider.dart';
 import 'package:cloud_9_client/provider/product_provider.dart';
 import 'package:cloud_9_client/provider/service_provider.dart';
+import 'package:cloud_9_client/provider/staff_provider.dart';
 import 'package:cloud_9_client/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ void main() => runApp(
           ChangeNotifierProvider(create: (_) => ProductProvider()),
           ChangeNotifierProvider(create: (_) => PostProvider()),
           ChangeNotifierProvider(create: (_) => TransactionProvider()),
+          ChangeNotifierProvider(create: (_) => StaffProvider()),
         ],
         child: App(),
       ),

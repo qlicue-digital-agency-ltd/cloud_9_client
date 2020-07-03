@@ -1,16 +1,19 @@
-import 'package:cloud_9_client/components/card/service_list_card.dart';
+import 'package:cloud_9_client/components/card/consultation_list_card.dart';
+import 'package:cloud_9_client/models/consultation.dart';
 import 'package:cloud_9_client/models/service.dart';
-import 'package:cloud_9_client/provider/category_provider.dart';
+
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/calender_screen.dart';
 import 'package:cloud_9_client/screens/service_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ServiceListScreen extends StatelessWidget {
+class ConsultationListScreen extends StatelessWidget {
+  final List<Consultation> consultations;
+
+  const ConsultationListScreen({Key key, @required this.consultations})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-        final _categoryProvider = Provider.of<CategoryProvider>(context);
     return Background(
         screen: SafeArea(
       child: Container(
@@ -44,7 +47,7 @@ class ServiceListScreen extends StatelessWidget {
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Services',
+                  'Consultation',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -53,7 +56,7 @@ class ServiceListScreen extends StatelessWidget {
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: ServiceListCard(
+                  child: ConsultationListCard(
                     onViewTap: () {
                       Navigator.push(
                           context,
@@ -67,11 +70,7 @@ class ServiceListScreen extends StatelessWidget {
                             ),
                           ));
                     },
-                    service: Service(
-                        id: 1,
-                        title: 'the title',
-                        body: 'the bofy',
-                        categoryId: 1),
+                    consultation: consultations[index],
                     onBookTap: () {
                       // Navigator.push(
                       //     context,
@@ -82,7 +81,7 @@ class ServiceListScreen extends StatelessWidget {
                     },
                   ),
                 );
-              }, childCount: 10),
+              }, childCount: consultations.length),
             )
           ],
         ),

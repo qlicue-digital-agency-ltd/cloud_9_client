@@ -1,7 +1,11 @@
+import 'package:cloud_9_client/models/transaction.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
 class ReceiptScreen extends StatelessWidget {
+  final Transaction transaction;
+
+  const ReceiptScreen({Key key, @required this.transaction}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -55,26 +59,46 @@ class ReceiptScreen extends StatelessWidget {
                     SizedBox(
                       height: 50,
                     ),
+                    transaction.product == null
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                                left: 30, right: 30, bottom: 30),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Service:'),
+                                  Text(transaction.transactionService.serviceId
+                                      .toString())
+                                ]),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(
+                                left: 30, right: 30, bottom: 30),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Product:'),
+                                  Text(transaction.product.name)
+                                ]),
+                          ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 30, right: 30, bottom: 30),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('Product:'), Text('Facial remover')]),
+                          children: [
+                            Text('Receipt No:'),
+                            Text("CL9000" + transaction.id.toString())
+                          ]),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 30, right: 30, bottom: 30),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('Receipt No:'), Text('ABD12873IUX')]),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 30, right: 30, bottom: 30),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('Date:'), Text('12/04/2020')]),
+                          children: [Text('Date:'), Text(transaction.date)]),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -83,15 +107,9 @@ class ReceiptScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Amount:'),
-                            Text('TZS 118,0000 /-,')
+                            Text(
+                                'TZS ' + transaction.amount.toString() + ' /-,')
                           ]),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 30, right: 30, bottom: 30),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('VAT:'), Text('TZS 12,000 /-')]),
                     ),
                     Divider(
                       indent: 10,
@@ -102,7 +120,11 @@ class ReceiptScreen extends StatelessWidget {
                           left: 30, right: 30, bottom: 30),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('TOTAL:'), Text('TZS 120,000 /-')]),
+                          children: [
+                            Text('TOTAL:'),
+                            Text(
+                                'TZS ' + transaction.amount.toString() + ' /-,')
+                          ]),
                     ),
                     SizedBox(
                       height: 20,
@@ -152,7 +174,7 @@ class ReceiptScreen extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('+255-715-785-672')
+                            Text('+255-765-045-856')
                           ]),
                     ),
                     Padding(
@@ -165,7 +187,7 @@ class ReceiptScreen extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('sales@cloud9.com')
+                            Text('info@cloud9.co.tz')
                           ]),
                     ),
                   ],
