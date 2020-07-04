@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/post.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class PostCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
-                          post.image,
+                          api + 'post/image/' + post.id.toString(),
                         ),
                         fit: BoxFit.cover)),
               ),

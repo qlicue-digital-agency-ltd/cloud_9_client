@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/calender_screen.dart';
@@ -13,12 +14,11 @@ class ServiceDetailScreen extends StatelessWidget {
     return Background(
         screen: SafeArea(
       child: Container(
-        padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
+          padding: EdgeInsets.all(8),
+          child: SingleChildScrollView(
+              child: Column(children: <Widget>[
+            AppBar(
               elevation: 0,
-              expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
               leading: InkWell(
                 onTap: () {
@@ -53,17 +53,23 @@ class ServiceDetailScreen extends StatelessWidget {
                   },
                 )
               ],
-              pinned: true,
+         
             ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              Text(
-                service.title,
-                maxLines: 1,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
-              ),
-              SizedBox(height: 50),
-              service.images.isNotEmpty
+            SizedBox(height: 50,),
+            Text(
+              service.title,
+              maxLines: 2,
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
+            ),
+            SizedBox(height: 50),
+           
+          Card(child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:<Widget>[
+              
+               service.images.isNotEmpty
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -73,10 +79,11 @@ class ServiceDetailScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
-                                      image:
-                                          NetworkImage(service.images[0].url),
+                                      image: NetworkImage(api +
+                                          'service/image/' +
+                                          service.images[0].id.toString()),
                                       fit: BoxFit.cover)),
-                              height: 150,
+                              height: 200,
                             )),
                         SizedBox(
                           width: 10,
@@ -89,13 +96,14 @@ class ServiceDetailScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
-                                          image: NetworkImage(
-                                              service.images[0].url),
+                                          image: NetworkImage(api +
+                                              'service/image/' +
+                                              service.images[0].id.toString()),
                                           fit: BoxFit.cover)),
-                                  height: 150,
+                                  height: 200,
                                 ),
                                 Positioned(
-                                  top: 55,
+                                  top: 80,
                                   left: 40,
                                   child: Text(
                                     '+' + service.images.length.toString(),
@@ -112,17 +120,26 @@ class ServiceDetailScreen extends StatelessWidget {
                     )
                   : Container(),
               SizedBox(height: 10),
-            ])),
-            SliverList(
-                delegate: SliverChildListDelegate([
+               Text(
+                'DESCRIPTION',
+                  textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                          height: 10,
+                        ),
               Text(
                 service.body,
+                textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               )
-            ]))
-          ],
-        ),
-      ),
+            
+            ]),
+          ),)
+          ]
+          
+          
+          ))),
     ));
   }
 }

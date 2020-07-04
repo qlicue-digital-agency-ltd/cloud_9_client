@@ -62,21 +62,12 @@ class ConsultationListScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ServiceDetailScreen(
-                              service: Service(
-                                  id: 1,
-                                  title: 'the title',
-                                  body: 'the bofy',
-                                  categoryId: 1),
+                              service: consultations[index].service,
                             ),
                           ));
                     },
                     consultation: consultations[index],
                     onBookTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => CalenderScreen(),
-                      //     ));
                       _showDialog(context);
                     },
                   ),

@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/components/buttons/dropdown_button.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _fullnameController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
-
 
   @override
   void dispose() {
@@ -54,55 +54,53 @@ class _ProfilePageState extends State<ProfilePage> {
                 actions: <Widget>[],
               ),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: () {
-                      _authProvider.chooseAmImage();
-                    },
-                    child: Center(
-                      child: _authProvider.pickedImage == null
-                          ? Container(
-                              color: Color(0xFF6395e6),
-                              height: 200,
+            Center(
+                child: InkWell(
+              onTap: () {
+                _authProvider.chooseAmImage();
+              },
+              child: Container(
+                height: 180,
+                width: MediaQuery.of(context).size.width / 2,
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _authProvider.pickedImage == null
+                          ? CircleAvatar(
+                              radius: 60,
                               child: Center(
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    CircleAvatar(
-                                      radius: 60,
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.add_a_photo,
-                                          size: 50,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      ' Select menu Image!',
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
+                                child: Icon(
+                                  Icons.add_a_photo,
+                                  size: 50,
+                                  color: Colors.white,
                                 ),
                               ),
                             )
                           : Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              child: Image.file(
-                                _authProvider.pickedImage,
-                                height: 100,
-                              ),
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image:
+                                          FileImage(_authProvider.pickedImage),
+                                      fit: BoxFit.cover)),
                             ),
-                    ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        ' Select menu Image!',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            )),
             Padding(
               padding: EdgeInsets.only(
                   top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
@@ -145,6 +143,24 @@ class _ProfilePageState extends State<ProfilePage> {
                       )),
                 ),
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+              child: Theme(
+                  data: new ThemeData(
+                    primaryColor: Colors.white,
+                    primaryColorDark: Colors.red[50],
+                  ),
+                  child: CustomDropdownButton(
+                    value: _authProvider.selectedGender,
+                    item: _authProvider.genderList,
+                    title: 'Gender',
+                    customDropdownButtonOnChange: (String val) {
+                      print(val);
+                      _authProvider.setSelectedGender = val;
+                    },
+                  )),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -283,8 +299,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             _fullnameController.clear();
                             _phoneController.clear();
 
-                            Navigator.of(context)
-                                .pushReplacementNamed(homeScreen);
+                            _authProvider.autoAuthenticate().then((value) {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(homeScreen);
+                            });
+                            print('iiiii---------------iiiiiiiiiiiiiiiii');
+                            print(_authProvider.authenticatedUser.profile.avatar);
+                            print('iiiiiiiiiiii+++++++++++++++iiiiiiiiii');
                           }
                         });
                       } else {

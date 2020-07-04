@@ -12,12 +12,27 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
 class AuthProvider with ChangeNotifier {
+  AuthProvider() {
+    autoAuthenticate();
+  }
   SharedPref _sharedPref = SharedPref();
   User _authenticatedUser;
   bool _isSignInUser = false;
   bool _isSubmitingProfileData = false;
   bool _isAuthenticated = false;
   bool _hasUserProfile = false;
+  String _selectedGender = "male";
+
+  final List<DropdownMenuItem> _genderList = [
+    DropdownMenuItem(
+      child: Text("MALE"),
+      value: 'male',
+    ),
+    DropdownMenuItem(
+      child: Text("FEMALE"),
+      value: 'female',
+    ),
+  ];
 
   File _pickedImage;
 
@@ -37,6 +52,13 @@ class AuthProvider with ChangeNotifier {
   bool get isSubmitingProfileData => _isSubmitingProfileData;
   bool get isAuthenticated => _isAuthenticated;
   bool get hasUserProfile => _hasUserProfile;
+  String get selectedGender => _selectedGender;
+  List<DropdownMenuItem> get genderList => _genderList;
+
+  set setSelectedGender(String gender) {
+    _selectedGender = gender;
+    notifyListeners();
+  }
 
   Future<AuthState> autoAuthenticate() async {
     AuthState _authState = AuthState.SignOut;
@@ -152,7 +174,9 @@ class AuthProvider with ChangeNotifier {
       {@required String fullname,
       @required String phone,
       @required String location}) async {
-    autoAuthenticate();
+    print('tooooooo');
+    print(_authenticatedUser.id);
+    print('tooooooo');
     _isSubmitingProfileData = true;
     bool hasError = false;
     notifyListeners();
@@ -164,13 +188,13 @@ class AuthProvider with ChangeNotifier {
       "phone": phone,
       "location": location,
       "position": "client",
-      "gender": "female",
+      "gender": _selectedGender,
       "file": await MultipartFile.fromFile(_pickedImage.path,
           filename: "upload.png"),
     });
     // print(_authenticatedUser.profile.id.toString());
     dio
-        .post(api + "editProfile/19",
+        .post(api + "editProfile/" + _authenticatedUser.id.toString(),
             data: formData,
             options: Options(
                 method: 'POST',
@@ -183,9 +207,9 @@ class AuthProvider with ChangeNotifier {
         hasError = false;
 
         _authenticatedUser = User.fromMap(data['user']);
-        print('loveeeeee---------eeeeeeeee');
-        print(_authenticatedUser);
-        print('=======loveeeeeeeeeeeeeee---------');
+        print('iiiiiiiiiiiiiiiiiiiiii');
+        print(_authenticatedUser.profile.avatar);
+        print('iiiiiiiiiiiiiiiiiiiiii');
         _sharedPref.save('user', data['user']);
         _sharedPref.saveSingleString('profileIsComplete', 'profileIsComplete');
       } else {

@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/account_screen.dart';
@@ -34,9 +35,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
             children: <Widget>[
               UserAccountsDrawerHeader(
                   currentAccountPicture: CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/lisa.jpeg')),
-                  accountName: Text('Hawa Ally'),
-                  accountEmail: Text('kalrobbynson@gmail.com')),
+                      backgroundImage: NetworkImage(api +
+                          'profile/avatar/' +
+                          _authProvider.authenticatedUser.profile.id
+                              .toString())),
+                  accountName:
+                      Text(_authProvider.authenticatedUser.profile.fullname),
+                  accountEmail: Text(_authProvider.authenticatedUser.email)),
               Material(
                 child: ListTile(
                   onTap: () {

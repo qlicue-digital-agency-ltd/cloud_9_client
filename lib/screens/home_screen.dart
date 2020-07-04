@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/card/notification_card.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
@@ -29,32 +30,19 @@ class HomeScreen extends StatelessWidget {
                 AppBar(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  leading: _authProvider.authenticatedUser.profile.avatar ==
-                          null
-                      ? Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(_authProvider
-                                      .authenticatedUser.profile.avatar))),
-                        )
-                      : Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image:
-                                      AssetImage('assets/images/lisa.jpeg'))),
-                        ),
+                  leading: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(api +
+                                'profile/avatar/' +
+                                _authProvider.authenticatedUser.profile.id
+                                    .toString()))),
+                  ),
                 ),
                 SizedBox(height: 100),
                 Text(

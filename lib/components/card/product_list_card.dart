@@ -30,13 +30,13 @@ class ProductListCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    height: 80,
-                    width: 80,
+                    height: 60,
+                    width: 60,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: NetworkImage(product.image))),
+                            image: AssetImage('assets/icons/product.png'))),
                   ),
                 ),
                 Expanded(
@@ -51,7 +51,7 @@ class ProductListCard extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        Text(product.description),
+                        Text("TZ " + product.price.toString() + " /-"),
                       ],
                     ),
                   ),

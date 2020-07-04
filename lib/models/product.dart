@@ -4,19 +4,22 @@ class Product {
   final int id;
   final String name;
   final String description;
+  final double price;
   final String image;
 
   Product(
       {@required this.id,
       @required this.name,
       @required this.description,
+      @required this.price,
       @required this.image});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'name': name,
       'description': description,
-      'image': image
+      'image': image,
+      'price': price
     };
     if (id != null) {
       map['id'] = id;
@@ -29,5 +32,6 @@ class Product {
         id = map['id'],
         name = map['name'],
         description = map['description'],
+        price = double.parse(map['price'].toString()),
         image = map['image'];
 }

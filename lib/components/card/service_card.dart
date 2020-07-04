@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/service.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class ServiceCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(service.images.isNotEmpty
-                            ? service.images[0].url
+                            ? api +'service/image/'+ service.images[0].id.toString()
                             : 'https://lorempixel.com/640/480/?19411'),
                         fit: BoxFit.cover)),
               ),

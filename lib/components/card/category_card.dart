@@ -18,7 +18,7 @@ class CategoryCard extends StatelessWidget {
         elevation: 2,
         child: Container(
           height: 100,
-          width: 120,
+          width: 150,
           decoration: BoxDecoration(
               color: category.isSelected ? Colors.deepOrange : Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -26,12 +26,15 @@ class CategoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 // Image.asset(category.image, height: 40, width: 40),
-                Text(
-                  
-                  category.name,
-                  style: TextStyle(
-                      color: category.isSelected ? Colors.white : Colors.blue, fontSize: 15, fontWeight: FontWeight.bold ),
-                      textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    
+                    category.name,
+                    style: TextStyle(
+                        color: category.isSelected ? Colors.white : Colors.blue, fontSize: 15, fontWeight: FontWeight.bold ),
+                        textAlign: TextAlign.center,
+                  ),
                 )
               ]),
         ),

@@ -1,4 +1,5 @@
 import 'package:cloud_9_client/components/card/appointment_card.dart';
+import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 
@@ -83,8 +84,15 @@ class AppointmentScreen extends StatelessWidget {
                             _appointmentProvider.availableAppointments.length),
                   )
                 : SliverList(
-                    delegate: SliverChildListDelegate(
-                        [SizedBox(height: 10), Text('No appointments')])),
+                    delegate: SliverChildListDelegate([
+                    SizedBox(height: 120),
+                    Center(
+                        child: NoItemTile(
+                      icon: 'assets/icons/calendar.png',
+                      subtitle: 'Yo have no appointments yet',
+                      title: 'Hello,there!',
+                    ))
+                  ])),
           ],
         ),
       ),

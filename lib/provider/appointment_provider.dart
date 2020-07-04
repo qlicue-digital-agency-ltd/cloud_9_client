@@ -1,5 +1,7 @@
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/appointment.dart';
+import 'package:cloud_9_client/models/user.dart';
+import 'package:cloud_9_client/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -8,9 +10,14 @@ class AppointmentProvider with ChangeNotifier {
   //variable declaration
   bool _isFetchingAppointmentData = false;
   List<Appointment> _availableAppointments = [];
+  SharedPref _sharedPref = SharedPref();
+  User authenticatedUser;
 
   AppointmentProvider() {
-    fetchAppointments(clientId: 2);
+    _sharedPref.read('user').then((value) {
+      authenticatedUser = User.fromMap(value);
+      fetchAppointments(clientId: authenticatedUser.id);
+    });
   }
 
 //getters

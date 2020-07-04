@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/consultation.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class ConsultationListCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: NetworkImage(consultation.service.images.isNotEmpty 
-                      ? consultation.service.images[0].url
+                      ?  api +'service/image/'+ consultation.service.images[0].id.toString()
                       : 'https://lorempixel.com/640/480/?19411'),
                   fit: BoxFit.fill,
                 )),
