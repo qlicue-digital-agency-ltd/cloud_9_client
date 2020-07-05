@@ -10,22 +10,21 @@ class PostProvider with ChangeNotifier {
   List<Post> _availablePosts = [];
 
   PostProvider() {
-    fetchPosts(clientId: 2);
+    fetchPosts();
   }
 
 //getters
   bool get isFetchingPostData => _isFetchingPostData;
   List<Post> get availablePosts => _availablePosts;
 
-  Future<bool> fetchPosts({@required int clientId}) async {
+  Future<bool> fetchPosts() async {
     bool hasError = true;
     _isFetchingPostData = true;
     notifyListeners();
 
     final List<Post> _fetchedPosts = [];
     try {
-      final http.Response response =
-          await http.get(api + "posts");
+      final http.Response response = await http.get(api + "posts");
 
       final Map<String, dynamic> data = json.decode(response.body);
 

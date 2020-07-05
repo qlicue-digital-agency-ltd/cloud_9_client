@@ -84,129 +84,279 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconCard(
-                          iconColor: Colors.white,
-                          icon: 'assets/icons/calendar.png',
-                          title: 'Appointment',
-                          textColor: Colors.white,
-                          backgroundColor: Colors.deepOrange,
-                          onTap: () {
-                            print('object');
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AppointmentScreen(),
-                                ));
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconCard(
-                          iconColor: Colors.blue,
-                          icon: 'assets/icons/procedure.png',
-                          title: 'Procedures',
-                          textColor: Colors.black,
-                          backgroundColor: Colors.white,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ServiceScreen(),
-                                ));
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconCard(
-                          iconColor: Colors.white,
-                          icon: 'assets/icons/product.png',
-                          title: 'Products',
-                          textColor: Colors.white,
-                          backgroundColor: Colors.deepOrange,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProductScreen(),
-                                ));
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconCard(
-                          iconColor: Colors.blue,
-                          icon: 'assets/icons/consultation.png',
-                          title: 'Consultation',
-                          textColor: Colors.black,
-                          backgroundColor: Colors.white,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ConsultationScreen(),
-                                ));
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconCard(
-                          iconColor: Colors.white,
-                          icon: 'assets/icons/agent.png',
-                          title: 'Eduction',
-                          textColor: Colors.white,
-                          backgroundColor: Colors.deepOrange,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EducationScreen(),
-                                ));
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconCard(
-                          iconColor: Colors.blue,
-                          icon: 'assets/icons/transaction.png',
-                          title: 'Transaction',
-                          textColor: Colors.black,
-                          backgroundColor: Colors.white,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TransactionScreen(),
-                                ));
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                )
+                MediaQuery.of(context).size.width > 330
+                    ? Container(
+                        child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.white,
+                                    icon: 'assets/icons/calendar.png',
+                                    title: 'Appointment',
+                                    textColor: Colors.white,
+                                    backgroundColor: Colors.deepOrange,
+                                    onTap: () {
+                                      print('object');
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AppointmentScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.blue,
+                                    icon: 'assets/icons/procedure.png',
+                                    title: 'Procedures',
+                                    textColor: Colors.black,
+                                    backgroundColor: Colors.white,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ServiceScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.white,
+                                    icon: 'assets/icons/product.png',
+                                    title: 'Products',
+                                    textColor: Colors.white,
+                                    backgroundColor: Colors.deepOrange,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.blue,
+                                    icon: 'assets/icons/consultation.png',
+                                    title: 'Consultation',
+                                    textColor: Colors.black,
+                                    backgroundColor: Colors.white,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ConsultationScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.white,
+                                    icon: 'assets/icons/agent.png',
+                                    title: 'Eduction',
+                                    textColor: Colors.white,
+                                    backgroundColor: Colors.deepOrange,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EducationScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.blue,
+                                    icon: 'assets/icons/transaction.png',
+                                    title: 'Transaction',
+                                    textColor: Colors.black,
+                                    backgroundColor: Colors.white,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TransactionScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ))
+                    : Container(
+                        child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.white,
+                                    icon: 'assets/icons/calendar.png',
+                                    title: 'Appointment',
+                                    textColor: Colors.white,
+                                    backgroundColor: Colors.deepOrange,
+                                    onTap: () {
+                                      print('object');
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AppointmentScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.blue,
+                                    icon: 'assets/icons/procedure.png',
+                                    title: 'Procedures',
+                                    textColor: Colors.black,
+                                    backgroundColor: Colors.white,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ServiceScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.white,
+                                    icon: 'assets/icons/product.png',
+                                    title: 'Products',
+                                    textColor: Colors.white,
+                                    backgroundColor: Colors.deepOrange,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.blue,
+                                    icon: 'assets/icons/consultation.png',
+                                    title: 'Consultation',
+                                    textColor: Colors.black,
+                                    backgroundColor: Colors.white,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ConsultationScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.white,
+                                    icon: 'assets/icons/agent.png',
+                                    title: 'Eduction',
+                                    textColor: Colors.white,
+                                    backgroundColor: Colors.deepOrange,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EducationScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconCard(
+                                    iconColor: Colors.blue,
+                                    icon: 'assets/icons/transaction.png',
+                                    title: 'Transaction',
+                                    textColor: Colors.black,
+                                    backgroundColor: Colors.white,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TransactionScreen(),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ))
               ]),
         ),
       ),

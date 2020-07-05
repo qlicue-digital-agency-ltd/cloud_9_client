@@ -1,4 +1,5 @@
 import 'package:cloud_9_client/components/card/post_card.dart';
+import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/post_provider.dart';
 
 import 'package:cloud_9_client/screens/background.dart';
@@ -9,12 +10,16 @@ class EducationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _postProvider = Provider.of<PostProvider>(context);
+    Future<void> _getData() async {
+      _postProvider.fetchPosts();
+    }
+
     return Background(
         screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
               elevation: 0,
               expandedHeight: 120.0,
@@ -60,19 +65,28 @@ class EducationScreen extends StatelessWidget {
                 ),
               ),
             ])),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: PostCard(
-                    onLike: () {},
-                    onShare: () {},
-                    post: _postProvider.availablePosts[index],
-                  ),
-                );
-              }, childCount: _postProvider.availablePosts.length),
-            ),
           ],
+          body: _postProvider.isFetchingPostData
+              ? Center(child: CircularProgressIndicator())
+              : _postProvider.availablePosts.isEmpty
+                  ? Center(
+                      child: NoItemTile(
+                          icon: 'assets/icons/agent.png',
+                          title: 'No Posts',
+                          subtitle:
+                              'We have no posts of yet'),
+                    )
+                  : RefreshIndicator(
+                      child: ListView.builder(
+                          itemCount: _postProvider.availablePosts.length,
+                          itemBuilder: (context, index) {
+                            return PostCard(
+                              onLike: () {},
+                              onShare: () {},
+                              post: _postProvider.availablePosts[index],
+                            );
+                          }),
+                      onRefresh: _getData),
         ),
       ),
     ));

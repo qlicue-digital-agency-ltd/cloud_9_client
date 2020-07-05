@@ -5,14 +5,11 @@ class ServieImage {
   final String url;
   final int serviceId;
 
-  ServieImage({@required this.id, @required this.url, @required this.serviceId});
-
+  ServieImage(
+      {@required this.id, @required this.url, @required this.serviceId});
 
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'service_id': serviceId,
-      'url': url
-    };
+    var map = <String, dynamic>{'service_id': serviceId, 'url': url};
     if (id != null) {
       map['id'] = id;
     }
@@ -24,6 +21,5 @@ class ServieImage {
         assert(map['service_id'] != null),
         id = map['id'],
         url = map['url'],
-        serviceId = map['service_id']
-       ;
+        serviceId = int.parse(map['service_id'].toString());
 }

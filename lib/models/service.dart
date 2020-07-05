@@ -34,7 +34,7 @@ class Service {
         id = map['id'],
         title = map['title'],
         body = map['body'],
-        categoryId = map['category_id'],
+        categoryId = int.parse(map['category_id'].toString()),
         images = map['images'] != null
             ? (map['images'] as List)
                 .map((i) => ServieImage.fromMap(i))

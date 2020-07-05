@@ -39,9 +39,9 @@ class Appointment {
         assert(map['user_id'] != null),
         id = map['id'],
         date = map['date'],
-        userId = map['user_id'],
+        userId = int.parse(map['user_id'].toString()),
         appointmentableType = map['appointmentable_type'],
-        appointmentableId = map['appointmentable_id'],
+        appointmentableId = int.parse(map['appointmentable_id'].toString()),
         agentUuid = map['agent_uuid'],
         appointmentable = Appointmentable.fromMap(map['appointmentable']);
 }

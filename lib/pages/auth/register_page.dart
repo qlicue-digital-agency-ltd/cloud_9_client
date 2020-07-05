@@ -77,10 +77,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: CircleAvatar(
                     radius: 60,
                     backgroundImage:
-                        AssetImage('assets/icons/cloud9_logo.png'))),
+                        AssetImage('assets/icons/cloud9_transparent_logo.png'))),
             Padding(
               padding: EdgeInsets.only(top: 1.0),
-              child: Text('CLOUD9',
+              child: Text('CLOUD9 CLINIC',
                   style: TextStyle(
                       fontFamily: 'trajanProRegular',
                       fontSize: 25.0,
