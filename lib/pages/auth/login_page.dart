@@ -48,10 +48,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Padding(
                 padding: EdgeInsets.only(top: 10.0),
-                child: CircleAvatar(
-                    radius: 60,
-                    backgroundImage:
-                        AssetImage('assets/icons/cloud9_logo.png'))),
+                child: Image(
+                    width: 150.0,
+                    height:150.0,
+                    fit: BoxFit.fill,
+                    image:
+                        AssetImage('assets/icons/cloud9_transparent_logo.png'))),
             Padding(
               padding: EdgeInsets.only(top: 1.0),
               child: Text('CLOUD9',
@@ -209,6 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                               email: emailController.text,
                               password: passwordController.text)
                           .then((val) {
+
                         if (!val) {
                           Navigator.of(context)
                               .pushReplacementNamed(homeScreen);

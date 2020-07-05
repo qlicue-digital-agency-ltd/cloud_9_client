@@ -56,7 +56,7 @@ class SplashScreenState extends State<AnimatedSplashScreen>
               Padding(
                   padding: EdgeInsets.only(bottom: 30.0),
                   child: new Image.asset(
-                    'assets/icons/cloud9_logo.png',
+                    'assets/icons/cloud9_transparent_logo.png',
                     height: 25.0,
                     fit: BoxFit.scaleDown,
                   ))
@@ -66,7 +66,7 @@ class SplashScreenState extends State<AnimatedSplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new Image.asset(
-                'assets/icons/cloud9_logo.png',
+                'assets/icons/cloud9_transparent_logo.png',
                 width: animation.value * 250,
                 height: animation.value * 250,
               ),

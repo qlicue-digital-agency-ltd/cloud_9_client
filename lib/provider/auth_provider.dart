@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_9_client/api/api.dart';
@@ -111,7 +112,6 @@ class AuthProvider with ChangeNotifier {
       body: json.encode(authData),
       headers: {'Content-Type': 'application/json'},
     );
-
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
 
@@ -125,6 +125,7 @@ class AuthProvider with ChangeNotifier {
       _sharedPref.save('user', responseData['user']);
       _sharedPref.saveSingleString('token', responseData['access_token']);
     } else {
+      print('XXXXXXXXXXXXXXXXXXXXXXXXXX');
       hasError = true;
     }
     _isSignInUser = false;
