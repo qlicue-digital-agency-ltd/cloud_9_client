@@ -43,7 +43,7 @@ class Appointmentable {
         startTime = map['start_time'],
         endTime = map['end_time'],
         day = map['day'],
-        serviceId = map['service_id'],
+        serviceId = int.parse(map['service_id'].toString()),
         practionerUuid = map['practioner_uuid'],
         service = Service.fromMap(map['service']);
 }

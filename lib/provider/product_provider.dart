@@ -10,22 +10,21 @@ class ProductProvider with ChangeNotifier {
   List<Product> _availableProducts = [];
 
   ProductProvider() {
-    fetchProducts(clientId: 2);
+    fetchProducts();
   }
 
 //getters
   bool get isFetchingProductData => _isFetchingProductData;
   List<Product> get availableProducts => _availableProducts;
 
-  Future<bool> fetchProducts({@required int clientId}) async {
+  Future<bool> fetchProducts() async {
     bool hasError = true;
     _isFetchingProductData = true;
     notifyListeners();
 
     final List<Product> _fetchedProducts = [];
     try {
-      final http.Response response =
-          await http.get(api + "products");
+      final http.Response response = await http.get(api + "products");
 
       final Map<String, dynamic> data = json.decode(response.body);
 

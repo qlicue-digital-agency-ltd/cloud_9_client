@@ -1,6 +1,7 @@
 import 'package:cloud_9_client/components/card/appointment_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/appointment_provider.dart';
+import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 
 import 'package:flutter/material.dart';
@@ -10,12 +11,19 @@ class AppointmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
+    final _authProvider = Provider.of<AuthProvider>(context);
+
+    Future<void> _getData() async {
+      _appointmentProvider.fetchAppointments(
+          clientId: _authProvider.authenticatedUser.id);
+    }
+
     return Background(
         screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
               elevation: 0,
               expandedHeight: 120.0,
@@ -67,33 +75,30 @@ class AppointmentScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate([
               SizedBox(height: 10),
             ])),
-            _appointmentProvider.availableAppointments.length > 0
-                ? SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: AppointmentCard(
-                          appointmentListCardOnTap: () {},
-                          appointmentMoreOnTap: () {},
-                          appointment:
-                              _appointmentProvider.availableAppointments[index],
-                        ),
-                      );
-                    },
-                        childCount:
-                            _appointmentProvider.availableAppointments.length),
-                  )
-                : SliverList(
-                    delegate: SliverChildListDelegate([
-                    SizedBox(height: 120),
-                    Center(
-                        child: NoItemTile(
-                      icon: 'assets/icons/calendar.png',
-                      subtitle: 'Yo have no appointments yet',
-                      title: 'Hello,there!',
-                    ))
-                  ])),
           ],
+          body: _appointmentProvider.isFetchingAppointmentData
+              ? Center(child: CircularProgressIndicator())
+              : _appointmentProvider.availableAppointments.isEmpty
+                  ? Center(
+                      child: NoItemTile(
+                          icon: 'assets/icons/calendar.png',
+                          title: 'No Consultation',
+                          subtitle:
+                              'Please there are no available consultation'),
+                    )
+                  : RefreshIndicator(
+                      child: ListView.builder(
+                          itemCount:
+                              _appointmentProvider.availableAppointments.length,
+                          itemBuilder: (context, index) {
+                            return AppointmentCard(
+                              appointmentListCardOnTap: () {},
+                              appointmentMoreOnTap: () {},
+                              appointment: _appointmentProvider
+                                  .availableAppointments[index],
+                            );
+                          }),
+                      onRefresh: _getData),
         ),
       ),
     ));

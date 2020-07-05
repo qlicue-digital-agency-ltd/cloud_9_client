@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 class Category {
   final int id;
   final String name;
-  final List<Service> services;
-  final List<Procedure> procedures;
-  final List<Consultation> consultations;
+  List<Service> services;
+  List<Procedure> procedures;
+  List<Consultation> consultations;
 
   bool isSelected;
 

@@ -1,5 +1,6 @@
 import 'package:cloud_9_client/components/card/category_card.dart';
 import 'package:cloud_9_client/components/card/service_card.dart';
+import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/category_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/calender_screen.dart';
@@ -11,12 +12,16 @@ class ServiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _categoryProvider = Provider.of<CategoryProvider>(context);
+    Future<void> _getData() async {
+      _categoryProvider.fetchCategories();
+    }
+
     return Background(
         screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
               elevation: 0,
               expandedHeight: 120.0,
@@ -93,36 +98,45 @@ class ServiceScreen extends StatelessWidget {
                   : Container(
                       child: Center(),
                     ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: ServiceCard(
-                    onTapCalender: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CalenderScreen(),
-                          ));
-                    },
-                    service: _categoryProvider.availableServices[index],
-                    onTapMore: () {
-                      print('moreeeee');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ServiceDetailScreen(
+            )
+         ],
+          body: _categoryProvider.isFetchingCategoryData
+              ? Center(child: CircularProgressIndicator())
+              : _categoryProvider.availableServices.isEmpty
+                  ? Center(
+                      child: NoItemTile(
+                          icon: 'assets/icons/procedure.png',
+                          title: 'No Procedures',
+                          subtitle: 'Please there are no procedures available'),
+                    )
+                  : RefreshIndicator(
+                      child: ListView.builder(
+                          itemCount: _categoryProvider.availableServices.length,
+                          itemBuilder: (context, index) {
+                            return ServiceCard(
+                              onTapCalender: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CalenderScreen(),
+                                    ));
+                              },
                               service:
                                   _categoryProvider.availableServices[index],
-                            ),
-                          ));
-                    },
-                  ),
-                );
-              }, childCount: _categoryProvider.availableServices.length),
-            )
-          ],
+                              onTapMore: () {
+                                print('moreeeee');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ServiceDetailScreen(
+                                        service: _categoryProvider
+                                            .availableServices[index],
+                                      ),
+                                    ));
+                              },
+                            );
+                          }),
+                      onRefresh: _getData),
         ),
       ),
     ));

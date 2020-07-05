@@ -1,4 +1,5 @@
 import 'package:cloud_9_client/components/card/transaction_list_card.dart';
+import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/models/transaction.dart';
 import 'package:cloud_9_client/provider/transaction_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
@@ -47,12 +48,16 @@ class TransactionScreen extends StatelessWidget {
       );
     }
 
+    Future<void> _getData() async {
+      _transactionProvider.fetchTransactions(clientId: 2);
+    }
+
     return Background(
         screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
               elevation: 0,
               expandedHeight: 120.0,
@@ -85,32 +90,44 @@ class TransactionScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: TransactionListCard(
-                    onDeleteTap: () {
-                      _showDialog(context,
-                          _transactionProvider.availableTransactions[index]);
-                    },
-                    onViewTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ReceiptScreen(
+          ],
+          body: _transactionProvider.isFetchingTransactionData
+              ? Center(child: CircularProgressIndicator())
+              : _transactionProvider.availableTransactions.isEmpty
+                  ? Center(
+                      child: NoItemTile(
+                          icon: 'assets/icons/transaction.png',
+                          title: 'No Transactions',
+                          subtitle:
+                              'Please by out products and book for services'),
+                    )
+                  : RefreshIndicator(
+                      child: ListView.builder(
+                          itemCount:
+                              _transactionProvider.availableTransactions.length,
+                          itemBuilder: (context, index) {
+                            return TransactionListCard(
+                              onDeleteTap: () {
+                                _showDialog(
+                                    context,
+                                    _transactionProvider
+                                        .availableTransactions[index]);
+                              },
+                              onViewTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ReceiptScreen(
+                                        transaction: _transactionProvider
+                                            .availableTransactions[index],
+                                      ),
+                                    ));
+                              },
                               transaction: _transactionProvider
                                   .availableTransactions[index],
-                            ),
-                          ));
-                    },
-                    transaction:
-                        _transactionProvider.availableTransactions[index],
-                  ),
-                );
-              }, childCount: _transactionProvider.availableTransactions.length),
-            )
-          ],
+                            );
+                          }),
+                      onRefresh: _getData),
         ),
       ),
     ));

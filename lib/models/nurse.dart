@@ -6,8 +6,8 @@ import 'package:meta/meta.dart';
 class Nurse {
   final int id;
   final String email;
-  final List<Consultation> consultations;
-  final List<Procedure> procedures;
+  List<Consultation> consultations;
+  List<Procedure> procedures;
   final Profile profile;
 
   Nurse({

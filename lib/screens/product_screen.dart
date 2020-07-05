@@ -1,5 +1,5 @@
-
 import 'package:cloud_9_client/components/card/product_list_card.dart';
+import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/product_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/cart_screen.dart';
@@ -10,12 +10,17 @@ class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _productProvider = Provider.of<ProductProvider>(context);
+
+    Future<void> _getData() async {
+      _productProvider.fetchProducts();
+    }
+
     return Background(
         screen: SafeArea(
       child: Container(
         padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
               elevation: 0,
               expandedHeight: 120.0,
@@ -74,27 +79,29 @@ class ProductScreen extends StatelessWidget {
                   Icon(Icons.star, color: Colors.deepOrange, size: 40)
                 ],
               ),
-           
             ])),
-           
-            
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: ProductListCard(
-                    productListCardOnTap: () {
-                      // print('----------ppppppp-----');
-                    },
-                    productOrderOnTap: () {
-                      // print('---object-------');
-                    },
-                    product: _productProvider.availableProducts[index],
-                  ),
-                );
-              }, childCount: _productProvider.availableProducts.length),
-            )
           ],
+          body: _productProvider.isFetchingProductData
+              ? Center(child: CircularProgressIndicator())
+              : _productProvider.availableProducts.isEmpty
+                  ? Center(
+                      child: NoItemTile(
+                          icon: 'assets/icons/product.png',
+                          title: 'No Products',
+                          subtitle: 'We are out of stock'),
+                    )
+                  : RefreshIndicator(
+                      child: ListView.builder(
+                          itemCount: _productProvider.availableProducts.length,
+                          itemBuilder: (context, index) {
+                            return ProductListCard(
+                              productListCardOnTap: () {},
+                              productOrderOnTap: () {},
+                              product:
+                                  _productProvider.availableProducts[index],
+                            );
+                          }),
+                      onRefresh: _getData),
         ),
       ),
     ));

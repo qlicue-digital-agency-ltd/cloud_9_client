@@ -51,9 +51,9 @@ class Transaction {
         uuid = map['uuid'],
         type = map['type'],
         amount = double.parse(map['amount'].toString()),
-        userId = map['user_id'],
+        userId = int.parse(map['user_id'].toString()),
         transactionableType = map['transactionable_type'],
-        transactionableId = map['transactionable_id'],
+        transactionableId = int.parse(map['transactionable_id'].toString()),
         agentUuid = map['agent_uuid'],
         date = map['created_at'],
         product = map['transactionable_type'] == "App\\Product"
