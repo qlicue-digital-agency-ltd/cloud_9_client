@@ -41,5 +41,6 @@ class Consultation {
         endTime = map['end_time'],
         serviceId = int.parse(map['service_id'].toString()),
         practionerUuid = map['practioner_uuid'],
-        service = Service.fromMap(map['service']);
+        service = Service.fromMap(map['service'])
+        ;
 }

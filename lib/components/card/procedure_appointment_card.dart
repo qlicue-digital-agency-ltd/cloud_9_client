@@ -1,22 +1,24 @@
-import 'package:cloud_9_client/models/user.dart';
+import 'package:cloud_9_client/models/procedure.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-typedef CalenderOnTap = Function();
+typedef ProcedureAppointmentCardOnTap = Function( );
 
-class CalenderCard extends StatelessWidget {
-  final CalenderOnTap onTapConfirm;
-  final User user;
+class ProcedureAppointmentCard extends StatelessWidget {
+  final ProcedureAppointmentCardOnTap onTapConfirm;
+  final String icon;
+  final Procedure procedure;
+  final String name;
 
-  const CalenderCard({
+  const ProcedureAppointmentCard({
     Key key,
     @required this.onTapConfirm,
-    @required this.user,
+    @required this.icon,
+    @required this.procedure,
+    @required this.name,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         color: Colors.white,
@@ -36,30 +38,18 @@ class CalenderCard extends StatelessWidget {
             Row(
               children: <Widget>[
                 SizedBox(width: 10),
-                Icon(
-                  FontAwesomeIcons.clock,
-                  color: Colors.white,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    'TIME',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+                Image.asset(icon, height: 50),
                 SizedBox(
                   width: 10,
                 ),
-                Text(
-                  'for your appointment',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic
+                Expanded(
+                  child: Text(
+                    'Appointment for ' + name,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic),
                   ),
                 )
               ],
@@ -69,7 +59,7 @@ class CalenderCard extends StatelessWidget {
         SizedBox(width: 10),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('16th/06/2020',
+          child: Text(procedure.date,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ),
         SizedBox(width: 20),
@@ -92,10 +82,10 @@ class CalenderCard extends StatelessWidget {
         Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
             Widget>[
           Chip(
-              label: Text('10:30 am',
+              label: Text(procedure.startTime,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
           Chip(
-              label: Text('12:30 pm',
+              label: Text(procedure.endTime,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
         ]),
         SizedBox(
@@ -110,13 +100,14 @@ class CalenderCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20)),
                 color: Colors.blue,
                 textColor: Colors.white,
-                onPressed: () {},
+                onPressed: onTapConfirm,
                 child: Text(
-                  '\t\t\t\tConfirm\t\t\t\t',
+                  '\t\t\t\Book Now\t\t\t\t',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-            ])
+            ]),
+        SizedBox(height: 20),
       ]),
     );
   }

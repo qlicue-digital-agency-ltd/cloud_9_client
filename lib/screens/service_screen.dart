@@ -3,8 +3,8 @@ import 'package:cloud_9_client/components/card/service_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/category_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
-import 'package:cloud_9_client/screens/calender_screen.dart';
 import 'package:cloud_9_client/screens/service_detail_screen.dart';
+import 'package:cloud_9_client/screens/set_appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +14,10 @@ class ServiceScreen extends StatelessWidget {
     final _categoryProvider = Provider.of<CategoryProvider>(context);
     Future<void> _getData() async {
       _categoryProvider.fetchCategories();
+    }
+
+    void showSnackBar(value) {
+      Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(value)));
     }
 
     return Background(
@@ -85,6 +89,9 @@ class ServiceScreen extends StatelessWidget {
                                 _categoryProvider.setSelectedCategory =
                                     _categoryProvider
                                         .availableCategories[index].id;
+                                // _categoryProvider.setSelectedProcedures =
+                                //     _categoryProvider
+                                //         .availableCategories[index].procedures;
                               },
                               category:
                                   _categoryProvider.availableCategories[index],
@@ -99,7 +106,7 @@ class ServiceScreen extends StatelessWidget {
                       child: Center(),
                     ),
             )
-         ],
+          ],
           body: _categoryProvider.isFetchingCategoryData
               ? Center(child: CircularProgressIndicator())
               : _categoryProvider.availableServices.isEmpty
@@ -115,11 +122,24 @@ class ServiceScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return ServiceCard(
                               onTapCalender: () {
+                                if (_categoryProvider.availableServices[index]
+                                    .procedures.isNotEmpty) {
+                                } else {
+                                  showSnackBar(
+                                      'There are no procedures scheduled for this event');
+                                }
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => CalenderScreen(),
+                                      builder: (context) =>
+                                          SetAppointmentScreen(
+                                        service: _categoryProvider
+                                            .availableServices[index],
+                                      ),
                                     ));
+
+                                print(_categoryProvider
+                                    .availableServices[index].procedures);
                               },
                               service:
                                   _categoryProvider.availableServices[index],
