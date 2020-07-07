@@ -1,5 +1,6 @@
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/category.dart';
+import 'package:cloud_9_client/models/procedure.dart';
 import 'package:cloud_9_client/models/service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,10 @@ class CategoryProvider with ChangeNotifier {
   List<Category> _availableCategories = [];
   List<Service> _availableServices = [];
 
+  Procedure _procedure;
+  int _procedurePosition = 1;
+
+
   CategoryProvider() {
     fetchCategories();
   }
@@ -20,11 +25,23 @@ class CategoryProvider with ChangeNotifier {
   List<Category> get availableCategories => _availableCategories;
   List<Service> get availableServices => _availableServices;
 
-  //setters
+  // List<Procedure> get availableProcedures => _availableProcedures;
+
+  Procedure get selectedProcedure => _procedure;
+  int get procedurePosition => _procedurePosition;
+
+  // //setters
   set setSelectedServiceList(List<Service> serviceList) {
     _availableServices = serviceList;
     notifyListeners();
   }
+
+  set setSelectProcedure(Procedure procedure) {
+    _procedure = procedure;
+
+    notifyListeners();
+  }
+
 
   set setSelectedCategory(int id) {
     for (Category category in _availableCategories)
@@ -64,10 +81,18 @@ class CategoryProvider with ChangeNotifier {
 
     _availableCategories = _fetchedCategories;
     _availableServices = _fetchedCategories[0].services;
+    // _availableProcedures = _fetchedCategories[0].procedures;
+
     _isFetchingCategoryData = false;
     print(_availableCategories);
     notifyListeners();
 
     return hasError;
+  }
+
+  toNextProdure(int counter) {
+    _procedurePosition += counter;
+
+    notifyListeners();
   }
 }

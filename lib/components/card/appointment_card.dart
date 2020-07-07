@@ -17,30 +17,33 @@ class AppointmentCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Material(
-        elevation: 1,
-        borderRadius: BorderRadius.circular(15),
-        child: ListTile(
-          onTap: appointmentListCardOnTap,
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.asset(
-              appointment.appointmentableType == 'App\\Procedure'
-                  ? 'assets/icons/procedure.png'
-                  : 'assets/icons/consultation.png',
-              height: 45,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Material(
+          elevation: 1,
+          borderRadius: BorderRadius.circular(15),
+          child: ListTile(
+            onTap: appointmentListCardOnTap,
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.asset(
+                appointment.appointmentableType == 'App\\Procedure'
+                    ? 'assets/icons/procedure.png'
+                    : 'assets/icons/consultation.png',
+                height: 45,
+              ),
             ),
-          ),
-          title: Text(
-            appointment.appointmentable.service.title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text('Date ' +
-              appointment.date +
-              '\nstarting at ' +
-              appointment.appointmentable.startTime),
-          trailing: IconButton(
-              icon: Icon(Icons.more_vert), onPressed: appointmentMoreOnTap),
-        ));
+            title: Text(
+              appointment.appointmentable.service.title,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text('Date ' +
+                appointment.date +
+                '\nstarting at ' +
+                appointment.appointmentable.startTime),
+            trailing: IconButton(
+                icon: Icon(Icons.more_vert), onPressed: appointmentMoreOnTap),
+          )),
+    );
   }
 }

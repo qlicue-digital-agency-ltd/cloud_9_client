@@ -1,27 +1,24 @@
-import 'package:cloud_9_client/components/card/consultation_list_card.dart';
-import 'package:cloud_9_client/models/consultation.dart';
+import 'package:cloud_9_client/components/card/procedure_appointment_card.dart';
+import 'package:cloud_9_client/models/procedure.dart';
+import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
-
+import 'package:cloud_9_client/provider/category_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
-
-import 'package:cloud_9_client/screens/service_detail_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class ConsultationListScreen extends StatefulWidget {
-  final List<Consultation> consultations;
+class SetAppointmentScreen extends StatefulWidget {
+  final Service service;
 
-  ConsultationListScreen({Key key, @required this.consultations})
-      : super(key: key);
+  SetAppointmentScreen({Key key, @required this.service}) : super(key: key);
 
   @override
-  _ConsultationListScreenState createState() => _ConsultationListScreenState();
+  _SetAppointmentScreenState createState() => _SetAppointmentScreenState();
 }
 
-class _ConsultationListScreenState extends State<ConsultationListScreen> {
+class _SetAppointmentScreenState extends State<SetAppointmentScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode _codeFocusNode = FocusNode();
@@ -30,9 +27,10 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _categoryProvider = Provider.of<CategoryProvider>(context);
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
     final _authProvider = Provider.of<AuthProvider>(context);
-    void _showAgentDialog(context, Consultation consultation) {
+    void _showAgentDialog(context, Procedure procedure) {
       // flutter defined function
       showDialog(
         context: context,
@@ -110,8 +108,8 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
                                       agentUuid: _codeTextController.text,
                                       userId:
                                           _authProvider.authenticatedUser.id,
-                                      senderId: consultation.id,
-                                      sender: 'consultation')
+                                      senderId: procedure.id,
+                                      sender: 'procedure')
                                   .then((value) {
                                 if (_appointmentProvider
                                     .isCreatingAppointmentData) {
@@ -149,7 +147,7 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
       );
     }
 
-    void _showDialog(context, name, Consultation consultation) {
+    void _showDialog(context, name, Procedure procedure) {
       // flutter defined function
       showDialog(
         context: context,
@@ -174,7 +172,7 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
                           color: Colors.blue,
                           onPressed: () {
                             Navigator.pop(context);
-                            _showAgentDialog(context, consultation);
+                            _showAgentDialog(context, procedure);
                           },
                           child: Text(
                             'Agent CODE',
@@ -187,14 +185,14 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
                       child: RaisedButton(
                           color: Colors.blue,
                           onPressed: () {
-                         
+                            
                               _appointmentProvider
                                   .postAppointment(
                                       agentUuid: null,
                                       userId:
                                           _authProvider.authenticatedUser.id,
-                                      senderId: consultation.id,
-                                      sender: 'consultation')
+                                      senderId: procedure.id,
+                                      sender: 'procedure')
                                   .then((value) {
                                 if (_appointmentProvider
                                     .isCreatingAppointmentData) {
@@ -233,13 +231,16 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
     return Background(
         screen: SafeArea(
       child: Container(
-        padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
+        padding: EdgeInsets.only(top: 20, left: 5, right: 5),
+        child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            AppBar(
               elevation: 0,
-              expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
+              title: Text(
+                'Set Appointments',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
+              ),
               leading: InkWell(
                 onTap: () {
                   Navigator.pop(context);
@@ -258,43 +259,79 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
                   ),
                 ),
               ),
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                centerTitle: true,
-                title: Text(
-                  'Consultation',
-                  style: TextStyle(color: Colors.white),
+              actions: <Widget>[],
+            ),
+            SizedBox(height: 100),
+            Row(children: <Widget>[
+              SizedBox(width: 20),
+              InkWell(
+                onTap: () {
+                  if (_categoryProvider.procedurePosition > 1)
+                    _categoryProvider.toNextProdure(-1);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: ConsultationListCard(
-                    onViewTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ServiceDetailScreen(
-                              service: widget.consultations[index].service,
-                            ),
-                          ));
-                    },
-                    consultation: widget.consultations[index],
-                    onBookTap: () {
-                      _showDialog(
-                          context,
-                          widget.consultations[index].service.title,
-                          widget.consultations[index]);
-                      print(widget.consultations[index].service.consultations);
-                    },
+              Spacer(),
+              Text(
+                _categoryProvider.procedurePosition.toString() +
+                    '/' +
+                    widget.service.procedures.length.toString(),
+                style: TextStyle(fontSize: 30),
+              ),
+              Spacer(),
+              InkWell(
+                onTap: () {
+                  if (_categoryProvider.procedurePosition <
+                      widget.service.procedures.length)
+                    _categoryProvider.toNextProdure(1);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.blue,
+                      ),
+                    ),
                   ),
-                );
-              }, childCount: widget.consultations.length),
+                ),
+              ),
+              SizedBox(width: 20),
+            ]),
+            SizedBox(height: 10),
+            ProcedureAppointmentCard(
+              onTapConfirm: () {
+                _showDialog(
+                    context,
+                    widget.service.title,
+                    widget.service
+                        .procedures[_categoryProvider.procedurePosition - 1]);
+              },
+              icon: 'assets/icons/procedure.png',
+              procedure: widget
+                  .service.procedures[_categoryProvider.procedurePosition - 1],
+              name: widget.service.title,
             )
-          ],
+          ]),
         ),
       ),
     ));

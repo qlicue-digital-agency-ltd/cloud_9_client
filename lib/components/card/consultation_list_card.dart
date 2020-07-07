@@ -33,8 +33,10 @@ class ConsultationListCard extends StatelessWidget {
                 width: 60,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                  image: NetworkImage(consultation.service.images.isNotEmpty 
-                      ?  api +'service/image/'+ consultation.service.images[0].id.toString()
+                  image: NetworkImage(consultation.service.images.isNotEmpty
+                      ? api +
+                          'service/image/' +
+                          consultation.service.images[0].id.toString()
                       : 'https://lorempixel.com/640/480/?19411'),
                   fit: BoxFit.fill,
                 )),
@@ -57,31 +59,17 @@ class ConsultationListCard extends StatelessWidget {
                     consultation.service.body,
                     maxLines: 1,
                   ),
+                  Row(children: <Widget>[
+                    Text('From ' +
+                        consultation.startTime +
+                        '\t To ' +
+                        consultation.endTime)
+                  ])
                 ],
               ),
             ),
           ),
-          InkWell(
-            onTap: onViewTap,
-            child: Container(
-              width: 60,
-              height: 80,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Icon(
-                    Icons.note,
-                    color: Colors.blue,
-                  ),
-                  SizedBox(height: 3),
-                  Text('View'),
-                ],
-              ),
-            ),
-          ),
+        
           InkWell(
             onTap: onBookTap,
             child: Container(
