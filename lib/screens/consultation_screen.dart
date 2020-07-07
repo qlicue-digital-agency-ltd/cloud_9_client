@@ -1,5 +1,4 @@
 import 'package:cloud_9_client/components/card/consultation_card.dart';
-import 'package:cloud_9_client/components/card/nurse_consultation_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/staff_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';

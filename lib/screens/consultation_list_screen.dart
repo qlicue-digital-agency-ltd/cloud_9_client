@@ -43,7 +43,7 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
           return AlertDialog(
             title: Text("Book Now!"),
             content: Container(
-              height: 165,
+              height:  MediaQuery.of(context).size.height/3,
               child: Column(children: <Widget>[
                 Text("Add Agent Code"),
                 Form(
@@ -160,7 +160,7 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
           return AlertDialog(
             title: Text("Book Now!"),
             content: Container(
-              height: 150,
+              height: MediaQuery.of(context).size.height/3,
               child: Column(children: <Widget>[
                 Text("Please confirm your booking for " + name),
                 Divider(
@@ -187,23 +187,20 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
                       child: RaisedButton(
                           color: Colors.blue,
                           onPressed: () {
-                         
-                              _appointmentProvider
-                                  .postAppointment(
-                                      agentUuid: null,
-                                      userId:
-                                          _authProvider.authenticatedUser.id,
-                                      senderId: consultation.id,
-                                      sender: 'consultation')
-                                  .then((value) {
-                                if (_appointmentProvider
-                                    .isCreatingAppointmentData) {
-                                } else {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                }
-                              });
-                            
+                            _appointmentProvider
+                                .postAppointment(
+                                    agentUuid: null,
+                                    userId: _authProvider.authenticatedUser.id,
+                                    senderId: consultation.id,
+                                    sender: 'consultation')
+                                .then((value) {
+                              if (_appointmentProvider
+                                  .isCreatingAppointmentData) {
+                              } else {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              }
+                            });
                           },
                           child: Text(
                             'CONFIRM',

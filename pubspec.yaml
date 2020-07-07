@@ -34,6 +34,8 @@ dependencies:
   rxdart: ^0.24.1
   image_picker: ^0.6.7+2
   dio: ^3.0.9
+  badges: ^1.1.1
+  flutter_custom_clippers: ^1.1.1
 
 
 
