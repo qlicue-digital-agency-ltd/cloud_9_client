@@ -98,4 +98,7 @@ class AppointmentProvider with ChangeNotifier {
 
     return hasError;
   }
+
+
+
 }

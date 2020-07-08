@@ -1,4 +1,5 @@
 import 'package:cloud_9_client/api/api.dart';
+import 'package:cloud_9_client/models/order.dart';
 import 'package:cloud_9_client/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,10 @@ class ProductProvider with ChangeNotifier {
 
   //variable declaration
   bool _isFetchingProductData = false;
+  bool _isCreatingOrderData = false;
+  bool _isFetchingOrderData = false;
   List<Product> _availableProducts = [];
+  List<Order> _availableOrders = [];
 
   /** Shopping cart */
   /// The IDs and quantities of products currently in the cart.
@@ -24,7 +28,11 @@ class ProductProvider with ChangeNotifier {
 
 //getters
   bool get isFetchingProductData => _isFetchingProductData;
+  bool get isCreatingOrderData => _isCreatingOrderData;
+  bool get isFetchingOrderData => _isFetchingOrderData;
+
   List<Product> get availableProducts => _availableProducts;
+  List<Order> get availableOrders => _availableOrders;
 
   Future<bool> fetchProducts() async {
     bool hasError = true;
@@ -53,6 +61,39 @@ class ProductProvider with ChangeNotifier {
     _isFetchingProductData = false;
 
     print(_availableProducts.length);
+    notifyListeners();
+
+    return hasError;
+  }
+
+//fetch orders
+  Future<bool> fetchOrders({@required int clientId}) async {
+    bool hasError = true;
+    _isFetchingOrderData = true;
+    notifyListeners();
+
+    final List<Order> _fetchedOrders = [];
+    try {
+      final http.Response response = await http.get(api + "orders");
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        data['orders'].forEach((orderData) {
+          final order = Order.fromMap(orderData);
+          _fetchedOrders.add(order);
+        });
+        hasError = false;
+      }
+    } catch (error) {
+      print(error);
+      hasError = true;
+    }
+
+    _availableOrders = _fetchedOrders;
+    _isFetchingOrderData = false;
+
+    print(_availableOrders.length);
     notifyListeners();
 
     return hasError;
@@ -157,5 +198,70 @@ class ProductProvider with ChangeNotifier {
       _product = null;
     }
     return _product;
+  }
+
+  createMultipleOrders() {
+    _productsInCart.forEach((id, num) {
+      int index = _availableProducts.indexWhere((product) => product.id == id);
+      //  var item = {"product_id": 1, "quantity": 2};
+      _availableProducts[index].quantity += num;
+    });
+  }
+
+  ///post order
+  Future<bool> postOrder(
+      {@required String agentUuid,
+      @required int userId,
+      @required double totalAmount}) async {
+    bool hasError = true;
+    _isCreatingOrderData = true;
+    notifyListeners();
+
+    var items = [];
+
+    _productsInCart.forEach((id, num) {
+      int index = _availableProducts.indexWhere((product) => product.id == id);
+      _availableProducts[index].quantity += num;
+      var item = {
+        "product_id": _availableProducts[index].id,
+        "name": _availableProducts[index].name,
+        "price": _availableProducts[index].price,
+        "quantity": num
+      };
+
+      items.add(item);
+    });
+    // var item = {"product_id": 1, "quantity": 3};
+    // items.add(item);
+    final Map<String, dynamic> appointmentData = {
+      'products': items,
+      'status': 'Ordered',
+      'agent_uuid': agentUuid,
+      'total_amount': totalAmount
+    };
+    try {
+      final http.Response response = await http.post(
+        api + "order/" + userId.toString(),
+        body: json.encode(appointmentData),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (response.statusCode == 201) {
+        print(data);
+        _clearCart();
+        hasError = false;
+      }
+    } catch (error) {
+      print(error);
+      hasError = true;
+    }
+    _isCreatingOrderData = false;
+
+    notifyListeners();
+    fetchOrders(clientId: userId);
+
+    return hasError;
   }
 }

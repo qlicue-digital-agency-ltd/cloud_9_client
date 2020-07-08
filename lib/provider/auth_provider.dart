@@ -15,14 +15,10 @@ class AuthProvider with ChangeNotifier {
   AuthProvider() {
     autoAuthenticate();
   }
-  SharedPref _sharedPref = SharedPref();
-  User _authenticatedUser;
-  bool _isSignInUser = false;
-  bool _isSubmitingProfileData = false;
-  bool _isAuthenticated = false;
-  bool _hasUserProfile = false;
-  String _selectedGender = "male";
 
+  File file;
+
+  User _authenticatedUser;
   final List<DropdownMenuItem> _genderList = [
     DropdownMenuItem(
       child: Text("MALE"),
@@ -34,9 +30,14 @@ class AuthProvider with ChangeNotifier {
     ),
   ];
 
+  bool _hasUserProfile = false;
+  bool _isAuthenticated = false;
+  bool _isSignInUser = false;
+  bool _isSubmitingProfileData = false;
   File _pickedImage;
+  String _selectedGender = "male";
+  SharedPref _sharedPref = SharedPref();
 
-  File file;
   void chooseAmImage() async {
     file = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -48,11 +49,17 @@ class AuthProvider with ChangeNotifier {
   //get the choosen Image.
 
   File get pickedImage => _pickedImage;
+
   bool get isSignInUser => _isSignInUser;
+
   bool get isSubmitingProfileData => _isSubmitingProfileData;
+
   bool get isAuthenticated => _isAuthenticated;
+
   bool get hasUserProfile => _hasUserProfile;
+
   String get selectedGender => _selectedGender;
+
   List<DropdownMenuItem> get genderList => _genderList;
 
   set setSelectedGender(String gender) {
