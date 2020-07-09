@@ -5,10 +5,21 @@ import 'package:cloud_9_client/provider/product_provider.dart';
 
 import 'package:cloud_9_client/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
+  @override
+  _ProductScreenState createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final FocusNode _searchFocusNode = FocusNode();
+
+  TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final _productProvider = Provider.of<ProductProvider>(context);
@@ -67,6 +78,30 @@ class ProductScreen extends StatelessWidget {
           ),
           SizedBox(width: 10)
         ],
+        bottom: PreferredSize(
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Card(
+                  child: TextField(
+                onTap: () {
+                  _productProvider.setOriginalProducts =
+                      _productProvider.availableProducts;
+                },
+                onChanged: (value) {
+                  _productProvider.filteredProducts(searching: value);
+                },
+                focusNode: _searchFocusNode,
+                controller: _searchController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                    prefixIcon: Icon(
+                  FontAwesomeIcons.search,
+                  size: 22.0,
+                  color: Colors.blue,
+                )),
+              )),
+            ),
+            preferredSize: Size(MediaQuery.of(context).size.width, 100)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

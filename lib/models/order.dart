@@ -1,4 +1,3 @@
-import 'package:cloud_9_client/models/product.dart';
 import 'package:flutter/material.dart';
 
 class Order {
@@ -8,7 +7,6 @@ class Order {
   final int userId;
   final String status;
   final String agentUuid;
-  Product product;
 
   Order({
     @required this.id,
@@ -16,7 +14,6 @@ class Order {
     @required this.products,
     @required this.userId,
     @required this.status,
-    @required this.product,
     @required this.agentUuid,
   });
 

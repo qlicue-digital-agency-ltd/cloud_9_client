@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/user.dart';
 import 'package:cloud_9_client/shared/shared_preference.dart';
-import 'package:cloud_9_client/utils/enums.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -67,34 +66,44 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<AuthState> autoAuthenticate() async {
-    AuthState _authState = AuthState.SignOut;
-    _sharedPref.readSingleString('token').then((token) {
+  Future<bool> autoAuthenticate() async {
+    await _sharedPref.readSingleString('token').then((token) {
       if (token != null) {
         _sharedPref.read('user').then((value) {
           _authenticatedUser = User.fromMap(value);
+          if (_authenticatedUser.profile.fullname != null) {
+            _hasUserProfile = true;
+          }
           _isAuthenticated = true;
-          _authState = AuthState.LoginIn;
         });
       }
     });
 
-    _sharedPref.readSingleString('profileIsComplete').then((value) {
-      print(value);
-      if (value != null) {
-        _hasUserProfile = true;
-      }
-    });
+ 
 
     notifyListeners();
 
-    return _authState;
+    return true;
   }
+
+  // Future<bool> loadProfile() async {
+  //   await _sharedPref.readSingleString('profile').then((value) {
+  //     print(value);
+  //     if (value != null) {
+  //       _hasUserProfile = true;
+  //     }
+  //   });
+
+  //   notifyListeners();
+
+  //   return true;
+  // }
 
   Future<void> logout() async {
     _sharedPref.remove('id');
     _sharedPref.remove('token');
     _sharedPref.remove('email');
+    _sharedPref.remove('profile');
 
     notifyListeners();
   }
@@ -126,9 +135,7 @@ class AuthProvider with ChangeNotifier {
       hasError = false;
 
       _authenticatedUser = User.fromMap(responseData['user']);
-      print('loveeeeee---------eeeeeeeee');
-      print(_authenticatedUser);
-      print('=======loveeeeeeeeeeeeeee');
+
       _sharedPref.save('user', responseData['user']);
       _sharedPref.saveSingleString('token', responseData['access_token']);
     } else {
@@ -163,9 +170,6 @@ class AuthProvider with ChangeNotifier {
       hasError = false;
 
       _authenticatedUser = User.fromMap(responseData['user']);
-      print('loveeeeee---------eeeeeeeee');
-      print(_authenticatedUser);
-      print('=======loveeeeeeeeeeeeeee');
       _sharedPref.save('user', responseData['user']);
       _sharedPref.saveSingleString('token', responseData['access_token']);
     } else {
@@ -200,7 +204,7 @@ class AuthProvider with ChangeNotifier {
           filename: "upload.png"),
     });
     // print(_authenticatedUser.profile.id.toString());
-    dio
+    await dio
         .post(api + "editProfile/" + _authenticatedUser.id.toString(),
             data: formData,
             options: Options(
@@ -214,11 +218,9 @@ class AuthProvider with ChangeNotifier {
         hasError = false;
 
         _authenticatedUser = User.fromMap(data['user']);
-        print('iiiiiiiiiiiiiiiiiiiiii');
-        print(_authenticatedUser.profile.avatar);
-        print('iiiiiiiiiiiiiiiiiiiiii');
+
         _sharedPref.save('user', data['user']);
-        _sharedPref.saveSingleString('profileIsComplete', 'profileIsComplete');
+        _sharedPref.saveSingleString('profile', 'profile');
       } else {
         hasError = true;
       }

@@ -16,6 +16,7 @@ class ProductProvider with ChangeNotifier {
   bool _isCreatingOrderData = false;
   bool _isFetchingOrderData = false;
   List<Product> _availableProducts = [];
+  List<Product> _originalProducts = [];
   List<Order> _availableOrders = [];
 
   /** Shopping cart */
@@ -26,12 +27,19 @@ class ProductProvider with ChangeNotifier {
   double _shippingCostPerItem = 0.0;
   bool _vat = false;
 
+//setters.....
+  set setOriginalProducts(List<Product> products) {
+    _originalProducts = products;
+    notifyListeners();
+  }
+
 //getters
   bool get isFetchingProductData => _isFetchingProductData;
   bool get isCreatingOrderData => _isCreatingOrderData;
   bool get isFetchingOrderData => _isFetchingOrderData;
 
   List<Product> get availableProducts => _availableProducts;
+  List<Product> get originalProducts => _originalProducts;
   List<Order> get availableOrders => _availableOrders;
 
   Future<bool> fetchProducts() async {
@@ -263,5 +271,46 @@ class ProductProvider with ChangeNotifier {
     fetchOrders(clientId: userId);
 
     return hasError;
+  }
+
+  ///serach product products
+  void filteredProducts({@required String searching}) {
+    List<Product> result = [];
+
+    if (searching.isEmpty || searching == '' || searching.length == 0) {
+      result = _originalProducts;
+    } else {
+      _availableProducts.forEach((product) {
+        String title = getProductById(product.id).name.toLowerCase();
+
+        List<String> input = searching.toLowerCase().trim().split(' ');
+
+        if (input.length == 1) {
+          if (getProductById(product.id)
+                  .name
+                  .toLowerCase()
+                  .contains(searching.toLowerCase().trim()) ||
+              title.contains(searching.toLowerCase().trim())) {
+            result.add(product);
+          }
+        }
+
+        if (input.length == 2) {
+          if (title.contains(input[0]) && title.contains(input[1])) {
+            result.add(product);
+          }
+        }
+
+        if (input.length == 3) {
+          if (title.contains(input[0]) &&
+              title.contains(input[1]) &&
+              title.contains(input[2])) {
+            result.add(product);
+          }
+        }
+      });
+    }
+    _availableProducts = result;
+    notifyListeners();
   }
 }

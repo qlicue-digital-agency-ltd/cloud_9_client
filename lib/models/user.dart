@@ -2,16 +2,17 @@ import 'package:cloud_9_client/models/profile.dart';
 import 'package:meta/meta.dart';
 
 class User {
-  final int id;
+  int id;
   final String email;
-  final String token;
-  final Profile profile;
+  String token;
+  Profile profile;
 
   User({
-    @required this.id,
-    @required this.token,
+    this.id,
+    this.token,
     @required this.email,
-    @required this.profile,
+    this.profile,
+    uid,
   });
 
   User.fromMap(Map<String, dynamic> map)

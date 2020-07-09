@@ -72,8 +72,15 @@ class HomeScreen extends StatelessWidget {
                   elevation: 2,
                   borderRadius: BorderRadius.circular(20),
                   child: ListTile(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductScreen(),
+                          ));
+                    },
                     leading: Icon(Icons.search),
-                    title: Text('Search.....'),
+                    title: Text('Search products.....'),
                   ),
                 ),
                 SizedBox(height: 20),
