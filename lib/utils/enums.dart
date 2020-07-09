@@ -1,1 +1,1 @@
-enum AuthState {LoginIn, SignOut}
+enum AuthState { LoginIn, SignOut, IncompleteRegitration }

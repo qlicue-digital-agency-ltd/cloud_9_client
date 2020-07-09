@@ -1,9 +1,20 @@
+import 'package:cloud_9_client/models/product.dart';
+import 'package:cloud_9_client/provider/product_provider.dart';
+import 'package:cloud_9_client/utils/currency_convertor.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CartCard extends StatelessWidget {
+  final Product product;
+  final int quantity;
+
+  CartCard({Key key, @required this.product, @required this.quantity})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final _productProvider = Provider.of<ProductProvider>(context);
     return Container(
       child: Stack(
         children: <Widget>[
@@ -15,7 +26,7 @@ class CartCard extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
                 height: 180,
                 child: Row(children: <Widget>[
@@ -26,21 +37,17 @@ class CartCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'LOSARTAN',
+                            product.name,
                             style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
-                            'Schedule an e-vist and the',
+                            product.description,
                             style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w300),
+                                fontSize: 18, fontWeight: FontWeight.w300),
                           ),
                         ],
                       ),
@@ -55,12 +62,12 @@ class CartCard extends StatelessWidget {
             child: CircleAvatar(
               child: IconButton(
                 icon: Icon(Icons.close),
-                color: Colors.blue,
+                color: Colors.white,
                 onPressed: () {
                   print('object');
                 },
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.blue,
             ),
           ),
           Positioned(
@@ -69,7 +76,7 @@ class CartCard extends StatelessWidget {
               height: 80,
               width: 80,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.blue,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: Center(
@@ -81,31 +88,34 @@ class CartCard extends StatelessWidget {
               top: 30,
               left: 30,
               child: Text(
-                'Medicine',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
+                'Product',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               )),
           Positioned(
               bottom: 10,
               right: 10,
               child: Text(
-                'TZS 200,000 /-',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                currencyCovertor.currencyCovertor(amount: product.price),
+                style: TextStyle(fontWeight: FontWeight.bold),
               )),
           Positioned(
               bottom: 10,
               left: 30,
               child: Row(
                 children: <Widget>[
-                  Material(
-                      elevation: 2,
-                      child: Icon(
-                        FontAwesomeIcons.minus,
-                        color: Colors.deepOrange,
-                      )),
+                  InkWell(
+                    onTap: () {
+                      if (product.id > 0)
+                        _productProvider.removeItemFromCart(
+                            currentProduct: product);
+                    },
+                    child: Material(
+                        elevation: 2,
+                        child: Icon(
+                          FontAwesomeIcons.minus,
+                          color: Colors.deepOrange,
+                        )),
+                  ),
                   SizedBox(width: 5),
                   Material(
                       elevation: 2,
@@ -114,18 +124,25 @@ class CartCard extends StatelessWidget {
                           width: 25,
                           child: Center(
                               child: Text(
-                            '3',
+                            quantity.toString(),
                             style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold),
                           )))),
                   SizedBox(width: 5),
-                  Material(
-                      elevation: 2,
-                      child: Icon(
-                        FontAwesomeIcons.plus,
-                        color: Colors.blue,
-                      )),
+                  InkWell(
+                    onTap: () {
+                      if (product.id > 0)
+                        _productProvider.addProductToCart(
+                            currentProduct: product);
+                    },
+                    child: Material(
+                        elevation: 2,
+                        child: Icon(
+                          FontAwesomeIcons.plus,
+                          color: Colors.blue,
+                        )),
+                  ),
                 ],
               ))
         ],

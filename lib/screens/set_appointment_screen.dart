@@ -41,7 +41,7 @@ class _SetAppointmentScreenState extends State<SetAppointmentScreen> {
           return AlertDialog(
             title: Text("Book Now!"),
             content: Container(
-              height: 165,
+              height:  MediaQuery.of(context).size.height/3,
               child: Column(children: <Widget>[
                 Text("Add Agent Code"),
                 Form(
@@ -158,7 +158,7 @@ class _SetAppointmentScreenState extends State<SetAppointmentScreen> {
           return AlertDialog(
             title: Text("Book Now!"),
             content: Container(
-              height: 150,
+              height:  MediaQuery.of(context).size.height/3,
               child: Column(children: <Widget>[
                 Text("Please confirm your booking for " + name),
                 Divider(

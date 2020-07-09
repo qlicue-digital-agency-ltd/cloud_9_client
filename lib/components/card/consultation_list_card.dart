@@ -60,16 +60,20 @@ class ConsultationListCard extends StatelessWidget {
                     maxLines: 1,
                   ),
                   Row(children: <Widget>[
-                    Text('From ' +
-                        consultation.startTime +
-                        '\t To ' +
-                        consultation.endTime)
+                    Expanded(
+                      child: Text(
+                        'From ' +
+                            consultation.startTime +
+                            '\t To ' +
+                            consultation.endTime,
+                        maxLines: 1,
+                      ),
+                    )
                   ])
                 ],
               ),
             ),
           ),
-        
           InkWell(
             onTap: onBookTap,
             child: Container(
