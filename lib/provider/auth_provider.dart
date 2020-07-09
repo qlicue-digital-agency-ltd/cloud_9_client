@@ -112,6 +112,9 @@ class AuthProvider with ChangeNotifier {
       body: json.encode(authData),
       headers: {'Content-Type': 'application/json'},
     );
+
+    log('QQQQQQQQQQQQQQQQQQQQQ');
+    print(response.body.toString());
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
 
