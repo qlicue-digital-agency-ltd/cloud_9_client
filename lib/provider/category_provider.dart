@@ -15,7 +15,6 @@ class CategoryProvider with ChangeNotifier {
   Procedure _procedure;
   int _procedurePosition = 1;
 
-
   CategoryProvider() {
     fetchCategories();
   }
@@ -42,7 +41,6 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   set setSelectedCategory(int id) {
     for (Category category in _availableCategories)
       if (category.isSelected) {
@@ -66,21 +64,30 @@ class CategoryProvider with ChangeNotifier {
       final http.Response response = await http.get(api + "categories");
 
       final Map<String, dynamic> data = json.decode(response.body);
-
+      print(data);
       if (response.statusCode == 200) {
+        print('AMMMM THE STATUS');
         data['categories'].forEach((categoryData) {
           final category = Category.fromMap(categoryData);
-          _fetchedCategories.add(category);
+          print('++++++++++++++++++++++++++');
+          print(category);
+          print('===========================');
+         // print(category);
+         _fetchedCategories.add(category);
         });
+       
         hasError = false;
       }
     } catch (error) {
+      print('ni huku');
       print(error);
       hasError = true;
     }
 
     _availableCategories = _fetchedCategories;
-    _availableServices = _fetchedCategories[0].services;
+    print('In yeye---------');
+    print(_availableCategories);
+    // _availableServices = _fetchedCategories[0].services;
     // _availableProcedures = _fetchedCategories[0].procedures;
 
     _isFetchingCategoryData = false;

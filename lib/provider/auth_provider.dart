@@ -86,18 +86,6 @@ class AuthProvider with ChangeNotifier {
     return true;
   }
 
-  // Future<bool> loadProfile() async {
-  //   await _sharedPref.readSingleString('profile').then((value) {
-  //     print(value);
-  //     if (value != null) {
-  //       _hasUserProfile = true;
-  //     }
-  //   });
-
-  //   notifyListeners();
-
-  //   return true;
-  // }
 
   Future<void> logout() async {
     _sharedPref.remove('id');

@@ -44,19 +44,7 @@ class NotificationCard extends StatelessWidget {
               )
             ]),
           ),
-          Positioned(
-            right: 0,
-            child: CircleAvatar(
-              child: IconButton(
-                icon: Icon(Icons.close),
-                color: Colors.blue,
-                onPressed: () {
-                  print('object');
-                },
-              ),
-              backgroundColor: Colors.white,
-            ),
-          ),
+       
         ],
       ),
     );

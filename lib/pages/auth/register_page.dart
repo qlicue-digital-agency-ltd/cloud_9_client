@@ -36,6 +36,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Register'),
+      ),
       key: _scaffoldKey,
       backgroundColor: Color(0xFF6395e6),
       body: SingleChildScrollView(
@@ -45,39 +50,11 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: AppBar(
-                
-                elevation: 0,
-                title: Text('Register'),
-                backgroundColor: Colors.transparent,
-                leading: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Material(
-                      elevation: 2,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Container(
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                actions: <Widget>[],
-              ),
-            ),
-            Padding(
-                padding: EdgeInsets.only(top: 10.0),
+                padding: EdgeInsets.only(top: 50.0),
                 child: CircleAvatar(
                     radius: 60,
-                    backgroundImage:
-                        AssetImage('assets/icons/cloud9_transparent_logo.png'))),
+                    backgroundImage: AssetImage(
+                        'assets/icons/cloud9_transparent_logo.png'))),
             Padding(
               padding: EdgeInsets.only(top: 1.0),
               child: Text('CLOUD9 CLINIC',
@@ -106,9 +83,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(
+                      
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
@@ -152,13 +130,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
+                      labelStyle: TextStyle(color: Colors.white),
                       hintText: "Password",
                       labelText: "Password",
                       hintStyle: TextStyle(
@@ -210,10 +189,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
+                      labelStyle: TextStyle(color: Colors.white),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -246,69 +226,54 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 30.0),
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.blue,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 20.0,
-                  ),
-                  BoxShadow(
-                    color: Colors.blueAccent,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 20.0,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25))),
+                        color: Colors.white,
+                        child: Container(
+                          height: 50,
+                          child: Center(
+                            
+                              child: _authProvider.isSignInUser
+                                  ? CircularProgressIndicator()
+                                  : Text(
+                                      "REGISTER",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Theme.of(context).primaryColor,
+                                          fontFamily: "WorkSansBold"),
+                                    )),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            if (passwordController.text ==
+                                confirmPasswordController.text) {
+                              _authProvider
+                                  .registerUser(
+                                      email: emailController.text,
+                                      password: passwordController.text)
+                                  .then((val) {
+                                if (!val) {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(profileScreen);
+                                }
+                              });
+                            } else {
+                              showInSnackBar('Passwords don\'t match');
+                            }
+                          }
+                        }),
                   ),
                 ],
-                gradient: new LinearGradient(
-                    colors: [Colors.deepOrange, Colors.blue],
-                    begin: const FractionalOffset(0.2, 0.2),
-                    end: const FractionalOffset(1.0, 1.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
               ),
-              child: MaterialButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Color(0xFF6395e6),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 42.0),
-                    child: _authProvider.isSignInUser
-                        ? CircularProgressIndicator()
-                        : Text(
-                            "REGISTER",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25.0,
-                                fontFamily: "WorkSansBold"),
-                          ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      if (passwordController.text ==
-                          confirmPasswordController.text) {
-                        _authProvider
-                            .registerUser(
-                                email: emailController.text,
-                                password: passwordController.text)
-                            .then((val) {
-                          if (!val) {
-                            Navigator.of(context)
-                                .pushReplacementNamed(profileScreen);
-                          }
-                        });
-                      } else {
-                        showInSnackBar('Passwords don\'t match');
-                      }
-                    }
-                  }),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 40, right: 40, top: 20),
-              child: Divider(),
-            ),
+            
             SizedBox(
               height: 100,
             )

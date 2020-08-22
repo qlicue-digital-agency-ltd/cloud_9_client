@@ -19,25 +19,7 @@ class ServiceDetailScreen extends StatelessWidget {
             AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              actions: <Widget>[
+             actions: <Widget>[
                 IconButton(
                   icon: Icon(
                     Icons.calendar_today,

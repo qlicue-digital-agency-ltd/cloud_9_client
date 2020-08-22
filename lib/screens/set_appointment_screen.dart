@@ -241,25 +241,7 @@ class _SetAppointmentScreenState extends State<SetAppointmentScreen> {
                 'Set Appointments',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
               ),
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              actions: <Widget>[],
+             actions: <Widget>[],
             ),
             SizedBox(height: 100),
             Row(children: <Widget>[

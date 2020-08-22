@@ -30,25 +30,7 @@ class ServiceScreen extends StatelessWidget {
               elevation: 0,
               expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              pinned: true,
+             pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
@@ -66,7 +48,7 @@ class ServiceScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Categories',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
+                    style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w100),
                   ),
                 ],
               ),
@@ -83,12 +65,12 @@ class ServiceScreen extends StatelessWidget {
                                 left: 10, top: 5, bottom: 5),
                             child: CategoryCard(
                               onTap: () {
-                                _categoryProvider.setSelectedServiceList =
-                                    _categoryProvider
-                                        .availableCategories[index].services;
-                                _categoryProvider.setSelectedCategory =
-                                    _categoryProvider
-                                        .availableCategories[index].id;
+                                // _categoryProvider.setSelectedServiceList =
+                                //     _categoryProvider
+                                //         .availableCategories[index].services;
+                                // _categoryProvider.setSelectedCategory =
+                                //     _categoryProvider
+                                //         .availableCategories[index].id;
                                 // _categoryProvider.setSelectedProcedures =
                                 //     _categoryProvider
                                 //         .availableCategories[index].procedures;

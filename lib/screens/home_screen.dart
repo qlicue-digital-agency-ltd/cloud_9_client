@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 100),
                 Text(
                   'Hello,',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100, color: Colors.white),
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       _authProvider.authenticatedUser.profile.fullname + ',',
                       style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.white),
                     ),
                     Icon(
                         _authProvider.authenticatedUser.profile.gender ==
@@ -79,8 +79,8 @@ class HomeScreen extends StatelessWidget {
                             builder: (context) => ProductScreen(),
                           ));
                     },
-                    leading: Icon(Icons.search),
-                    title: Text('Search products.....'),
+                    leading: Icon(Icons.search, color: Colors.blue[700],),
+                    title: Text('Search products.....', style: TextStyle(color:Colors.blue),),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -125,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                                     iconColor: Colors.blue,
                                     icon: 'assets/icons/procedure.png',
                                     title: 'Procedures',
-                                    textColor: Colors.black,
+                                    textColor: Colors.blue[700],
                                     backgroundColor: Colors.white,
                                     onTap: () {
                                       Navigator.push(
@@ -169,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                                     iconColor: Colors.blue,
                                     icon: 'assets/icons/consultation.png',
                                     title: 'Consultation',
-                                    textColor: Colors.black,
+                                    textColor:Colors.blue[700],
                                     backgroundColor: Colors.white,
                                     onTap: () {
                                       Navigator.push(
@@ -209,7 +209,7 @@ class HomeScreen extends StatelessWidget {
                                     iconColor: Colors.blue,
                                     icon: 'assets/icons/transaction.png',
                                     title: 'Transaction',
-                                    textColor: Colors.black,
+                                    textColor: Colors.blue[700],
                                     backgroundColor: Colors.white,
                                     onTap: () {
                                       Navigator.push(
@@ -259,7 +259,7 @@ class HomeScreen extends StatelessWidget {
                                     iconColor: Colors.blue,
                                     icon: 'assets/icons/procedure.png',
                                     title: 'Procedures',
-                                    textColor: Colors.black,
+                                    textColor: Colors.blue[700],
                                     backgroundColor: Colors.white,
                                     onTap: () {
                                       Navigator.push(
@@ -303,7 +303,7 @@ class HomeScreen extends StatelessWidget {
                                     iconColor: Colors.blue,
                                     icon: 'assets/icons/consultation.png',
                                     title: 'Consultation',
-                                    textColor: Colors.black,
+                                    textColor: Colors.blue[700],
                                     backgroundColor: Colors.white,
                                     onTap: () {
                                       Navigator.push(

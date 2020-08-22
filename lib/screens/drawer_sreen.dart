@@ -32,121 +32,124 @@ class _DrawerScreenState extends State<DrawerScreen> {
           child: SafeArea(
         child: Container(
           color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              UserAccountsDrawerHeader(
-                  currentAccountPicture: CircleAvatar(
-                      backgroundImage: NetworkImage(api +
-                          'profile/avatar/' +
-                          _authProvider.authenticatedUser.profile.id
-                              .toString())),
-                  accountName:
-                      Text(_authProvider.authenticatedUser.profile.fullname),
-                  accountEmail: Text(_authProvider.authenticatedUser.email)),
-              Material(
-                child: ListTile(
-                  onTap: () {
-                    print('object');
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AccountScreen(),
-                        ));
-                  },
-                  leading: Icon(Icons.account_box),
-                  title: Text('Account'),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                    currentAccountPicture: CircleAvatar(
+                        backgroundImage: NetworkImage(api +
+                            'profile/avatar/' +
+                            _authProvider.authenticatedUser.profile.id
+                                .toString())),
+                    accountName:
+                        Text(_authProvider.authenticatedUser.profile.fullname),
+                    accountEmail: Text(_authProvider.authenticatedUser.email)),
+                Material(
+                  child: ListTile(
+                    onTap: () {
+                      print('object');
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AccountScreen(),
+                          ));
+                    },
+                    leading: Icon(Icons.account_box),
+                    title: Text('Account'),
+                  ),
                 ),
-              ),
-              SizedBox(height: 2),
-              Material(
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Icon(
-                      Icons.notifications,
-                      color: Colors.grey[600],
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: SwitchListTile(
-                        value: _value2,
-                        onChanged: _onChanged2,
-                        title: new Text('Notification',
-                            style: new TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(height: 2),
+                Material(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 16,
                       ),
-                    ),
-                  ],
+                      Icon(
+                        Icons.notifications,
+                        color: Colors.grey[600],
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                        child: SwitchListTile(
+                          value: _value2,
+                          onChanged: _onChanged2,
+                          title: new Text('Notification',
+                              style:
+                                  new TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 2),
-              Material(
-                child: ListTile(
-                  onTap: () {
-                    print('object');
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HelpScreen(),
-                        ));
-                  },
-                  leading: Icon(Icons.help),
-                  title: Text('Help'),
+                SizedBox(height: 2),
+                Material(
+                  child: ListTile(
+                    onTap: () {
+                      print('object');
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HelpScreen(),
+                          ));
+                    },
+                    leading: Icon(Icons.help),
+                    title: Text('Help'),
+                  ),
                 ),
-              ),
-              SizedBox(height: 2),
-              Material(
-                child: ListTile(
-                  onTap: () {
-                    print('object');
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TermsAndConditionsScreen(),
-                        ));
-                  },
-                  leading: Icon(Icons.book),
-                  title: Text('Terms & Conditions'),
+                SizedBox(height: 2),
+                Material(
+                  child: ListTile(
+                    onTap: () {
+                      print('object');
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TermsAndConditionsScreen(),
+                          ));
+                    },
+                    leading: Icon(Icons.book),
+                    title: Text('Terms & Conditions'),
+                  ),
                 ),
-              ),
-              SizedBox(height: 2),
-              Material(
-                child: ListTile(
-                  onTap: () {
-                    print('object');
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OrderScreen(),
-                        ));
-                  },
-                  leading: Icon(Icons.book),
-                  title: Text('My Orders'),
+                SizedBox(height: 2),
+                Material(
+                  child: ListTile(
+                    onTap: () {
+                      print('object');
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrderScreen(),
+                          ));
+                    },
+                    leading: Icon(Icons.book),
+                    title: Text('My Orders'),
+                  ),
                 ),
-              ),
-              SizedBox(height: 2),
-              Spacer(),
-              Material(
-                child: ListTile(
-                  onTap: () {
-                    print('object');
-                    _authProvider.logout().then((value) {
-                      Navigator.of(context).pushReplacementNamed(loginScreen);
-                    });
-                  },
-                  leading: Icon(Icons.exit_to_app),
-                  title: Text('Log Out'),
+                SizedBox(height: 2),
+                Spacer(),
+                Material(
+                  child: ListTile(
+                    onTap: () {
+                      print('object');
+                      _authProvider.logout().then((value) {
+                        Navigator.of(context).pushReplacementNamed(loginScreen);
+                      });
+                    },
+                    leading: Icon(Icons.exit_to_app),
+                    title: Text('Log Out'),
+                  ),
                 ),
-              ),
-              SizedBox(height: 50)
-            ],
+                SizedBox(height: 50)
+              ],
+            ),
           ),
         ),
       )),

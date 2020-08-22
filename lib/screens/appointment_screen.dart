@@ -79,12 +79,21 @@ class AppointmentScreen extends StatelessWidget {
           body: _appointmentProvider.isFetchingAppointmentData
               ? Center(child: CircularProgressIndicator())
               : _appointmentProvider.availableAppointments.isEmpty
-                  ? Center(
-                      child: NoItemTile(
-                          icon: 'assets/icons/calendar.png',
-                          title: 'No Consultation',
-                          subtitle:
-                              'Please there are no available consultation'),
+                  ? RefreshIndicator(
+                      onRefresh: _getData,
+                      child: Center(
+                        child: ListView(
+                          children: <Widget>[
+                            Spacer(),
+                            NoItemTile(
+                                icon: 'assets/icons/calendar.png',
+                                title: 'No Consultation',
+                                subtitle:
+                                    'Please there are no available consultation'),
+                            Spacer(),
+                          ],
+                        ),
+                      ),
                     )
                   : RefreshIndicator(
                       child: ListView.builder(
