@@ -217,9 +217,12 @@ class _CartScreenState extends State<CartScreen> {
     List<Widget> _createShoppingCartRows() {
       return _productProvider.productsInCart.keys
           .map(
-            (int id) => CartCard(
-              product: _productProvider.getProductById(id),
-              quantity: _productProvider.productsInCart[id],
+            (int id) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CartCard(
+                product: _productProvider.getProductById(id),
+                quantity: _productProvider.productsInCart[id],
+              ),
             ),
           )
           .toList();
@@ -306,24 +309,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Material(
-              elevation: 2,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Container(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-          ),
-        ),
+        
         actions: <Widget>[
           IconButton(
             icon: Icon(

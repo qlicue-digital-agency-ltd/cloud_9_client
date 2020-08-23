@@ -33,8 +33,8 @@ class Procedure {
   }
 
   Procedure.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        assert(map['practioner_uuid'] != null),
+      : 
+       
         id = map['id'],
         date = map['date'],
         startTime = map['start_time'],

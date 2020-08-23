@@ -64,29 +64,26 @@ class CategoryProvider with ChangeNotifier {
       final http.Response response = await http.get(api + "categories");
 
       final Map<String, dynamic> data = json.decode(response.body);
-      print(data);
+    
+
       if (response.statusCode == 200) {
-        print('AMMMM THE STATUS');
         data['categories'].forEach((categoryData) {
           final category = Category.fromMap(categoryData);
-          print('++++++++++++++++++++++++++');
+          print('object');
           print(category);
-          print('===========================');
-         // print(category);
-         _fetchedCategories.add(category);
+          _fetchedCategories.add(category);
         });
-       
         hasError = false;
       }
     } catch (error) {
-      print('ni huku');
+      print('ppppp');
       print(error);
       hasError = true;
     }
 
     _availableCategories = _fetchedCategories;
     print('In yeye---------');
-    print(_availableCategories);
+
     // _availableServices = _fetchedCategories[0].services;
     // _availableProcedures = _fetchedCategories[0].procedures;
 

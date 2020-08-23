@@ -65,7 +65,9 @@ class ProductListCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage('assets/icons/product.png'))),
+                              image:product.image == null ? AssetImage('assets/icons/product.png') : NetworkImage(product.image)
+                              )
+                              ),
                     ),
                   ),
             Expanded(

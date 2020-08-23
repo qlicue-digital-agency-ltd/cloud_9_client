@@ -1,7 +1,6 @@
-import 'package:cloud_9_client/components/card/category_card.dart';
 import 'package:cloud_9_client/components/card/service_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
-import 'package:cloud_9_client/provider/category_provider.dart';
+import 'package:cloud_9_client/provider/service_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/service_detail_screen.dart';
 import 'package:cloud_9_client/screens/set_appointment_screen.dart';
@@ -11,9 +10,11 @@ import 'package:provider/provider.dart';
 class ServiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _categoryProvider = Provider.of<CategoryProvider>(context);
+    // final _categoryProvider = Provider.of<CategoryProvider>(context);
+    final _serviceProvider = Provider.of<ServiceProvider>(context);
     Future<void> _getData() async {
-      _categoryProvider.fetchCategories();
+      //  _categoryProvider.fetchCategories();
+      _serviceProvider.fetchServices();
     }
 
     void showSnackBar(value) {
@@ -30,81 +31,78 @@ class ServiceScreen extends StatelessWidget {
               elevation: 0,
               expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
-             pinned: true,
+              pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 centerTitle: true,
                 title: Text(
-                  'Services',
+                  'Procedures',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Categories',
-                    style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.w100),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-            ])),
-            SliverToBoxAdapter(
-              child: _categoryProvider.availableCategories.length > 0
-                  ? SizedBox(
-                      height: 100,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 5, bottom: 5),
-                            child: CategoryCard(
-                              onTap: () {
-                                // _categoryProvider.setSelectedServiceList =
-                                //     _categoryProvider
-                                //         .availableCategories[index].services;
-                                // _categoryProvider.setSelectedCategory =
-                                //     _categoryProvider
-                                //         .availableCategories[index].id;
-                                // _categoryProvider.setSelectedProcedures =
-                                //     _categoryProvider
-                                //         .availableCategories[index].procedures;
-                              },
-                              category:
-                                  _categoryProvider.availableCategories[index],
-                            ),
-                          );
-                        },
-                        itemCount: _categoryProvider.availableCategories.length,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    )
-                  : Container(
-                      child: Center(),
-                    ),
-            )
+
+            //   SliverToBoxAdapter(
+            //     child: _categoryProvider.availableCategories.length > 0
+            //         ? SizedBox(
+            //             height: 100,
+            //             child: ListView.builder(
+            //               itemBuilder: (context, index) {
+            //                 return Padding(
+            //                   padding: const EdgeInsets.only(
+            //                       left: 10, top: 5, bottom: 5),
+            //                   child: CategoryCard(
+            //                     onTap: () {
+            //                       // _categoryProvider.setSelectedServiceList =
+            //                       //     _categoryProvider
+            //                       //         .availableCategories[index].services;
+            //                       // _categoryProvider.setSelectedCategory =
+            //                       //     _categoryProvider
+            //                       //         .availableCategories[index].id;
+            //                       // _categoryProvider.setSelectedProcedures =
+            //                       //     _categoryProvider
+            //                       //         .availableCategories[index].procedures;
+            //                     },
+            //                     category:
+            //                         _categoryProvider.availableCategories[index],
+            //                   ),
+            //                 );
+            //               },
+            //               itemCount: _categoryProvider.availableCategories.length,
+            //               scrollDirection: Axis.horizontal,
+            //             ),
+            //           )
+            //         : Container(
+            //             child: Center(),
+            //           ),
+            //   )
+            // //
           ],
-          body: _categoryProvider.isFetchingCategoryData
+          body: _serviceProvider.isFetchingServiceData
               ? Center(child: CircularProgressIndicator())
-              : _categoryProvider.availableServices.isEmpty
-                  ? Center(
-                      child: NoItemTile(
-                          icon: 'assets/icons/procedure.png',
-                          title: 'No Procedures',
-                          subtitle: 'Please there are no procedures available'),
+              : _serviceProvider.availableServices.isEmpty
+                  ? RefreshIndicator(
+                      onRefresh: _getData,
+                      child: ListView(
+                        children: <Widget>[
+                          SizedBox(height: MediaQuery.of(context).size.height /4,),
+                          Center(
+                            child: NoItemTile(
+                                icon: 'assets/icons/procedure.png',
+                                title: 'No Procedures',
+                                subtitle:
+                                    'Please there are no procedures available'),
+                          ),
+                        ],
+                      ),
                     )
                   : RefreshIndicator(
                       child: ListView.builder(
-                          itemCount: _categoryProvider.availableServices.length,
+                          itemCount: _serviceProvider.availableServices.length,
                           itemBuilder: (context, index) {
                             return ServiceCard(
                               onTapCalender: () {
-                                if (_categoryProvider.availableServices[index]
+                                if (_serviceProvider.availableServices[index]
                                     .procedures.isNotEmpty) {
                                 } else {
                                   showSnackBar(
@@ -115,23 +113,23 @@ class ServiceScreen extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           SetAppointmentScreen(
-                                        service: _categoryProvider
+                                        service: _serviceProvider
                                             .availableServices[index],
                                       ),
                                     ));
 
-                                print(_categoryProvider
+                                print(_serviceProvider
                                     .availableServices[index].procedures);
                               },
                               service:
-                                  _categoryProvider.availableServices[index],
+                                  _serviceProvider.availableServices[index],
                               onTapMore: () {
                                 print('moreeeee');
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ServiceDetailScreen(
-                                        service: _categoryProvider
+                                        service: _serviceProvider
                                             .availableServices[index],
                                       ),
                                     ));

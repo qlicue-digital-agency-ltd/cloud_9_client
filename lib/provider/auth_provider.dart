@@ -120,6 +120,7 @@ class AuthProvider with ChangeNotifier {
     bool hasError = true;
 
     if (responseData.containsKey('access_token')) {
+      
       hasError = false;
 
       _authenticatedUser = User.fromMap(responseData['user']);

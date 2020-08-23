@@ -17,8 +17,7 @@ class ServieImage {
   }
 
   ServieImage.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        assert(map['service_id'] != null),
+      :
         id = map['id'],
         url = map['url'],
         serviceId = int.parse(map['service_id'].toString());

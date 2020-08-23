@@ -80,7 +80,9 @@ class CartCard extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: Center(
-                child: Image.asset('assets/icons/product.png'),
+                child: product.image == null
+                    ? Image.asset('assets/icons/product.png')
+                    : Image.network(product.image),
               ),
             ),
           ),

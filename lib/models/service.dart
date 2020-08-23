@@ -9,9 +9,9 @@ class Service {
   final String title;
   final String body;
   final int categoryId;
-  List<ServieImage> images;
-  List<Procedure> procedures;
-  List<Consultation> consultations;
+  List<ServieImage> images = [];
+  List<Procedure> procedures = [];
+  List<Consultation> consultations = [];
 
   Service({
     @required this.id,
@@ -35,9 +35,7 @@ class Service {
   }
 
   Service.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        assert(map['title'] != null),
-        id = map['id'],
+      : id = map['id'],
         title = map['title'],
         body = map['body'],
         categoryId = int.parse(map['category_id'].toString()),
@@ -45,15 +43,17 @@ class Service {
             ? (map['images'] as List)
                 .map((i) => ServieImage.fromMap(i))
                 .toList()
-            : null,
+            : [],
         consultations = map['consultations'] != null
             ? (map['consultations'] as List)
                 .map((i) => Consultation.fromMap(i))
                 .toList()
-            : null,
+            : [],
         procedures = map['procedures'] != null
-            ? (map['procedures'] as List)
-                .map((i) => Procedure.fromMap(i))
-                .toList()
-            : null;
+            ? (map['procedures'] as List).map((i) {
+                print('00000');
+                print(i.toString().length);
+                return Procedure.fromMap(i);
+              }).toList()
+            : [];
 }
