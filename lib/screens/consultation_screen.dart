@@ -25,7 +25,7 @@ class ConsultationScreen extends StatelessWidget {
               elevation: 0,
               expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
-             actions: <Widget>[
+              actions: <Widget>[
                 IconButton(
                   icon: Icon(
                     Icons.clear_all,
@@ -68,11 +68,22 @@ class ConsultationScreen extends StatelessWidget {
           body: _staffProvider.isFetchingDoctorData
               ? Center(child: CircularProgressIndicator())
               : _staffProvider.availabledoctors.isEmpty
-                  ? Center(
-                      child: NoItemTile(
-                          icon: 'assets/icons/procedure.png',
-                          title: 'No Consultation',
-                          subtitle: 'Please there are no available consultation'),
+                  ? RefreshIndicator(
+                      onRefresh: _getData,
+                      child: Center(
+                        child: ListView(
+                          children: <Widget>[
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 4,
+                            ),
+                            NoItemTile(
+                                icon: 'assets/icons/procedure.png',
+                                title: 'No Consultation',
+                                subtitle:
+                                    'Please there are no available consultation')
+                          ],
+                        ),
+                      ),
                     )
                   : RefreshIndicator(
                       child: ListView.builder(

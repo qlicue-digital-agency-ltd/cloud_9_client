@@ -17,7 +17,7 @@ class Background extends StatelessWidget {
       body: Container(
         child: Stack(children: <Widget>[
           Container(
-            color: Colors.blue[100],
+            color: Colors.blue[200],
           ),
           ClipPath(
             clipper: HomeBackgroundMajorClipper(),

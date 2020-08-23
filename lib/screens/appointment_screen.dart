@@ -28,7 +28,6 @@ class AppointmentScreen extends StatelessWidget {
               elevation: 0,
               expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
-             
               actions: <Widget>[
                 IconButton(
                   icon: Icon(
@@ -67,7 +66,9 @@ class AppointmentScreen extends StatelessWidget {
                       child: Center(
                         child: ListView(
                           children: <Widget>[
-                            Spacer(),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 4,
+                            ),
                             NoItemTile(
                                 icon: 'assets/icons/calendar.png',
                                 title: 'No Consultation',

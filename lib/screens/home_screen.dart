@@ -5,8 +5,9 @@ import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/education_screen.dart';
+import 'package:cloud_9_client/screens/procedure_sreen.dart';
 import 'package:cloud_9_client/screens/product_screen.dart';
-import 'package:cloud_9_client/screens/service_screen.dart';
+
 import 'package:cloud_9_client/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,24 +39,27 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(api +
-                                'profile/avatar/' +
-                                _authProvider.authenticatedUser.profile.id
-                                    .toString()))),
+                            image: NetworkImage(_authProvider
+                                .authenticatedUser.profile.avatar))),
                   ),
                 ),
                 SizedBox(height: 100),
                 Text(
                   'Hello,',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w100,
+                      color: Colors.white),
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
                       _authProvider.authenticatedUser.profile.fullname + ',',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
                     Icon(
                         _authProvider.authenticatedUser.profile.gender ==
@@ -79,8 +83,14 @@ class HomeScreen extends StatelessWidget {
                             builder: (context) => ProductScreen(),
                           ));
                     },
-                    leading: Icon(Icons.search, color: Colors.blue[700],),
-                    title: Text('Search products.....', style: TextStyle(color:Colors.blue),),
+                    leading: Icon(
+                      Icons.search,
+                      color: Colors.blue[700],
+                    ),
+                    title: Text(
+                      'Search products.....',
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -132,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                ServiceScreen(),
+                                                ProcedureScreen(),
                                           ));
                                     },
                                   ),
@@ -169,7 +179,7 @@ class HomeScreen extends StatelessWidget {
                                     iconColor: Colors.blue,
                                     icon: 'assets/icons/consultation.png',
                                     title: 'Consultation',
-                                    textColor:Colors.blue[700],
+                                    textColor: Colors.blue[700],
                                     backgroundColor: Colors.white,
                                     onTap: () {
                                       Navigator.push(
@@ -266,7 +276,7 @@ class HomeScreen extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                ServiceScreen(),
+                                                ProcedureScreen(),
                                           ));
                                     },
                                   ),
