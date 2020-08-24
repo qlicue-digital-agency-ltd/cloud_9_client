@@ -10,7 +10,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="cloud_9_client"
         android:icon="@mipmap/launcher_icon"
-        android:requestLegacyExternalStorage="true">
+        android:requestLegacyExternalStorage="true"
+        >
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

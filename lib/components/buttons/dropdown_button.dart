@@ -42,7 +42,7 @@ class CustomDropdownButton extends StatelessWidget {
           Spacer(),
           DropdownButton(
               iconEnabledColor: Colors.white,
-              // style: TextStyle(color: Colors.deepOrange),
+              style: TextStyle(color: Colors.white),
               underline: Container(),
               value: value,
               items: item,

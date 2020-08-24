@@ -1,4 +1,4 @@
-import 'package:cloud_9_client/api/api.dart';
+
 import 'package:cloud_9_client/models/service.dart';
 import 'package:flutter/material.dart';
 
@@ -31,9 +31,7 @@ class ServiceCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(service.images.isNotEmpty
-                            ? api +'service/image/'+ service.images[0].id.toString()
-                            : 'https://lorempixel.com/640/480/?19411'),
+                        image: NetworkImage(service.images[0].url),
                         fit: BoxFit.cover)),
               ),
               SizedBox(height: 10),
@@ -41,6 +39,7 @@ class ServiceCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   service.title,
+                  maxLines: 1,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),

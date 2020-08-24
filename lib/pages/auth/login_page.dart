@@ -50,8 +50,8 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(top: 10.0),
                 child: CircleAvatar(
                     radius: 60,
-                    backgroundImage:
-                        AssetImage('assets/icons/cloud9_transparent_logo.png'))),
+                    backgroundImage: AssetImage(
+                        'assets/icons/cloud9_transparent_logo.png'))),
             Padding(
               padding: EdgeInsets.only(top: 1.0),
               child: Text('CLOUD9 CLINIC',
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
@@ -135,6 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       hintText: "Password",
                       labelText: "Password",
+                      labelStyle: TextStyle(color: Colors.white),
                       hintStyle: TextStyle(
                           fontFamily: "WorkSansSemiBold",
                           fontSize: 17.0,
@@ -162,63 +163,49 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 30.0),
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.blue,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 20.0,
-                  ),
-                  BoxShadow(
-                    color: Colors.blueAccent,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 20.0,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25))),
+                        color: Colors.white,
+                        child: Container(
+                          height: 50,
+                          child: Center(
+                              child: _authProvider.isSignInUser
+                                  ? CircularProgressIndicator()
+                                  : Text(
+                                      "LOG IN",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Theme.of(context).primaryColor,
+                                          fontFamily: "WorkSansBold"),
+                                    )),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            _authProvider
+                                .signInUser(
+                                    email: emailController.text,
+                                    password: passwordController.text)
+                                .then((val) {
+                              if (!val) {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(homeScreen);
+                              } else {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(landingScreen);
+                              }
+                            });
+                          }
+                        }),
                   ),
                 ],
-                gradient: new LinearGradient(
-                    colors: [Colors.deepOrange, Colors.blue],
-                    begin: const FractionalOffset(0.2, 0.2),
-                    end: const FractionalOffset(1.0, 1.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
               ),
-              child: MaterialButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Color(0xFF6395e6),
-                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 42.0),
-                    child: _authProvider.isSignInUser
-                        ? CircularProgressIndicator()
-                        : Text(
-                            "LOGIN",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25.0,
-                                fontFamily: "WorkSansBold"),
-                          ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _authProvider
-                          .signInUser(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((val) {
-                        if (!val) {
-                          Navigator.of(context)
-                              .pushReplacementNamed(homeScreen);
-                        } else {
-                          Navigator.of(context)
-                              .pushReplacementNamed(landingScreen);
-                        }
-                      });
-                    }
-                  }),
             ),
             Padding(
               padding: EdgeInsets.only(top: 10.0),
@@ -233,10 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: "WorkSansMedium"),
                   )),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 40, right: 40, top: 20),
-              child: Divider(),
-            ),
+          
             Padding(
               padding: EdgeInsets.only(top: 10.0),
               child: FlatButton(

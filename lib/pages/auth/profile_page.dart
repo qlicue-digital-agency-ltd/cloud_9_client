@@ -93,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 10,
                       ),
                       Text(
-                        ' Select menu Image!',
+                        ' Select an Image!',
                         style: TextStyle(color: Colors.white),
                       )
                     ],
@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
@@ -183,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
@@ -192,6 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       hintText: "Phone",
                       labelText: "Phone",
+                      labelStyle: TextStyle(color: Colors.white),
                       hintStyle: TextStyle(
                           fontFamily: "WorkSansSemiBold",
                           fontSize: 17.0,
@@ -225,10 +226,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(
                       fontFamily: "WorkSansSemiBold",
                       fontSize: 16.0,
-                      color: Colors.black),
+                      color: Colors.white),
                   decoration: InputDecoration(
                       focusColor: Colors.white,
                       fillColor: Colors.white,
+                      labelStyle: TextStyle(color: Colors.white),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -246,73 +248,65 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 30.0),
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.blue,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 20.0,
-                  ),
-                  BoxShadow(
-                    color: Colors.blueAccent,
-                    offset: Offset(1.0, 6.0),
-                    blurRadius: 20.0,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25))),
+                        color: Colors.white,
+                        child: Container(
+                          height: 50,
+                          child: Center(
+                              child: _authProvider.isSignInUser
+                                  ? CircularProgressIndicator()
+                                  : Text(
+                                      "SAVE",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Theme.of(context).primaryColor,
+                                          fontFamily: "WorkSansBold"),
+                                    )),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            if (_authProvider.pickedImage != null) {
+                              _authProvider
+                                  .updateProfile(
+                                      fullname: _fullnameController.text,
+                                      location: _locationController.text,
+                                      phone: _phoneController.text)
+                                  .then((val) {
+                                if (!val) {
+                                  _locationController.clear();
+                                  _fullnameController.clear();
+                                  _phoneController.clear();
+
+                                  _authProvider
+                                      .autoAuthenticate()
+                                      .then((value) {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(homeScreen);
+                                  });
+                                  print(
+                                      'iiiii---------------iiiiiiiiiiiiiiiii');
+                                  print(_authProvider
+                                      .authenticatedUser.profile.avatar);
+                                  print(
+                                      'iiiiiiiiiiii+++++++++++++++iiiiiiiiii');
+                                }
+                              });
+                            } else {
+                              showInSnackBar('Select profile Image');
+                            }
+                          }
+                        }),
                   ),
                 ],
-                gradient: new LinearGradient(
-                    colors: [Colors.deepOrange, Colors.blue],
-                    begin: const FractionalOffset(0.2, 0.2),
-                    end: const FractionalOffset(1.0, 1.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
               ),
-              child: MaterialButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Color(0xFF6395e6),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 42.0),
-                    child: _authProvider.isSubmitingProfileData
-                        ? CircularProgressIndicator()
-                        : Text(
-                            "Save & Proceed",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25.0,
-                                fontFamily: "WorkSansBold"),
-                          ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      if (_authProvider.pickedImage != null) {
-                        _authProvider
-                            .updateProfile(
-                                fullname: _fullnameController.text,
-                                location: _locationController.text,
-                                phone: _phoneController.text)
-                            .then((val) {
-                          if (!val) {
-                            _locationController.clear();
-                            _fullnameController.clear();
-                            _phoneController.clear();
-
-                            _authProvider.autoAuthenticate().then((value) {
-                                Navigator.of(context)
-                                    .pushReplacementNamed(homeScreen);
-                            });
-                            print('iiiii---------------iiiiiiiiiiiiiiiii');
-                            print(_authProvider.authenticatedUser.profile.avatar);
-                            print('iiiiiiiiiiii+++++++++++++++iiiiiiiiii');
-                          }
-                        });
-                      } else {
-                        showInSnackBar('Select profile Image');
-                      }
-                    }
-                  }),
             ),
             Padding(
               padding: EdgeInsets.only(left: 40, right: 40, top: 20),

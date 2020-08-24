@@ -1,4 +1,4 @@
-import 'package:cloud_9_client/api/api.dart';
+
 import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
@@ -19,24 +19,6 @@ class ServiceDetailScreen extends StatelessWidget {
             AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(
@@ -58,8 +40,11 @@ class ServiceDetailScreen extends StatelessWidget {
             ),
             Text(
               service.title,
-              maxLines: 2,
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w100),
+              maxLines: 1,
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w100),
             ),
             SizedBox(height: 50),
             Card(
@@ -79,10 +64,8 @@ class ServiceDetailScreen extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           image: DecorationImage(
-                                              image: NetworkImage(api +
-                                                  'service/image/' +
-                                                  service.images[0].id
-                                                      .toString()),
+                                              image: NetworkImage(
+                                                  service.images[0].url),
                                               fit: BoxFit.cover)),
                                       height: 200,
                                     )),
@@ -98,10 +81,8 @@ class ServiceDetailScreen extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               image: DecorationImage(
-                                                  image: NetworkImage(api +
-                                                      'service/image/' +
-                                                      service.images[0].id
-                                                          .toString()),
+                                                  image: NetworkImage(
+                                                      service.images[0].url),
                                                   fit: BoxFit.cover)),
                                           height: 200,
                                         ),
@@ -127,6 +108,12 @@ class ServiceDetailScreen extends StatelessWidget {
                       SizedBox(height: 10),
                       Text(
                         'DESCRIPTION',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        service.title,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),

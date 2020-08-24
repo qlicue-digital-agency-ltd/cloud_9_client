@@ -38,30 +38,10 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
         ),
         elevation: 0,
-        leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Material(
-              elevation: 2,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Container(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-          ),
-        ),
         actions: <Widget>[
           IconButton(
-            onPressed: _productProvider.totalCartQuantity > 0
-                ? () => Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => CartScreen()))
-                : null,
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => CartScreen())),
             icon: Badge(
               showBadge: _productProvider.totalCartQuantity > 0 ? true : false,
               badgeContent: Text(
