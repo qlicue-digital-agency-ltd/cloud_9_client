@@ -70,7 +70,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
     _utilityProvider.setAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+        AnimationController(value: this, duration: Duration(milliseconds: 250));
     return GestureDetector(
       onHorizontalDragStart: _utilityProvider.onDragStart,
       onHorizontalDragUpdate: _utilityProvider.onDragUpdate,

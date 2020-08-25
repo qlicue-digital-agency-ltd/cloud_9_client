@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-                NotificationCard(),
+//                NotificationCard(),
                 SizedBox(height: 20),
                 Text(
                   'What do you need?',

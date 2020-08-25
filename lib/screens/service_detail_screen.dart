@@ -1,4 +1,4 @@
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ class ServiceDetailScreen extends StatelessWidget {
 
   const ServiceDetailScreen({Key key, @required this.service})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -54,56 +55,22 @@ class ServiceDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       service.images.isNotEmpty
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  service.images[0].url),
-                                              fit: BoxFit.cover)),
-                                      height: 200,
-                                    )),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                    flex: 1,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      service.images[0].url),
-                                                  fit: BoxFit.cover)),
-                                          height: 200,
-                                        ),
-                                        Positioned(
-                                          top: 80,
-                                          left: 40,
-                                          child: Text(
-                                            '+' +
-                                                service.images.length
-                                                    .toString(),
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      ],
-                                    ))
-                              ],
-                            )
+                          ? CarouselSlider.builder(
+                        itemCount: service.images.length,
+                        options: CarouselOptions(height: 200),
+                        itemBuilder: (BuildContext context,
+                            int itemIndex) =>
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          service.images[itemIndex].url),
+                                      fit: BoxFit.fitWidth)),
+                              height: 200,
+                            ),
+                      )
                           : Container(),
                       SizedBox(height: 10),
                       Text(
