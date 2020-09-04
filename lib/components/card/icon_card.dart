@@ -27,8 +27,8 @@ class IconCard extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         elevation: 2,
               child: Container(
-          height: 100,
-          width: 100,
+          height: MediaQuery.of(context).size.width /3,
+          width: MediaQuery.of(context).size.width /3,
           decoration: BoxDecoration(
               color: backgroundColor,
               borderRadius: BorderRadius.all(Radius.circular(20))

@@ -6,7 +6,10 @@ class Product {
   final String description;
   final double price;
   final String image;
+  final Color color;
+
   int quantity;
+  bool isFavorite =false;
 
   Product(
       {@required this.id,
@@ -14,7 +17,9 @@ class Product {
       @required this.description,
       @required this.price,
       @required this.quantity,
-      @required this.image});
+      @required this.image,
+      this.color,
+      this.isFavorite = false});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -37,5 +42,6 @@ class Product {
         description = map['description'],
         quantity = map['quantity'],
         price = double.parse(map['price'].toString()),
-        image = map['image'];
+        image = map['image'],
+        color = Colors.white;
 }
