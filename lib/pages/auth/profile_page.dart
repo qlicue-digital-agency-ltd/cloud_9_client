@@ -261,7 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Container(
                           height: 50,
                           child: Center(
-                              child: _authProvider.isSignInUser
+                              child: _authProvider.isSubmitingProfileData
                                   ? CircularProgressIndicator()
                                   : Text(
                                       "SAVE",
