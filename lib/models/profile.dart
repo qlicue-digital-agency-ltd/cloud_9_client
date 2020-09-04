@@ -44,7 +44,7 @@ class Profile {
         assert(map['user_id'] != null),
         id = map['id'],
         uuid = map['uuid'],
-        userId = map['user_id'],
+        userId = map['user_id']  ,
         registrationNumber = map['registration_number'],
         fullname = map['fullname'],
         avatar = map['avatar'],
