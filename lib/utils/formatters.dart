@@ -25,7 +25,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
             text:
                 '${oldValue.text}$separator${newValue.text.substring(newValue.text.length - 1)}',
             selection: TextSelection.collapsed(
-              int: newValue.selection.end + 1,
+              offset: newValue.selection.end + 1,
             ),
           );
         }

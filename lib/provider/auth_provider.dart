@@ -117,8 +117,7 @@ class AuthProvider with ChangeNotifier {
       headers: {'Content-Type': 'application/json'},
     );
 
-    log('QQQQQQQQQQQQQQQQQQQQQ');
-    print(response.body.toString());
+
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
 
@@ -131,7 +130,6 @@ class AuthProvider with ChangeNotifier {
       _sharedPref.save('user', responseData['user']);
       _sharedPref.saveSingleString('token', responseData['access_token']);
     } else {
-      print('XXXXXXXXXXXXXXXXXXXXXXXXXX');
       hasError = true;
     }
     _isSignInUser = false;
@@ -140,7 +138,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   //Register in User function..
-  Future<bool> registerUser(
+  Future<Map<String,dynamic>> registerUser(
       {@required String email, @required String password}) async {
     _isSignInUser = true;
     notifyListeners();
@@ -150,11 +148,14 @@ class AuthProvider with ChangeNotifier {
       "role": "client"
     };
 
+
     final http.Response response = await http.post(
-      api + "register",
+      api + "registration",
       body: json.encode(authData),
       headers: {'Content-Type': 'application/json'},
     );
+
+
 
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
@@ -170,7 +171,7 @@ class AuthProvider with ChangeNotifier {
     }
     _isSignInUser = false;
     notifyListeners();
-    return hasError;
+    return {'success': !hasError,'message':responseData['message']};
   }
 
 //update profile
@@ -178,9 +179,7 @@ class AuthProvider with ChangeNotifier {
       {@required String fullname,
       @required String phone,
       @required String location}) async {
-    print('tooooooo');
-    print(_authenticatedUser.id);
-    print('tooooooo');
+
     _isSubmitingProfileData = true;
     bool hasError = false;
     notifyListeners();
@@ -217,8 +216,8 @@ class AuthProvider with ChangeNotifier {
       } else {
         hasError = true;
       }
-    }).catchError((error) {
-      print(error);
+    }). ((error) {
+
       hasError = true;
     });
 

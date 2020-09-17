@@ -258,10 +258,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                   .registerUser(
                                       email: emailController.text,
                                       password: passwordController.text)
-                                  .then((val) {
-                                if (!val) {
+                                  .then((response) {
+                                if (response['success']) {
                                   Navigator.of(context)
                                       .pushReplacementNamed(profileScreen);
+                                }else{
+                                  showInSnackBar('Error: ${response['message']}');
                                 }
                               });
                             } else {

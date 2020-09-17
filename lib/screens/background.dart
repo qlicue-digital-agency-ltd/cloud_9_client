@@ -26,7 +26,7 @@ class Background extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.3,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      List: [Colors.blue[700], Colors.blue[200]],
+                      colors: [Colors.blue[700], Colors.blue[200]],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight)),
             ),
