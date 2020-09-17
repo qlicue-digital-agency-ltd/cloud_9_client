@@ -48,7 +48,7 @@ class Profile {
         registrationNumber = map['registration_number'],
         fullname = map['fullname'],
         avatar = map['avatar'],
-        phone = map['phone'],
+        phone = map['phone'].toString(),
         gender = map['gender'],
         location = map['location'];
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_9_client/components/card/post_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
+import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/provider/post_provider.dart';
 
 import 'package:cloud_9_client/screens/background.dart';
@@ -10,8 +11,9 @@ class EducationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _postProvider = Provider.of<PostProvider>(context);
+    final _authUser = Provider.of<AuthProvider>(context).authenticatedUser;
     Future<void> _getData() async {
-      _postProvider.fetchPosts();
+      _postProvider.fetchPosts(_authUser.id);
     }
 
     return Background(
@@ -24,7 +26,6 @@ class EducationScreen extends StatelessWidget {
               elevation: 0,
               expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
-            
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
@@ -56,8 +57,7 @@ class EducationScreen extends StatelessWidget {
                       child: NoItemTile(
                           icon: 'assets/icons/agent.png',
                           title: 'No Posts',
-                          subtitle:
-                              'We have no posts of yet'),
+                          subtitle: 'We have no posts of yet'),
                     )
                   : RefreshIndicator(
                       child: ListView.builder(
