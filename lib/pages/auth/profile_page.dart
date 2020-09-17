@@ -1,4 +1,7 @@
-import 'package:cloud_9_client/components/buttons/dropdown_button.dart';
+import 'package:cloud_9_client/components/buttons/custom_string_dropdown.dart';
+
+import 'package:cloud_9_client/components/text-fields/label_text_field.dart';
+import 'package:cloud_9_client/components/text-fields/mobile_number.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -15,20 +18,22 @@ class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  final FocusNode emailFocusNode = FocusNode();
-  final FocusNode passwordFocusNode = FocusNode();
-  final FocusNode confirmPasswordFocusNode = FocusNode();
+  final FocusNode _fullnameFocusNode = FocusNode();
+  final FocusNode _locationFocusNode = FocusNode();
+  final FocusNode _mobileFocusNode = FocusNode();
 
   TextEditingController _fullnameController = TextEditingController();
-  TextEditingController _locationController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _locationTextEditingController =
+      TextEditingController();
+  TextEditingController _mobileTextEditingController = TextEditingController();
 
   @override
   void dispose() {
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
+    _fullnameFocusNode.dispose();
+    _locationFocusNode.dispose();
+    _mobileFocusNode.dispose();
     _fullnameController.dispose();
-    _locationController.dispose();
+    _locationTextEditingController.dispose();
     super.dispose();
   }
 
@@ -103,153 +108,68 @@ class _ProfilePageState extends State<ProfilePage> {
             )),
             Padding(
               padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-              child: Theme(
-                data: new ThemeData(
-                  primaryColor: Colors.white,
-                  primaryColorDark: Colors.red[50],
-                ),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter your fullname';
-                    } else
-                      return null;
-                  },
-                  focusNode: emailFocusNode,
-                  controller: _fullnameController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(
-                      fontFamily: "WorkSansSemiBold",
-                      fontSize: 16.0,
-                      color: Colors.white),
-                  decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(color: Colors.white)),
-                      hintText: "Fullname",
-                      labelText: "Fullname",
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 17.0,
-                          color: Colors.white),
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.user,
-                        size: 22.0,
-                        color: Colors.white,
-                      )),
-                ),
+                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
+              child: LabelTextfield(
+                prefixIcon: FontAwesomeIcons.user,
+                message: 'Please enter your fullname',
+                maxLines: 1,
+                hitText: 'Fullname',
+                labelText: null,
+                focusNode: _fullnameFocusNode,
+                textEditingController: _fullnameController,
+                keyboardType: TextInputType.text,
               ),
             ),
+     
             Padding(
               padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-              child: Theme(
-                  data: new ThemeData(
-                    primaryColor: Colors.white,
-                    primaryColorDark: Colors.red[50],
-                  ),
-                  child: CustomDropdownButton(
-                    value: _authProvider.selectedGender,
-                    item: _authProvider.genderList,
-                    title: 'Gender',
-                    customDropdownButtonOnChange: (String val) {
-                      print(val);
-                      _authProvider.setSelectedGender = val;
-                    },
-                  )),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-              child: Theme(
-                data: new ThemeData(
-                  primaryColor: Colors.white,
-                  primaryColorDark: Colors.red[50],
-                ),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter your phone';
-                    } else
-                      return null;
-                  },
-                  focusNode: passwordFocusNode,
-                  controller: _locationController,
-                  keyboardType: TextInputType.phone,
-                  style: TextStyle(
-                      fontFamily: "WorkSansSemiBold",
-                      fontSize: 16.0,
-                      color: Colors.white),
-                  decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      hintText: "Phone",
-                      labelText: "Phone",
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 17.0,
-                          color: Colors.white),
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.phoneAlt,
-                        size: 22.0,
-                        color: Colors.white,
-                      )),
-                ),
+                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
+              child: MobileTextfield(
+                message: 'Please enter Mobile Number',
+                maxLines: 1,
+                hitText: 'Mobile',
+                labelText: null,
+                focusNode: _mobileFocusNode,
+                textEditingController: _mobileTextEditingController,
+                keyboardType: TextInputType.number,
+                selectedCountry: _authProvider.selectedCountry,
+                onCodeChange: (country) {
+                  print(country);
+                  _authProvider.setSelectedCountry = country;
+                },
               ),
             ),
+            
             Padding(
               padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-              child: Theme(
-                data: new ThemeData(
-                  primaryColor: Colors.white,
-                  primaryColorDark: Colors.red[50],
-                ),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter your location';
-                    } else
-                      return null;
-                  },
-                  focusNode: confirmPasswordFocusNode,
-                  controller: _phoneController,
-                  keyboardType: TextInputType.text,
-                  style: TextStyle(
-                      fontFamily: "WorkSansSemiBold",
-                      fontSize: 16.0,
-                      color: Colors.white),
-                  decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      fillColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.white),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      hintText: "location",
-                      labelText: "location",
-                      hintStyle: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 17.0,
-                          color: Colors.white),
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.locationArrow,
-                        size: 22.0,
-                        color: Colors.white,
-                      )),
-                ),
+                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
+              child: LabelTextfield(
+                prefixIcon: FontAwesomeIcons.locationArrow,
+                message: 'Please enter Location, dristict or ward',
+                maxLines: 1,
+                hitText: 'Location',
+                labelText: null,
+                focusNode: _locationFocusNode,
+                textEditingController: _locationTextEditingController,
+                keyboardType: TextInputType.text,
               ),
             ),
+                    Padding(
+                padding: EdgeInsets.only(
+                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
+                child: CustomStringDropdown(
+                  items: _authProvider.genderList,
+                  onChange: (val) {
+                    _authProvider.setSelectedGender = val;
+                  },
+                  title: 'Gender',
+                  value: _authProvider.selectedGender,
+                )),
+           
+            
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
+              padding: EdgeInsets.only(
+                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -272,18 +192,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                     )),
                         ),
                         onPressed: () {
+                          final _phone =
+                              _authProvider.selectedCountry.dialingCode +
+                                  _mobileTextEditingController.text
+                                      .replaceAll('(', '')
+                                      .replaceAll(')', '')
+                                      .replaceAll('-', '')
+                                      .replaceAll(' ', '');
+
                           if (_formKey.currentState.validate()) {
                             if (_authProvider.pickedImage != null) {
                               _authProvider
                                   .updateProfile(
                                       fullname: _fullnameController.text,
-                                      location: _locationController.text,
-                                      phone: _phoneController.text)
+                                      location:
+                                          _locationTextEditingController.text,
+                                      phone: _phone)
                                   .then((val) {
                                 if (!val) {
-                                  _locationController.clear();
+                                  _locationTextEditingController.clear();
                                   _fullnameController.clear();
-                                  _phoneController.clear();
+                                  _mobileTextEditingController.clear();
 
                                   _authProvider
                                       .autoAuthenticate()
