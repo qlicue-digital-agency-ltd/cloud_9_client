@@ -1,3 +1,5 @@
+import 'package:cloud_9_client/components/text-fields/label_text_field.dart';
+
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/pages/auth/register_page.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
@@ -15,19 +17,19 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  final FocusNode emailFocusNode = FocusNode();
-  final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool _obscureTextLogin = true;
+  TextEditingController _emailEditingController = TextEditingController();
+  TextEditingController _passwordEditingController = TextEditingController();
+  bool _isObscure = true;
 
   @override
   void dispose() {
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _emailEditingController.dispose();
+    _passwordEditingController.dispose();
     super.dispose();
   }
 
@@ -63,108 +65,67 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-              child: Theme(
-                data: new ThemeData(
-                  primaryColor: Colors.white,
-                  primaryColorDark: Colors.red[50],
-                ),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter your email';
-                    } else
-                      return null;
-                  },
-                  focusNode: emailFocusNode,
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(
-                      fontFamily: "WorkSansSemiBold",
-                      fontSize: 16.0,
-                      color: Colors.white),
-                  decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(color: Colors.white)),
-                      hintText: "Email",
-                      labelText: "Email",
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 17.0,
-                          color: Colors.white),
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.user,
-                        size: 22.0,
-                        color: Colors.white,
-                      )),
-                ),
+                  top: 50.0, bottom: 0.0, left: 25.0, right: 25.0),
+              child: LabelTextfield(
+                prefixIcon: FontAwesomeIcons.envelope,
+                message: 'Please enter your email',
+                maxLines: 1,
+                hitText: 'Email',
+                labelText: null,
+                focusNode: _emailFocusNode,
+                textEditingController: _emailEditingController,
+                keyboardType: TextInputType.text,
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-              child: Theme(
-                data: new ThemeData(
-                  primaryColor: Colors.white,
-                  primaryColorDark: Colors.red[50],
-                ),
+             padding: EdgeInsets.only(
+                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
+              child: Material(
+                elevation: 2.0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
                 child: TextFormField(
+                  focusNode: _passwordFocusNode,
+                  controller: _passwordEditingController,
+                  obscureText: _isObscure,
+                  onChanged: (String value) {},
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Please enter your password';
-                    } else
-                      return null;
+                      return 'Please enter password';
+                    }
+                    return null;
                   },
-                  focusNode: passwordFocusNode,
-                  controller: passwordController,
-                  keyboardType: TextInputType.text,
-                  obscureText: _obscureTextLogin,
-                  style: TextStyle(
-                      fontFamily: "WorkSansSemiBold",
-                      fontSize: 16.0,
-                      color: Colors.white),
+                  cursorColor: Theme.of(context).cursorColor,
                   decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
                       hintText: "Password",
-                      labelText: "Password",
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 17.0,
-                          color: Colors.white),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          print('object');
-                          setState(() {
-                            _obscureTextLogin = !_obscureTextLogin;
-                          });
-                        },
+                      prefixIcon: Material(
+                        elevation: 0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
                         child: Icon(
-                          _obscureTextLogin
-                              ? FontAwesomeIcons.eye
-                              : FontAwesomeIcons.eyeSlash,
-                          size: 15.0,
-                          color: Colors.white,
+                          Icons.lock,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.lock,
-                        size: 22.0,
-                        color: Colors.white,
-                      )),
+                      suffixIcon: InkWell(
+                        splashColor: Theme.of(context).primaryColor,
+                        highlightColor: Colors.transparent,
+                        child: Icon(_isObscure
+                            ? FontAwesomeIcons.eye
+                            : FontAwesomeIcons.eyeSlash),
+                        onTap: () {
+                          setState(() {
+                            _isObscure = !_isObscure;
+                          });
+                        },
+                      ),
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
+             padding: EdgeInsets.only(
+                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -190,8 +151,8 @@ class _LoginPageState extends State<LoginPage> {
                           if (_formKey.currentState.validate()) {
                             _authProvider
                                 .signInUser(
-                                    email: emailController.text,
-                                    password: passwordController.text)
+                                    email: _emailEditingController.text,
+                                    password: _passwordEditingController.text)
                                 .then((val) {
                               if (!val) {
                                 Navigator.of(context)
@@ -220,7 +181,6 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: "WorkSansMedium"),
                   )),
             ),
-          
             Padding(
               padding: EdgeInsets.only(top: 10.0),
               child: FlatButton(

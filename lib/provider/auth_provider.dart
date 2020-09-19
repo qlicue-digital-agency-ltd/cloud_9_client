@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_country_picker/country.dart';
 
 class AuthProvider with ChangeNotifier {
   AuthProvider() {
@@ -17,17 +18,14 @@ class AuthProvider with ChangeNotifier {
   }
 
   File file;
+  Country _selectedCountry = Country.TZ;
 
   User _authenticatedUser;
-  final List<DropdownMenuItem> _genderList = [
-    DropdownMenuItem(
-      child: Text("MALE"),
-      value: 'male',
-    ),
-    DropdownMenuItem(
-      child: Text("FEMALE"),
-      value: 'female',
-    ),
+  final List<String> _genderList = [
+   
+   'male',
+    'female',
+   
   ];
 
   bool _hasUserProfile = false;
@@ -47,7 +45,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   //get the choosen Image.
-
+  Country get selectedCountry => _selectedCountry;
   File get pickedImage => _pickedImage;
 
   bool get isSignInUser => _isSignInUser;
@@ -60,10 +58,15 @@ class AuthProvider with ChangeNotifier {
 
   String get selectedGender => _selectedGender;
 
-  List<DropdownMenuItem> get genderList => _genderList;
+  List<String> get genderList => _genderList;
 
   set setSelectedGender(String gender) {
     _selectedGender = gender;
+    notifyListeners();
+  }
+
+  set setSelectedCountry(Country country) {
+    _selectedCountry = country;
     notifyListeners();
   }
 
@@ -80,13 +83,10 @@ class AuthProvider with ChangeNotifier {
       }
     });
 
- 
-
     notifyListeners();
 
     return true;
   }
-
 
   Future<void> logout() async {
     _sharedPref.remove('id');
@@ -117,16 +117,52 @@ class AuthProvider with ChangeNotifier {
       headers: {'Content-Type': 'application/json'},
     );
 
-
+    log('QQQQQQQQQQQQQQQQQQQQQ');
+    print(response.body.toString());
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
 
     if (responseData.containsKey('access_token')) {
-      
       hasError = false;
 
       _authenticatedUser = User.fromMap(responseData['user']);
 
+      _sharedPref.save('user', responseData['user']);
+      _sharedPref.saveSingleString('token', responseData['access_token']);
+    } else {
+      print('XXXXXXXXXXXXXXXXXXXXXXXXXX');
+      hasError = true;
+    }
+    _isSignInUser = false;
+    notifyListeners();
+    return hasError;
+  }
+
+  //Register in User function..
+  Future<bool> registerUser(
+      {@required String email, @required String password}) async {
+    _isSignInUser = true;
+    notifyListeners();
+    final Map<String, dynamic> authData = {
+      'email': email,
+      'password': password,
+      "role": "client"
+    };
+
+    final http.Response response = await http.post(
+      api + "signup",
+      body: json.encode(authData),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    final Map<String, dynamic> responseData = json.decode(response.body);
+    bool hasError = true;
+    print(responseData);
+
+    if (responseData.containsKey('access_token')) {
+      hasError = false;
+
+      _authenticatedUser = User.fromMap(responseData['user']);
       _sharedPref.save('user', responseData['user']);
       _sharedPref.saveSingleString('token', responseData['access_token']);
     } else {
@@ -137,49 +173,14 @@ class AuthProvider with ChangeNotifier {
     return hasError;
   }
 
-  //Register in User function..
-  Future<Map<String,dynamic>> registerUser(
-      {@required String email, @required String password}) async {
-    _isSignInUser = true;
-    notifyListeners();
-    final Map<String, dynamic> authData = {
-      'email': email,
-      'password': password,
-      "role": "client"
-    };
-
-
-    final http.Response response = await http.post(
-      api + "registration",
-      body: json.encode(authData),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-
-
-    final Map<String, dynamic> responseData = json.decode(response.body);
-    bool hasError = true;
-
-    if (responseData.containsKey('access_token')) {
-      hasError = false;
-
-      _authenticatedUser = User.fromMap(responseData['user']);
-      _sharedPref.save('user', responseData['user']);
-      _sharedPref.saveSingleString('token', responseData['access_token']);
-    } else {
-      hasError = true;
-    }
-    _isSignInUser = false;
-    notifyListeners();
-    return {'success': !hasError,'message':responseData['message']};
-  }
-
 //update profile
   Future<bool> updateProfile(
       {@required String fullname,
       @required String phone,
       @required String location}) async {
-
+    print('tooooooo');
+    print(_authenticatedUser.id);
+    print('tooooooo');
     _isSubmitingProfileData = true;
     bool hasError = false;
     notifyListeners();
@@ -206,6 +207,7 @@ class AuthProvider with ChangeNotifier {
         .then((response) {
       final Map<String, dynamic> data = response.data;
 
+      print(data);
       if (response.statusCode == 201) {
         hasError = false;
 
@@ -216,8 +218,8 @@ class AuthProvider with ChangeNotifier {
       } else {
         hasError = true;
       }
-    }). ((error) {
-
+    }).catchError((error) {
+      print(error);
       hasError = true;
     });
 
