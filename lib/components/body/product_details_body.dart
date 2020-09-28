@@ -1,4 +1,3 @@
-
 import 'package:cloud_9_client/components/tiles/add_to_cart.dart';
 import 'package:cloud_9_client/components/tiles/color_and_size.dart';
 import 'package:cloud_9_client/components/tiles/counter_with_fav_btn.dart';
@@ -6,9 +5,9 @@ import 'package:cloud_9_client/components/tiles/description.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 
 import 'package:cloud_9_client/models/product.dart';
+import 'package:cloud_9_client/pages/image_viewer.dart';
 import 'package:cloud_9_client/utils/currency_convertor.dart';
 import 'package:flutter/material.dart';
-
 
 class Body extends StatelessWidget {
   final Product product;
@@ -19,7 +18,7 @@ class Body extends StatelessWidget {
     // It provide us total height and width
     // Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-      child: Padding(
+        child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,16 +27,27 @@ class Body extends StatelessWidget {
           Text('Product',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+          SizedBox(height: 50),
           Container(
-            height: 200,
+            height: 250,
             child: Row(
               children: [
                 Expanded(
-                  child: Hero(
-                    tag: "${product.id}",
-                    child: Image.network(
-                      product.image,
-                      fit: BoxFit.contain,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ImageViewer(
+                                    product: product,
+                                  )));
+                    },
+                    child: Hero(
+                      tag: "${product.id}",
+                      child: Image.network(
+                        product.image,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
@@ -75,26 +85,24 @@ class Body extends StatelessWidget {
             ],
           ),
           Card(
-            
             child: Container(
-              padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
                 child: Column(
-              children: [
-                ColorAndSize(product: product),
-                SizedBox(height: kDefaultPaddin / 2),
-                Description(product: product),
-                SizedBox(height: kDefaultPaddin / 2),
-                CounterWithFavBtn(
-                  product: product,
-                ),
-                SizedBox(height: kDefaultPaddin / 2),
-                AddToCart(product: product)
-              ],
-            )),
+                  children: [
+                    ColorAndSize(product: product),
+                    SizedBox(height: kDefaultPaddin / 2),
+                    Description(product: product),
+                    SizedBox(height: kDefaultPaddin / 2),
+                    CounterWithFavBtn(
+                      product: product,
+                    ),
+                    SizedBox(height: kDefaultPaddin / 2),
+                    AddToCart(product: product)
+                  ],
+                )),
           )
         ],
       ),
-    )
-    );
+    ));
   }
 }
