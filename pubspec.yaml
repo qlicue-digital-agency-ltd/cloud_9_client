@@ -29,7 +29,7 @@ dependencies:
   random_string: ^2.0.0
   share: ^0.6.4+3
   flutter_country_picker: ^0.1.6
-  
+  carousel_slider: ^2.2.1
 
 
 dev_dependencies:
