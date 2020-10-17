@@ -37,6 +37,7 @@ class AuthProvider with ChangeNotifier {
   SharedPref _sharedPref = SharedPref();
 
   void chooseAmImage() async {
+    // ignore: deprecated_member_use
     file = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     _pickedImage = file;

@@ -1,6 +1,5 @@
 import 'package:cloud_9_client/components/tiles/add_to_cart.dart';
-import 'package:cloud_9_client/components/tiles/color_and_size.dart';
-import 'package:cloud_9_client/components/tiles/counter_with_fav_btn.dart';
+
 import 'package:cloud_9_client/components/tiles/description.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 

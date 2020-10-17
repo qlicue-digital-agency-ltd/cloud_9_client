@@ -113,7 +113,9 @@ class _AddToCartState extends State<AddToCart> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
                 color: Colors.blue,
-                onPressed: () {},
+                onPressed: () {
+                  _showDialog();
+                },
                 child: Text(
                   "Buy  Now".toUpperCase(),
                   style: TextStyle(

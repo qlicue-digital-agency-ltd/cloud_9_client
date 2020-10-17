@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
+
 
 import 'package:cloud_9_client/api/api.dart';
-import 'package:cloud_9_client/models/user.dart';
-import 'package:cloud_9_client/shared/shared_preference.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter_country_picker/country.dart';
 
 class PaymentProvider with ChangeNotifier {

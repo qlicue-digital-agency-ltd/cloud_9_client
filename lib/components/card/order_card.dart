@@ -30,10 +30,10 @@ class OrderCard extends StatelessWidget {
             ),
             onTap: orderListCardOnTap,
             title: Text(
-              order.uuid,
+              order.buyerName,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(order.status),
+            subtitle: Text(order.result),
             trailing: IconButton(
                 icon: Icon(Icons.more_vert), onPressed: orderMoreOnTap),
           )),
