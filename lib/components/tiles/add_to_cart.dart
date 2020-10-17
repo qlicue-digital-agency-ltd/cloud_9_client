@@ -2,8 +2,8 @@ import 'package:cloud_9_client/components/text-fields/mobile_number.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/models/product.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
+import 'package:cloud_9_client/provider/order_provider.dart';
 
-import 'package:cloud_9_client/provider/payment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +28,7 @@ class _AddToCartState extends State<AddToCart> {
 
   @override
   Widget build(BuildContext context) {
-    final _paymentProvider = Provider.of<PaymentProvider>(context);
+    final _orderProvider = Provider.of<OrderProvider>(context);
     final _authProvider = Provider.of<AuthProvider>(context);
     Future<void> _showDialog() async {
       return showDialog<void>(
@@ -53,9 +53,9 @@ class _AddToCartState extends State<AddToCart> {
                           message: 'Phone number required',
                           onCodeChange: (country) {
                             print(country);
-                            _paymentProvider.setSelectedCountry = country;
+                            _orderProvider.setSelectedCountry = country;
                           },
-                          selectedCountry: _paymentProvider.selectedCountry,
+                          selectedCountry: _orderProvider.selectedCountry,
                           keyboardType: TextInputType.number),
                     )
                   ],
@@ -73,14 +73,13 @@ class _AddToCartState extends State<AddToCart> {
                 child: Text('OK'),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    final _phone =
-                        _paymentProvider.selectedCountry.dialingCode +
-                            _mobileTextEditingController.text
-                                .replaceAll('(', '')
-                                .replaceAll(')', '')
-                                .replaceAll('-', '')
-                                .replaceAll(' ', '');
-                    _paymentProvider
+                    final _phone = _orderProvider.selectedCountry.dialingCode +
+                        _mobileTextEditingController.text
+                            .replaceAll('(', '')
+                            .replaceAll(')', '')
+                            .replaceAll('-', '')
+                            .replaceAll(' ', '');
+                    _orderProvider
                         .createOrder(
                             userId: _authProvider.authenticatedUser.id,
                             paymentPhone: _phone,
