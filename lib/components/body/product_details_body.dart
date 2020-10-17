@@ -89,13 +89,13 @@ class Body extends StatelessWidget {
                 padding: EdgeInsets.all(8),
                 child: Column(
                   children: [
-                    ColorAndSize(product: product),
-                    SizedBox(height: kDefaultPaddin / 2),
+                   // ColorAndSize(product: product),
+                    //SizedBox(height: kDefaultPaddin / 2),
                     Description(product: product),
                     SizedBox(height: kDefaultPaddin / 2),
-                    CounterWithFavBtn(
-                      product: product,
-                    ),
+                    // CounterWithFavBtn(
+                    //   product: product,
+                    // ),
                     SizedBox(height: kDefaultPaddin / 2),
                     AddToCart(product: product)
                   ],
