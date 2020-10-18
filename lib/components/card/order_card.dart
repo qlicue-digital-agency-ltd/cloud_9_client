@@ -28,7 +28,8 @@ class OrderCard extends StatelessWidget {
           child: ListTile(
             leading: Icon(
               FontAwesomeIcons.clipboard,
-              color: Colors.blue,
+              color:order.paymentStatus == "null"
+                      ? Colors.red: Colors.blue,
             ),
             onTap: orderListCardOnTap,
             title: Text(
