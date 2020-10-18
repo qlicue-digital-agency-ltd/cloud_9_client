@@ -7,6 +7,8 @@ import 'package:cloud_9_client/screens/terms_and_condition.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'help_screen.dart';
+
 class DrawerScreen extends StatefulWidget {
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
@@ -86,36 +88,34 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 Material(
                   child: ListTile(
                     onTap: () {
-                      print('object');
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, orderDetailScreen);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => HelpScreen(),
-                      //   ));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HelpScreen(),
+                          ));
                     },
                     leading: Icon(Icons.help),
                     title: Text('Help'),
                   ),
                 ),
                 SizedBox(height: 2),
-                Material(
-                  child: ListTile(
-                    onTap: () {
-                      print('object');
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TermsAndConditionsScreen(),
-                          ));
-                    },
-                    leading: Icon(Icons.book),
-                    title: Text('Terms & Conditions'),
-                  ),
-                ),
-                SizedBox(height: 2),
+                // Material(
+                //   child: ListTile(
+                //     onTap: () {
+                 
+                //       Navigator.pop(context);
+                //       Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => TermsAndConditionsScreen(),
+                //           ));
+                //     },
+                //     leading: Icon(Icons.book),
+                //     title: Text('Terms & Conditions'),
+                //   ),
+                // ),
+                // SizedBox(height: 2),
                 Material(
                   child: ListTile(
                     onTap: () {
