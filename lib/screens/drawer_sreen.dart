@@ -2,7 +2,6 @@ import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/account_screen.dart';
-import 'package:cloud_9_client/screens/help_screen.dart';
 import 'package:cloud_9_client/screens/order_screen.dart';
 import 'package:cloud_9_client/screens/terms_and_condition.dart';
 import 'package:flutter/material.dart';
