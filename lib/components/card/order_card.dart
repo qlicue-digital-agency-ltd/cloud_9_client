@@ -32,7 +32,7 @@ class OrderCard extends StatelessWidget {
             ),
             onTap: orderListCardOnTap,
             title: Text(
-              'Product Name',
+              order.product.name,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             subtitle: Column(

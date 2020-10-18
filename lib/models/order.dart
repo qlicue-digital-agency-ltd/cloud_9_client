@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/models/product.dart';
 import 'package:flutter/material.dart';
 
 class Order {
@@ -19,27 +20,28 @@ class Order {
   final String qr;
   final String paymentGatewayUrl;
   final String paymentStatus;
+  final Product product;
 
-  Order({
-    @required this.id,
-    @required this.orderId,
-    @required this.buyerEmail,
-    @required this.buyerName,
-    @required this.buyerPhone,
-    @required this.amount,
-    @required this.currency,
-    @required this.noOfItems,
-    @required this.orderFor,
-    @required this.reference,
-    @required this.result,
-    @required this.resultCode,
-    @required this.message,
-    @required this.gatewayBuyerUuid,
-    @required this.paymentToken,
-    @required this.qr,
-    @required this.paymentGatewayUrl,
-    @required this.paymentStatus,
-  });
+  Order(
+      {@required this.id,
+      @required this.orderId,
+      @required this.buyerEmail,
+      @required this.buyerName,
+      @required this.buyerPhone,
+      @required this.amount,
+      @required this.currency,
+      @required this.noOfItems,
+      @required this.orderFor,
+      @required this.reference,
+      @required this.result,
+      @required this.resultCode,
+      @required this.message,
+      @required this.gatewayBuyerUuid,
+      @required this.paymentToken,
+      @required this.qr,
+      @required this.paymentGatewayUrl,
+      @required this.paymentStatus,
+      @required this.product});
 
   Order.fromMap(Map<String, dynamic> map)
       : assert(map['id'] != null),
@@ -61,5 +63,6 @@ class Order {
         paymentToken = map['payment_token'].toString(),
         qr = map['qr'].toString(),
         paymentGatewayUrl = map['payment_gateway_url'].toString(),
+        product = Product.fromMap(map['product']),
         paymentStatus = map['payment_status'].toString();
 }

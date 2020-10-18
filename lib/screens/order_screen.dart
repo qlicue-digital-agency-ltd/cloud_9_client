@@ -59,11 +59,19 @@ class OrderScreen extends StatelessWidget {
       body: _orderProvider.isFetchingOrderData
           ? Center(child: CircularProgressIndicator())
           : _orderProvider.availableOrders.isEmpty
-              ? Center(
-                  child: NoItemTile(
-                      icon: 'assets/icons/calendar.png',
-                      title: 'No orders',
-                      subtitle: 'Please there are no available consultation'),
+              ? RefreshIndicator(
+                  onRefresh: _getData,
+                  child: ListView(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height/3,),
+                      Center(
+                        child: NoItemTile(
+                            icon: 'assets/icons/calendar.png',
+                            title: 'No orders',
+                            subtitle: 'Please there are no available orders'),
+                      )
+                    ],
+                  ),
                 )
               : RefreshIndicator(
                   child: Padding(

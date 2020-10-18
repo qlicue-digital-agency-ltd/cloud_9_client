@@ -25,7 +25,7 @@ class _AddToCartState extends State<AddToCart> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _mobileTextEditingController = TextEditingController();
-
+  bool _isPaying = false;
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
@@ -80,8 +80,16 @@ class _AddToCartState extends State<AddToCart> {
                           child: FlatButton(
                             textColor: Colors.white,
                             color: Theme.of(context).primaryColor,
-                            child: Text('Pay'.toUpperCase()),
+                            child: _isPaying
+                                ? CircularProgressIndicator(
+                                    strokeWidth: 2.0,
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  )
+                                : Text('Pay'.toUpperCase()),
                             onPressed: () {
+                              setState(() {
+                                _isPaying = true;
+                              });
                               if (_formKey.currentState.validate()) {
                                 final _phone =
                                     _orderProvider.selectedCountry.dialingCode +
@@ -98,6 +106,9 @@ class _AddToCartState extends State<AddToCart> {
                                         noOfItems: 1,
                                         productId: widget.product.id)
                                     .then((value) {
+                                  setState(() {
+                                    _isPaying = false;
+                                  });
                                   if (value) {
                                     print('errors');
                                   } else {
@@ -116,40 +127,6 @@ class _AddToCartState extends State<AddToCart> {
                 ),
               );
             }),
-            // actions: <Widget>[
-            //   FlatButton(
-            //     child: Text('Cancel'),
-            //     onPressed: () {
-            //       Navigator.of(context).pop();
-            //     },
-            //   ),
-            //   FlatButton(
-            //     child: Text('Pay'.toUpperCase()),
-            //     onPressed: () {
-            //       if (_formKey.currentState.validate()) {
-            //         final _phone = _orderProvider.selectedCountry.dialingCode +
-            //             _mobileTextEditingController.text
-            //                 .replaceAll('(', '')
-            //                 .replaceAll(')', '')
-            //                 .replaceAll('-', '')
-            //                 .replaceAll(' ', '');
-            //         _orderProvider
-            //             .createOrder(
-            //                 userId: _authProvider.authenticatedUser.id,
-            //                 paymentPhone: _phone,
-            //                 amount: widget.product.price)
-            //             .then((value) {
-            //           if (value) {
-            //             print('errors');
-            //           } else {
-            //             Navigator.of(context).pop();
-            //             Navigator.pushNamed(context, orderDetailScreen);
-            //           }
-            //         });
-            //       }
-            //     },
-            //   ),
-            // ],
           );
         },
       );

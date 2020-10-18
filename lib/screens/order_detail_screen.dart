@@ -149,7 +149,7 @@ class OrderDetailScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: RowedTextField(
                                   title: 'Product',
-                                  subtitle: 'Product Name',
+                                  subtitle: _orderProvider.getSelectedOrder.product.name,
                                 ),
                               ),
                               Padding(
@@ -206,11 +206,10 @@ class OrderDetailScreen extends StatelessWidget {
               ])
             : SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                                    child: Column(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
                     children: [
-                    
                       SizedBox(height: 20),
                       Container(
                           padding: EdgeInsets.all(20),
@@ -219,21 +218,24 @@ class OrderDetailScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: RowedTextField(
                                 title: 'Reference',
-                                subtitle: _orderProvider.getSelectedOrder.reference,
+                                subtitle:
+                                    _orderProvider.getSelectedOrder.reference,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RowedTextField(
                                 title: 'Product',
-                                subtitle: 'Product Name',
+                                subtitle: _orderProvider
+                                    .getSelectedOrder.product.name,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RowedTextField(
                                 title: 'Number of Items',
-                                subtitle: _orderProvider.getSelectedOrder.noOfItems,
+                                subtitle:
+                                    _orderProvider.getSelectedOrder.noOfItems,
                               ),
                             ),
                             Padding(
@@ -262,7 +264,8 @@ class OrderDetailScreen extends StatelessWidget {
                                             .getSelectedOrder.paymentStatus ==
                                         "null"
                                     ? "Not Paid"
-                                    : _orderProvider.getSelectedOrder.paymentStatus,
+                                    : _orderProvider
+                                        .getSelectedOrder.paymentStatus,
                               ),
                             ),
                             Image.asset(
@@ -272,8 +275,8 @@ class OrderDetailScreen extends StatelessWidget {
                             )
                           ]))
                     ],
-              ),
                   ),
-                )));
+                ),
+              )));
   }
 }

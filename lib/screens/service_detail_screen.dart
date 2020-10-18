@@ -1,7 +1,8 @@
-
 import 'package:cloud_9_client/models/service.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
+
+import 'media_preview_list_page.dart';
 
 class ServiceDetailScreen extends StatelessWidget {
   final Service service;
@@ -10,81 +11,83 @@ class ServiceDetailScreen extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Background(
-        screen: SafeArea(
-      child: Container(
-          padding: EdgeInsets.all(8),
-          child: SingleChildScrollView(
-              child: Column(children: <Widget>[
-            AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.calendar_today,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => SetAppointmentScreen()));
-                  },
-                )
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          service.title,
+          maxLines: 1,
+          style: TextStyle(
+              fontSize: 25, color: Colors.white, fontWeight: FontWeight.w100),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.calendar_today,
+              color: Colors.white,
+              size: 30,
             ),
-            SizedBox(
-              height: 50,
-            ),
-            Text(
-              service.title,
-              maxLines: 1,
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w100),
-            ),
-            SizedBox(height: 50),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      service.images.isNotEmpty
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  service.images[0].url),
-                                              fit: BoxFit.cover)),
-                                      height: 200,
-                                    )),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                    flex: 1,
+            onPressed: () {
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => SetAppointmentScreen()));
+            },
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    service.images.isNotEmpty
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                service.images[0].url),
+                                            fit: BoxFit.cover)),
+                                    height: 200,
+                                  )),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                  flex: 1,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  MediaPreviewListPage(
+                                                    media: service.images,
+                                                  )));
+                                    },
                                     child: Stack(
                                       children: <Widget>[
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      service.images[0].url),
-                                                  fit: BoxFit.cover)),
-                                          height: 200,
+                                        Hero(
+                                          tag: service.images[0].url,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        service.images[0].url),
+                                                    fit: BoxFit.cover)),
+                                            height: 200,
+                                          ),
                                         ),
                                         Positioned(
                                           top: 80,
@@ -101,36 +104,50 @@ class ServiceDetailScreen extends StatelessWidget {
                                           ),
                                         )
                                       ],
-                                    ))
-                              ],
-                            )
-                          : Container(),
-                      SizedBox(height: 10),
-                      Text(
-                        'DESCRIPTION',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        service.title,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        service.body,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
-                      )
-                    ]),
-              ),
-            )
-          ]))),
-    ));
+                                    ),
+                                  ))
+                            ],
+                          )
+                        : Container(),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            service.title,
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w100),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'DESCRIPTION',
+                      textAlign: TextAlign.start,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      service.title,
+                      textAlign: TextAlign.start,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      service.body,
+                      textAlign: TextAlign.start,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    )
+                  ]),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

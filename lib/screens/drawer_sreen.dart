@@ -36,10 +36,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
               children: <Widget>[
                 UserAccountsDrawerHeader(
                     currentAccountPicture: CircleAvatar(
-                        backgroundImage: NetworkImage(api +
-                            'profile/avatar/' +
-                            _authProvider.authenticatedUser.profile.id
-                                .toString())),
+                        backgroundImage: NetworkImage(
+                            _authProvider.authenticatedUser.profile.avatar)),
                     accountName:
                         Text(_authProvider.authenticatedUser.profile.fullname),
                     accountEmail: Text(_authProvider.authenticatedUser.email)),
