@@ -91,11 +91,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     onTap: () {
                       print('object');
                       Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HelpScreen(),
-                          ));
+                      Navigator.pushNamed(context, orderDetailScreen);
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => HelpScreen(),
+                      //   ));
                     },
                     leading: Icon(Icons.help),
                     title: Text('Help'),
@@ -134,7 +135,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ),
                 ),
                 SizedBox(height: 2),
-                
                 Material(
                   child: ListTile(
                     onTap: () {

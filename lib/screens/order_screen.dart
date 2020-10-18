@@ -1,5 +1,6 @@
 import 'package:cloud_9_client/components/card/order_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
+import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/provider/order_provider.dart';
 import 'package:cloud_9_client/screens/background.dart';
@@ -27,9 +28,7 @@ class OrderScreen extends StatelessWidget {
               elevation: 0,
               expandedHeight: 120.0,
               backgroundColor: Colors.transparent,
-             actions: <Widget>[
-              Container()
-              ],
+              actions: <Widget>[Container()],
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
@@ -59,10 +58,13 @@ class OrderScreen extends StatelessWidget {
                       child: ListView.builder(
                           itemCount: _orderProvider.availableOrders.length,
                           itemBuilder: (context, index) {
-                            return
-                             OrderCard(
+                            return OrderCard(
                               order: _orderProvider.availableOrders[index],
-                              orderListCardOnTap: () {},
+                              orderListCardOnTap: () {
+                                _orderProvider.selectOrder =
+                                    _orderProvider.availableOrders[index];
+                                Navigator.pushNamed(context, orderDetailScreen);
+                              },
                               orderMoreOnTap: () {},
                             );
                           }),

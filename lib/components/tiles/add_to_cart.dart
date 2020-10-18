@@ -28,15 +28,15 @@ class _AddToCartState extends State<AddToCart> {
 
   @override
   Widget build(BuildContext context) {
-    final _orderProvider = Provider.of<OrderProvider>(context);
     final _authProvider = Provider.of<AuthProvider>(context);
+    final _orderProvider = Provider.of<OrderProvider>(context);
     Future<void> _showDialog() async {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Meeting  Personnel'),
+            title: Text('Add Phone Number to Pay'),
             content: StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState) {
               return SingleChildScrollView(
@@ -57,45 +57,96 @@ class _AddToCartState extends State<AddToCart> {
                           },
                           selectedCountry: _orderProvider.selectedCountry,
                           keyboardType: TextInputType.number),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FlatButton(
+                            color: Colors.red,
+                            textColor: Colors.white,
+                            child: Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Expanded(
+                          child: FlatButton(
+                            textColor: Colors.white,
+                            color: Theme.of(context).primaryColor,
+                            child: Text('Pay'.toUpperCase()),
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                final _phone =
+                                    _orderProvider.selectedCountry.dialingCode +
+                                        _mobileTextEditingController.text
+                                            .replaceAll('(', '')
+                                            .replaceAll(')', '')
+                                            .replaceAll('-', '')
+                                            .replaceAll(' ', '');
+                                _orderProvider
+                                    .createOrder(
+                                        userId:
+                                            _authProvider.authenticatedUser.id,
+                                        paymentPhone: _phone,
+                                        amount: widget.product.price)
+                                    .then((value) {
+                                  if (value) {
+                                    print('errors');
+                                  } else {
+                                    Navigator.of(context).pop();
+                                    Navigator.pushNamed(
+                                        context, orderDetailScreen);
+                                  }
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
               );
             }),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    final _phone = _orderProvider.selectedCountry.dialingCode +
-                        _mobileTextEditingController.text
-                            .replaceAll('(', '')
-                            .replaceAll(')', '')
-                            .replaceAll('-', '')
-                            .replaceAll(' ', '');
-                    _orderProvider
-                        .createOrder(
-                            userId: _authProvider.authenticatedUser.id,
-                            paymentPhone: _phone,
-                            amount: widget.product.price)
-                        .then((value) {
-                      if (value) {
-                        print('errors');
-                      } else {
-                        Navigator.of(context).pop();
-                        Navigator.pushNamed(context, orderDetailScreen);
-                      }
-                    });
-                  }
-                },
-              ),
-            ],
+            // actions: <Widget>[
+            //   FlatButton(
+            //     child: Text('Cancel'),
+            //     onPressed: () {
+            //       Navigator.of(context).pop();
+            //     },
+            //   ),
+            //   FlatButton(
+            //     child: Text('Pay'.toUpperCase()),
+            //     onPressed: () {
+            //       if (_formKey.currentState.validate()) {
+            //         final _phone = _orderProvider.selectedCountry.dialingCode +
+            //             _mobileTextEditingController.text
+            //                 .replaceAll('(', '')
+            //                 .replaceAll(')', '')
+            //                 .replaceAll('-', '')
+            //                 .replaceAll(' ', '');
+            //         _orderProvider
+            //             .createOrder(
+            //                 userId: _authProvider.authenticatedUser.id,
+            //                 paymentPhone: _phone,
+            //                 amount: widget.product.price)
+            //             .then((value) {
+            //           if (value) {
+            //             print('errors');
+            //           } else {
+            //             Navigator.of(context).pop();
+            //             Navigator.pushNamed(context, orderDetailScreen);
+            //           }
+            //         });
+            //       }
+            //     },
+            //   ),
+            // ],
           );
         },
       );

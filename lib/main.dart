@@ -1,6 +1,7 @@
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/provider/category_provider.dart';
+import 'package:cloud_9_client/provider/order_provider.dart';
 import 'package:cloud_9_client/provider/post_provider.dart';
 import 'package:cloud_9_client/provider/product_provider.dart';
 import 'package:cloud_9_client/provider/service_provider.dart';
@@ -16,8 +17,8 @@ void main() => runApp(
       MultiProvider(
         providers: [
           
-          ChangeNotifierProvider(create: (_) => AuthProvider()),
-  
+          ChangeNotifierProvider(create: (_) => AuthProvider()),   
+          ChangeNotifierProvider(create: (_) => OrderProvider()),
           ChangeNotifierProvider(create: (_) => UtilityProvider()),
           ChangeNotifierProvider(create: (_) => AppointmentProvider()),
           ChangeNotifierProvider(create: (_) => AppointmentProvider()),

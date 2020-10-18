@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:cloud_9_client/api/api.dart';
+import 'package:cloud_9_client/models/mno.dart';
 import 'package:cloud_9_client/models/order.dart';
 import 'package:cloud_9_client/models/user.dart';
 import 'package:cloud_9_client/shared/shared_preference.dart';
@@ -15,11 +14,25 @@ class OrderProvider with ChangeNotifier {
   Country _selectedCountry = Country.TZ;
 
   bool _isSubmitingPaymentData = false;
+  MNO _selectedMNO = automnoList[0];
+  List<MNO> _mnoList;
+
+  getMNOList() {
+    _mnoList = automnoList;
+    notifyListeners();
+  }
 
   //get the choosen Image.
   Country get selectedCountry => _selectedCountry;
 
   bool get isSubmitingPaymentData => _isSubmitingPaymentData;
+  List<MNO> get mnoList => _mnoList;
+  MNO get selectedMNO => _selectedMNO;
+
+  set setSelectedMNO(MNO mno) {
+    _selectedMNO = mno;
+    notifyListeners();
+  }
 
   set setSelectedCountry(Country country) {
     _selectedCountry = country;
@@ -28,6 +41,7 @@ class OrderProvider with ChangeNotifier {
 
   //constructor
   OrderProvider() {
+    getMNOList();
     _sharedPref.read('user').then((value) {
       authenticatedUser = User.fromMap(value);
       fetchOrders(clientId: authenticatedUser.id);
@@ -41,6 +55,16 @@ class OrderProvider with ChangeNotifier {
   bool get isFetchingOrderData => _isFetchingOrderData;
 
   List<Order> get availableOrders => _availableOrders;
+  Order _selecetedOrder;
+
+  //setter
+  set selectOrder(Order order) {
+    _selecetedOrder = order;
+    notifyListeners();
+  }
+
+  /// getter
+  Order get getSelectedOrder => _selecetedOrder;
 
 //fetch orders
   Future<bool> fetchOrders({@required int clientId}) async {
@@ -50,7 +74,8 @@ class OrderProvider with ChangeNotifier {
 
     final List<Order> _fetchedOrders = [];
     try {
-      final http.Response response = await http.get(api + "orders");
+      final http.Response response =
+          await http.get(api + "selcom/orders/" + clientId.toString());
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -80,6 +105,7 @@ class OrderProvider with ChangeNotifier {
       {@required int userId,
       @required String paymentPhone,
       @required double amount}) async {
+    _isSubmitingPaymentData = true;
     notifyListeners();
     final Map<String, dynamic> authData = {
       'user_id': userId,
@@ -93,7 +119,6 @@ class OrderProvider with ChangeNotifier {
       headers: {'Content-Type': 'application/json'},
     );
 
-    log('QQQQQQQQQQQQQQQQQQQQQ');
     print(response.body.toString());
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
@@ -101,41 +126,45 @@ class OrderProvider with ChangeNotifier {
     if (responseData.containsKey('order')) {
       //add to order list
       hasError = false;
-      switch (paymentPhone.substring(3, 4)) {
+      final _order = Order.fromMap(responseData['order']);
+      _availableOrders.add(_order);
+      selectOrder = _order;
+      switch (paymentPhone.substring(3, 5)) {
         case "71":
         case "67":
         case "65":
         case "78":
         case "68":
         case "69":
-          sendUssdPush(orderId: responseData['order']['id'].toString());
+          sendUssdPush(orderId: _order.id.toString());
           break;
         default:
       }
     } else {
       hasError = true;
     }
-
+    _isSubmitingPaymentData = false;
     notifyListeners();
     return hasError;
   }
 
   //Register in User function..
   Future<bool> sendUssdPush({@required String orderId}) async {
-    final Map<String, dynamic> authData = {
+    final Map<String, dynamic> _data = {
       'order_id': orderId,
     };
 
     final http.Response response = await http.post(
       apiUssdPush,
-      body: json.encode(authData),
+      body: json.encode(_data),
       headers: {'Content-Type': 'application/json'},
     );
 
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
+    print('++++++++++++++++++++++++++++++');
     print(responseData);
-
+    print('++++++++++++++++++++++++++++++');
     notifyListeners();
     return hasError;
   }
