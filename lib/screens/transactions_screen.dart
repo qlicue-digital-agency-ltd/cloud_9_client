@@ -52,66 +52,52 @@ class TransactionScreen extends StatelessWidget {
       _transactionProvider.fetchTransactions(clientId: 2);
     }
 
-    return Background(
-        screen: SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxScrolled) => [
-            SliverAppBar(
-              elevation: 0,
-              expandedHeight: 120.0,
-              backgroundColor: Colors.transparent,
-             pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                centerTitle: true,
-                title: Text(
-                  'Transactions',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-          body: _transactionProvider.isFetchingTransactionData
-              ? Center(child: CircularProgressIndicator())
-              : _transactionProvider.availableTransactions.isEmpty
-                  ? Center(
-                      child: NoItemTile(
-                          icon: 'assets/icons/transaction.png',
-                          title: 'No Transactions',
-                          subtitle:
-                              'Please by out products and book for services'),
-                    )
-                  : RefreshIndicator(
-                      child: ListView.builder(
-                          itemCount:
-                              _transactionProvider.availableTransactions.length,
-                          itemBuilder: (context, index) {
-                            return TransactionListCard(
-                              onDeleteTap: () {
-                                _showDialog(
-                                    context,
-                                    _transactionProvider
-                                        .availableTransactions[index]);
-                              },
-                              onViewTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ReceiptScreen(
-                                        transaction: _transactionProvider
-                                            .availableTransactions[index],
-                                      ),
-                                    ));
-                              },
-                              transaction: _transactionProvider
-                                  .availableTransactions[index],
-                            );
-                          }),
-                      onRefresh: _getData),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Transactions',
+          style: TextStyle(color: Colors.white),
         ),
       ),
-    ));
+      body: _transactionProvider.isFetchingTransactionData
+          ? Center(child: CircularProgressIndicator())
+          : _transactionProvider.availableTransactions.isEmpty
+              ? Center(
+                  child: NoItemTile(
+                      icon: 'assets/icons/transaction.png',
+                      title: 'No Transactions',
+                      subtitle: 'Please by out products and book for services'),
+                )
+              : RefreshIndicator(
+                  child: ListView.builder(
+                      itemCount:
+                          _transactionProvider.availableTransactions.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:8.0),
+                          child: TransactionListCard(
+                            onDeleteTap: () {
+                              _showDialog(
+                                  context,
+                                  _transactionProvider
+                                      .availableTransactions[index]);
+                            },
+                            onViewTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReceiptScreen(
+                                      transaction: _transactionProvider
+                                          .availableTransactions[index],
+                                    ),
+                                  ));
+                            },
+                            transaction:
+                                _transactionProvider.availableTransactions[index],
+                          ),
+                        );
+                      }),
+                  onRefresh: _getData),
+    );
   }
 }

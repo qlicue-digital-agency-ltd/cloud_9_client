@@ -18,82 +18,61 @@ class AppointmentScreen extends StatelessWidget {
           clientId: _authProvider.authenticatedUser.id);
     }
 
-    return Background(
-        screen: SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxScrolled) => [
-            SliverAppBar(
-              elevation: 0,
-              expandedHeight: 120.0,
-              backgroundColor: Colors.transparent,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.calendar_today,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => ServiceListScreen()));
-                  },
-                )
-              ],
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                centerTitle: true,
-                title: Text(
-                  'My Appointments',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              SizedBox(height: 10),
-            ])),
-          ],
-          body: _appointmentProvider.isFetchingAppointmentData
-              ? Center(child: CircularProgressIndicator())
-              : _appointmentProvider.availableAppointments.isEmpty
-                  ? RefreshIndicator(
-                      onRefresh: _getData,
-                      child: Center(
-                        child: ListView(
-                          children: <Widget>[
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height / 4,
-                            ),
-                            NoItemTile(
-                                icon: 'assets/icons/calendar.png',
-                                title: 'No Consultation',
-                                subtitle:
-                                    'Please there are no available consultation'),
-                            Spacer(),
-                          ],
-                        ),
-                      ),
-                    )
-                  : RefreshIndicator(
-                      child: ListView.builder(
-                          itemCount:
-                              _appointmentProvider.availableAppointments.length,
-                          itemBuilder: (context, index) {
-                            return AppointmentCard(
-                              appointmentListCardOnTap: () {},
-                              appointmentMoreOnTap: () {},
-                              appointment: _appointmentProvider
-                                  .availableAppointments[index],
-                            );
-                          }),
-                      onRefresh: _getData),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Appointments',
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.calendar_today,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () {
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => ServiceListScreen()));
+            },
+          )
+        ],
       ),
-    ));
+      body: _appointmentProvider.isFetchingAppointmentData
+          ? Center(child: CircularProgressIndicator())
+          : _appointmentProvider.availableAppointments.isEmpty
+              ? RefreshIndicator(
+                  onRefresh: _getData,
+                  child: Center(
+                    child: ListView(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 4,
+                        ),
+                        NoItemTile(
+                            icon: 'assets/icons/calendar.png',
+                            title: 'No Consultation',
+                            subtitle:
+                                'Please there are no available consultation'),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
+                )
+              : RefreshIndicator(
+                  child: ListView.builder(
+                      itemCount:
+                          _appointmentProvider.availableAppointments.length,
+                      itemBuilder: (context, index) {
+                        return AppointmentCard(
+                          appointmentListCardOnTap: () {},
+                          appointmentMoreOnTap: () {},
+                          appointment:
+                              _appointmentProvider.availableAppointments[index],
+                        );
+                      }),
+                  onRefresh: _getData),
+    );
   }
 }

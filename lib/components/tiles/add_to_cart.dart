@@ -73,7 +73,9 @@ class _AddToCartState extends State<AddToCart> {
                             },
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Expanded(
                           child: FlatButton(
                             textColor: Colors.white,
@@ -93,7 +95,8 @@ class _AddToCartState extends State<AddToCart> {
                                         userId:
                                             _authProvider.authenticatedUser.id,
                                         paymentPhone: _phone,
-                                        amount: widget.product.price)
+                                        noOfItems: 1,
+                                        productId: widget.product.id)
                                     .then((value) {
                                   if (value) {
                                     print('errors');

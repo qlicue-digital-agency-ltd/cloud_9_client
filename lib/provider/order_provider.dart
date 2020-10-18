@@ -104,13 +104,15 @@ class OrderProvider with ChangeNotifier {
   Future<bool> createOrder(
       {@required int userId,
       @required String paymentPhone,
-      @required double amount}) async {
+      @required int productId,
+      @required int noOfItems}) async {
     _isSubmitingPaymentData = true;
     notifyListeners();
     final Map<String, dynamic> authData = {
       'user_id': userId,
       'payment_phone': paymentPhone,
-      'amount': amount,
+      'product_id': productId,
+      'no_of_items': noOfItems,
     };
 
     final http.Response response = await http.post(
