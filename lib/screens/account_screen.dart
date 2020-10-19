@@ -16,56 +16,43 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-        screen: SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              elevation: 0,
-              expandedHeight: 120.0,
-              backgroundColor: Colors.transparent,
-             pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                centerTitle: true,
-                title: Text(
-                  'Account',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+          title: Text(
+        'Account',
+        style: TextStyle(color: Colors.white),
+      )),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+              delegate: SliverChildListDelegate([
+            SizedBox(
+              height: 15,
             ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              SizedBox(
-                height: 15,
-              ),
-              ListTile(
-                leading: const Icon(Icons.lock, color: Colors.deepOrange),
-                title: Text('Reset Password'),
-              ),
-              Divider(),
-              ListTile(
-                leading: const Icon(Icons.delete, color: Colors.red),
-                title: Text('Delete Account'),
-                onTap: () {
-                  _showDialog(context);
-                },
-              ),
-              Divider(),
-              SwitchListTile(
-                value: _value2,
-                onChanged: _onChanged2,
-                title: new Text('Deactivate Account',
-                    style: new TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              Divider(),
-            ])),
-          ],
-        ),
+            ListTile(
+              leading: const Icon(Icons.lock, color: Colors.deepOrange),
+              title: Text('Reset Password'),
+            ),
+            Divider(),
+            ListTile(
+              leading: const Icon(Icons.delete, color: Colors.red),
+              title: Text('Delete Account'),
+              onTap: () {
+                _showDialog(context);
+              },
+            ),
+            Divider(),
+            SwitchListTile(
+              value: _value2,
+              onChanged: _onChanged2,
+              title: new Text('Deactivate Account',
+                  style: new TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            Divider(),
+          ])),
+        ],
       ),
-    ));
+    );
   }
 
   void _showDialog(context) {
@@ -102,7 +89,4 @@ class _AccountScreenState extends State<AccountScreen> {
       },
     );
   }
-
-
-
 }

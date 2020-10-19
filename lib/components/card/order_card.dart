@@ -18,6 +18,8 @@ class OrderCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+   
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -26,14 +28,24 @@ class OrderCard extends StatelessWidget {
           child: ListTile(
             leading: Icon(
               FontAwesomeIcons.clipboard,
-              color: Colors.blue,
+              color: order.paymentStatus == "null" ? Colors.red : Colors.blue,
             ),
             onTap: orderListCardOnTap,
             title: Text(
-              order.uuid,
+              order.product.name,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(order.status),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('No of Items:\t' + order.noOfItems),
+                Text(
+                  order.paymentStatus == "null"
+                      ? "Not Paid"
+                      : order.paymentStatus,
+                ),
+              ],
+            ),
             trailing: IconButton(
                 icon: Icon(Icons.more_vert), onPressed: orderMoreOnTap),
           )),

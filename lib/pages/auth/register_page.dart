@@ -1,4 +1,4 @@
-import 'package:cloud_9_client/components/text-fields/confirm_password_text_field.dart';
+
 import 'package:cloud_9_client/components/text-fields/label_text_field.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
@@ -19,8 +19,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _confirmPasswordFocusNode = FocusNode();
-
-  final GlobalKey<FormFieldState> _formFieldKey = GlobalKey<FormFieldState>();
 
   String passwordText = '';
   TextEditingController _emailEditingController = TextEditingController();

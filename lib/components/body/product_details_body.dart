@@ -1,6 +1,5 @@
 import 'package:cloud_9_client/components/tiles/add_to_cart.dart';
-import 'package:cloud_9_client/components/tiles/color_and_size.dart';
-import 'package:cloud_9_client/components/tiles/counter_with_fav_btn.dart';
+
 import 'package:cloud_9_client/components/tiles/description.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 
@@ -89,13 +88,13 @@ class Body extends StatelessWidget {
                 padding: EdgeInsets.all(8),
                 child: Column(
                   children: [
-                    ColorAndSize(product: product),
-                    SizedBox(height: kDefaultPaddin / 2),
+                   // ColorAndSize(product: product),
+                    //SizedBox(height: kDefaultPaddin / 2),
                     Description(product: product),
                     SizedBox(height: kDefaultPaddin / 2),
-                    CounterWithFavBtn(
-                      product: product,
-                    ),
+                    // CounterWithFavBtn(
+                    //   product: product,
+                    // ),
                     SizedBox(height: kDefaultPaddin / 2),
                     AddToCart(product: product)
                   ],

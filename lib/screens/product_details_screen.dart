@@ -18,6 +18,11 @@ class DetailsScreen extends StatelessWidget {
           title: Text('Product Details'),
           elevation: 0,
           backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(icon: Icon(Icons.shopping_cart), onPressed: (){
+              
+            })
+          ],
         ),
         body: Body(product: product),
       ),

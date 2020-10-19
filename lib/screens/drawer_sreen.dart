@@ -2,11 +2,12 @@ import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/screens/account_screen.dart';
-import 'package:cloud_9_client/screens/help_screen.dart';
 import 'package:cloud_9_client/screens/order_screen.dart';
 import 'package:cloud_9_client/screens/terms_and_condition.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'help_screen.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -37,10 +38,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
               children: <Widget>[
                 UserAccountsDrawerHeader(
                     currentAccountPicture: CircleAvatar(
-                        backgroundImage: NetworkImage(api +
-                            'profile/avatar/' +
-                            _authProvider.authenticatedUser.profile.id
-                                .toString())),
+                        backgroundImage: NetworkImage(
+                            _authProvider.authenticatedUser.profile.avatar)),
                     accountName:
                         Text(_authProvider.authenticatedUser.profile.fullname),
                     accountEmail: Text(_authProvider.authenticatedUser.email)),
@@ -89,7 +88,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 Material(
                   child: ListTile(
                     onTap: () {
-                      print('object');
                       Navigator.pop(context);
                       Navigator.push(
                           context,
@@ -102,22 +100,22 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ),
                 ),
                 SizedBox(height: 2),
-                Material(
-                  child: ListTile(
-                    onTap: () {
-                      print('object');
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TermsAndConditionsScreen(),
-                          ));
-                    },
-                    leading: Icon(Icons.book),
-                    title: Text('Terms & Conditions'),
-                  ),
-                ),
-                SizedBox(height: 2),
+                // Material(
+                //   child: ListTile(
+                //     onTap: () {
+                 
+                //       Navigator.pop(context);
+                //       Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => TermsAndConditionsScreen(),
+                //           ));
+                //     },
+                //     leading: Icon(Icons.book),
+                //     title: Text('Terms & Conditions'),
+                //   ),
+                // ),
+                // SizedBox(height: 2),
                 Material(
                   child: ListTile(
                     onTap: () {
@@ -134,7 +132,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ),
                 ),
                 SizedBox(height: 2),
-                
                 Material(
                   child: ListTile(
                     onTap: () {

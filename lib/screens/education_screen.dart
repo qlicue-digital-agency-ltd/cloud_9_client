@@ -16,30 +16,16 @@ class EducationScreen extends StatelessWidget {
       _postProvider.fetchPosts(_authUser.id);
     }
 
-    return Background(
-        screen: SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxScrolled) => [
-            SliverAppBar(
-              elevation: 0,
-              expandedHeight: 120.0,
-              backgroundColor: Colors.transparent,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                centerTitle: true,
-                title: Text(
-                  'Education',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              SizedBox(height: 50),
-              Material(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Education',
+          style: TextStyle(color: Colors.white),
+        ),
+        bottom: PreferredSize(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Material(
                 color: Colors.white,
                 elevation: 2,
                 borderRadius: BorderRadius.circular(20),
@@ -48,30 +34,32 @@ class EducationScreen extends StatelessWidget {
                   title: Text('Search.....'),
                 ),
               ),
-            ])),
-          ],
-          body: _postProvider.isFetchingPostData
-              ? Center(child: CircularProgressIndicator())
-              : _postProvider.availablePosts.isEmpty
-                  ? Center(
-                      child: NoItemTile(
-                          icon: 'assets/icons/agent.png',
-                          title: 'No Posts',
-                          subtitle: 'We have no posts of yet'),
-                    )
-                  : RefreshIndicator(
-                      child: ListView.builder(
-                          itemCount: _postProvider.availablePosts.length,
-                          itemBuilder: (context, index) {
-                            return PostCard(
-                              onLike: () {},
-                              onShare: () {},
-                              post: _postProvider.availablePosts[index],
-                            );
-                          }),
-                      onRefresh: _getData),
-        ),
+            ),
+            preferredSize: Size(double.infinity, 50)),
       ),
-    ));
+      body: _postProvider.isFetchingPostData
+          ? Center(child: CircularProgressIndicator())
+          : _postProvider.availablePosts.isEmpty
+              ? Center(
+                  child: NoItemTile(
+                      icon: 'assets/icons/agent.png',
+                      title: 'No Posts',
+                      subtitle: 'We have no posts of yet'),
+                )
+              : RefreshIndicator(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                        itemCount: _postProvider.availablePosts.length,
+                        itemBuilder: (context, index) {
+                          return PostCard(
+                            onLike: () {},
+                            onShare: () {},
+                            post: _postProvider.availablePosts[index],
+                          );
+                        }),
+                  ),
+                  onRefresh: _getData),
+    );
   }
 }

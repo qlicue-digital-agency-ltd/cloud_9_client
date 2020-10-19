@@ -1,44 +1,68 @@
+import 'package:cloud_9_client/models/product.dart';
 import 'package:flutter/material.dart';
 
 class Order {
   final int id;
-  final String uuid;
-  final List<dynamic> products;
-  final int userId;
-  final String status;
-  final String agentUuid;
+  final String orderId;
+  final String buyerEmail;
+  final String buyerName;
+  final String buyerPhone;
+  final String amount;
+  final String currency;
+  final String noOfItems;
+  final String orderFor;
+  final String reference;
+  final String result;
+  final String resultCode;
+  final String message;
+  final String gatewayBuyerUuid;
+  final String paymentToken;
+  final String qr;
+  final String paymentGatewayUrl;
+  final String paymentStatus;
+  final Product product;
 
-  Order({
-    @required this.id,
-    @required this.uuid,
-    @required this.products,
-    @required this.userId,
-    @required this.status,
-    @required this.agentUuid,
-  });
-
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'uuid': uuid,
-      'products': products,
-      'user_id': userId,
-      'status': status,
-      'agent_uuid': agentUuid
-    };
-    if (id != null) {
-      map['id'] = id;
-    }
-    map['uuid'] = uuid;
-    return map;
-  }
+  Order(
+      {@required this.id,
+      @required this.orderId,
+      @required this.buyerEmail,
+      @required this.buyerName,
+      @required this.buyerPhone,
+      @required this.amount,
+      @required this.currency,
+      @required this.noOfItems,
+      @required this.orderFor,
+      @required this.reference,
+      @required this.result,
+      @required this.resultCode,
+      @required this.message,
+      @required this.gatewayBuyerUuid,
+      @required this.paymentToken,
+      @required this.qr,
+      @required this.paymentGatewayUrl,
+      @required this.paymentStatus,
+      @required this.product});
 
   Order.fromMap(Map<String, dynamic> map)
       : assert(map['id'] != null),
-        assert(map['uuid'] != null),
+        assert(map['order_id'] != null),
         id = map['id'],
-        uuid = map['uuid'],
-        products = map['products'],
-        userId = int.parse(map['user_id'].toString()),
-        status = map['status'],
-        agentUuid = map['agent_uuid'];
+        orderId = map['order_id'].toString(),
+        buyerEmail = map['buyer_email'].toString(),
+        buyerName = map['buyer_name'].toString(),
+        buyerPhone = map['buyer_phone'].toString(),
+        amount = map['amount'].toString(),
+        currency = map['currency'].toString(),
+        noOfItems = map['no_of_items'].toString(),
+        orderFor = map['order_for'].toString(),
+        reference = map['reference'].toString(),
+        result = map['result'].toString(),
+        resultCode = map['result_code'].toString(),
+        message = map['message'].toString(),
+        gatewayBuyerUuid = map['gateway_buyer_uuid'].toString(),
+        paymentToken = map['payment_token'].toString(),
+        qr = map['qr'].toString(),
+        paymentGatewayUrl = map['payment_gateway_url'].toString(),
+        product = Product.fromMap(map['product']),
+        paymentStatus = map['payment_status'].toString();
 }

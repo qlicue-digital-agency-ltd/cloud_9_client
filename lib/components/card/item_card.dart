@@ -1,4 +1,3 @@
-import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/models/product.dart';
 import 'package:cloud_9_client/utils/currency_convertor.dart';
 import 'package:flutter/material.dart';
@@ -16,38 +15,40 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: press,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(kDefaultPaddin),
-              height: 180,
-              width: 160,
-              decoration: BoxDecoration(
-                color: product.color,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Hero(
-                tag: "${product.id}",
-                child: Image.network(product.image),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Hero(
+              tag: "${product.id}",
+              child: Image.network(
+                product.image,
+                height: 100,
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
-            child: Text(
-              // products is out demo list
-              product.name,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 10,
             ),
-          ),
-          Text(
-            currencyCovertor.currencyCovertor(amount: product.price),
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                // products is out demo list
+                product.name,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 3,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Text(
+              currencyCovertor.currencyCovertor(amount: product.price),
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
       ),
     );
   }

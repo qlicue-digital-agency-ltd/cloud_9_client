@@ -6,8 +6,10 @@ String orderScreen = '/OrderScreen';
 String profileScreen = '/ProfileScreen';
 String landingScreen = '/LandingScreen';
 String loginScreen = '/loginScreen';
+String orderDetailScreen = '/orderDetailScreen';
+
 
 const kTextColor = Color(0xFF535353);
 const kTextLightColor = Color(0xFFACACAC);
 
-const kDefaultPaddin = 20.0;
+const kDefaultPaddin = 10.0;
