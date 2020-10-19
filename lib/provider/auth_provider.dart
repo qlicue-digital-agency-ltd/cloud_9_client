@@ -125,6 +125,7 @@ class AuthProvider with ChangeNotifier {
     if (responseData.containsKey('access_token')) {
       hasError = false;
 
+
       _authenticatedUser = User.fromMap(responseData['user']);
 
       _sharedPref.save('user', responseData['user']);
