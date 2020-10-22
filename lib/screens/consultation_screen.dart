@@ -1,7 +1,7 @@
 import 'package:cloud_9_client/components/card/consultation_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/staff_provider.dart';
-import 'package:cloud_9_client/screens/background.dart';
+
 import 'package:cloud_9_client/screens/consultation_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Profile {
-  final int id;
-  final String uuid;
-  final String registrationNumber;
-  final String fullname;
-  final String avatar;
-  final String phone;
-  final String gender;
-  final String location;
-  final int userId;
+  int id;
+  String uuid;
+  String registrationNumber;
+  String fullname;
+  String avatar;
+  String phone;
+  String gender;
+  String location;
+  int userId;
 
   Profile(
       {@required this.id,
@@ -44,11 +44,11 @@ class Profile {
         assert(map['user_id'] != null),
         id = map['id'],
         uuid = map['uuid'],
-        userId = map['user_id']  ,
+        userId = map['user_id'],
         registrationNumber = map['registration_number'],
         fullname = map['fullname'],
         avatar = map['avatar'],
         phone = map['phone'].toString(),
         gender = map['gender'],
-        location = map['location'];
+        location = map['location'].toString();
 }

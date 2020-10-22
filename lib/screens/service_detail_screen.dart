@@ -1,5 +1,4 @@
 import 'package:cloud_9_client/models/service.dart';
-import 'package:cloud_9_client/screens/background.dart';
 import 'package:flutter/material.dart';
 
 import 'media_preview_list_page.dart';

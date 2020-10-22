@@ -2,7 +2,7 @@ import 'package:cloud_9_client/components/card/transaction_list_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/models/transaction.dart';
 import 'package:cloud_9_client/provider/transaction_provider.dart';
-import 'package:cloud_9_client/screens/background.dart';
+
 import 'package:cloud_9_client/screens/receipt_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class TransactionScreen extends StatelessWidget {
                           _transactionProvider.availableTransactions.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: TransactionListCard(
                             onDeleteTap: () {
                               _showDialog(
@@ -92,8 +92,8 @@ class TransactionScreen extends StatelessWidget {
                                     ),
                                   ));
                             },
-                            transaction:
-                                _transactionProvider.availableTransactions[index],
+                            transaction: _transactionProvider
+                                .availableTransactions[index],
                           ),
                         );
                       }),
