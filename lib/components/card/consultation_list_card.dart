@@ -32,7 +32,7 @@ class ConsultationListCard extends StatelessWidget {
                 width: 60,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                  image: NetworkImage(consultation.service.images[0].url),
+                  image: AssetImage('assets/icons/consultation.png'),
                   fit: BoxFit.fill,
                 )),
               ),

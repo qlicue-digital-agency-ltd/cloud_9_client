@@ -43,7 +43,7 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
           return AlertDialog(
             title: Text("Book Now!"),
             content: Container(
-              height:  MediaQuery.of(context).size.height/3,
+              height: MediaQuery.of(context).size.height / 3,
               child: Column(children: <Widget>[
                 Text("Add Agent Code"),
                 Form(
@@ -160,7 +160,7 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
           return AlertDialog(
             title: Text("Book Now!"),
             content: Container(
-              height: MediaQuery.of(context).size.height/3,
+              height: MediaQuery.of(context).size.height / 3,
               child: Column(children: <Widget>[
                 Text("Please confirm your booking for " + name),
                 Divider(
@@ -227,55 +227,38 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
       );
     }
 
-    return Background(
-        screen: SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              elevation: 0,
-              expandedHeight: 120.0,
-              backgroundColor: Colors.transparent,
-             pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                centerTitle: true,
-                title: Text(
-                  'Consultation',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: ConsultationListCard(
-                    onViewTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ServiceDetailScreen(
-                              service: widget.consultations[index].service,
-                            ),
-                          ));
-                    },
-                    consultation: widget.consultations[index],
-                    onBookTap: () {
-                      _showDialog(
-                          context,
-                          widget.consultations[index].service.title,
-                          widget.consultations[index]);
-                      print(widget.consultations[index].service.consultations);
-                    },
-                  ),
-                );
-              }, childCount: widget.consultations.length),
-            )
-          ],
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Consultation',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-    ));
+        body: ListView.builder(
+            itemCount: widget.consultations.length,
+            itemBuilder: (_, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: ConsultationListCard(
+                  onViewTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ServiceDetailScreen(
+                            service: widget.consultations[index].service,
+                          ),
+                        ));
+                  },
+                  consultation: widget.consultations[index],
+                  onBookTap: () {
+                    _showDialog(
+                        context,
+                        widget.consultations[index].service.title,
+                        widget.consultations[index]);
+                    print(widget.consultations[index].service.consultations);
+                  },
+                ),
+              );
+            }));
   }
 }
