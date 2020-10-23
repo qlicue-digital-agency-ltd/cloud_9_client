@@ -2,7 +2,7 @@ import 'package:cloud_9_client/components/card/appointment_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
-import 'package:cloud_9_client/screens/background.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

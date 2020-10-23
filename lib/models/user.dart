@@ -16,10 +16,9 @@ class User {
   });
 
   User.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        assert(map['email'] != null),
+      : 
         id = map['id'],
         token = map['token'].toString(),
         email = map['email'].toString(),
-        profile = Profile.fromMap(map['profile']);
+       profile = Profile.fromMap(map['profile']);
 }

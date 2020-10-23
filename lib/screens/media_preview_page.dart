@@ -1,7 +1,6 @@
 import 'package:cloud_9_client/models/image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+
 
 class MediaPreviewPage extends StatelessWidget {
   final ServieImage media;

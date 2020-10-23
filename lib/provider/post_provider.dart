@@ -52,8 +52,14 @@ class PostProvider with ChangeNotifier {
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
+        print('+++++++++++++++++++++++++++');
+        print(data['posts'][0]['comments'][0]['user']['profile']);
+        print('+++++++++++++++++++++++++++');
         data['posts'].forEach((postData) {
           final post = Post.fromMap(postData);
+          print('+++++++++++++++++++++++++++');
+          print(post);
+          print('+++++++++++++++++++++++++++');
           _fetchedPosts.add(post);
         });
         hasError = false;

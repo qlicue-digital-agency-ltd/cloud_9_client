@@ -1,11 +1,9 @@
-import 'package:badges/badges.dart';
+
 import 'package:cloud_9_client/components/card/item_card.dart';
 import 'package:cloud_9_client/components/tiles/no_item_tile.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/product_provider.dart';
-import 'package:cloud_9_client/screens/background.dart';
 
-import 'package:cloud_9_client/screens/cart_screen.dart';
 import 'package:cloud_9_client/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

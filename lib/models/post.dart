@@ -13,7 +13,7 @@ class Post {
   final bool likedByMe;
   User user;
   final int userId;
-  List<Comment> comments;
+  List<Comment> comments = [];
 
   Post(
       {@required this.id,
