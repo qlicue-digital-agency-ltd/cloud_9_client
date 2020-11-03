@@ -114,7 +114,9 @@ class OrderProvider with ChangeNotifier {
       'payment_phone': paymentPhone,
       'product_id': productId,
       'no_of_items': noOfItems,
-      'agent_code':agentCode,
+      'agent_uuid': agentCode,
+      'orderable_type': 'App\\Product',
+      'orderable_id': productId
     };
 
     final http.Response response = await http.post(
