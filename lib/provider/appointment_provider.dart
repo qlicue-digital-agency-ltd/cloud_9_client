@@ -84,27 +84,27 @@ class AppointmentProvider with ChangeNotifier {
     print("+++++++++++++++++++++++");
     print(appointmentData);
     print("+++++++++++++++++++++++");
-    // try {
-    //   final http.Response response = await http.post(
-    //     api + "procedure/appointment/" + procedureId.toString(),
-    //     body: json.encode(appointmentData),
-    //     headers: {'Content-Type': 'application/json'},
-    //   );
+    try {
+      final http.Response response = await http.post(
+        api + "procedure/appointment/" + procedureId.toString(),
+        body: json.encode(appointmentData),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-    //   final Map<String, dynamic> data = json.decode(response.body);
+      final Map<String, dynamic> data = json.decode(response.body);
 
-    //   if (response.statusCode == 201) {
-    //     print(data);
-    //     hasError = false;
-    //   }
-    // } catch (error) {
-    //   print(error);
-    //   hasError = true;
-    // }
-    // _isCreatingAppointmentData = false;
+      if (response.statusCode == 201) {
+        print(data);
+        hasError = false;
+      }
+    } catch (error) {
+      print(error);
+      hasError = true;
+    }
+    _isCreatingAppointmentData = false;
 
-    // notifyListeners();
-    // fetchAppointments(clientId: userId);
+    notifyListeners();
+    fetchAppointments(clientId: userId);
 
     return hasError;
   }
