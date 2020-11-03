@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_country_picker/country.dart';
 
 class UtilityProvider with ChangeNotifier {
   final double _maxSlide = 225.0;
   bool _canBeDragged = true;
   AnimationController _animationController;
+  Country _selectedCountry = Country.TZ;
 
   //getters
   double get maxSlide => _maxSlide;
   bool get canBeDragged => _canBeDragged;
   AnimationController get animationController => _animationController;
-
+  Country get selectedCountry => _selectedCountry;
   //setters
   set setAnimationController(AnimationController _animationCtrlr) {
     _animationController = _animationCtrlr;
@@ -27,7 +29,6 @@ class UtilityProvider with ChangeNotifier {
     bool isDragCloseFromRight =
         _animationController.isCompleted && details.globalPosition.dx > 0;
     _canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
-  
   }
 
   void onDragUpdate(DragUpdateDetails details) {
@@ -65,5 +66,10 @@ class UtilityProvider with ChangeNotifier {
   /// Starts an animation to close the drawer.
   void _close() {
     _animationController.fling(velocity: -1.0);
+  }
+
+  set setSelectedCountry(Country country) {
+    _selectedCountry = country;
+    notifyListeners();
   }
 }

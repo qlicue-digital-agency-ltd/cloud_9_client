@@ -38,46 +38,39 @@ class LabelTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 2.0,
-      borderRadius: BorderRadius.all(Radius.circular(30)),
-      child: Padding(
-        padding: EdgeInsets.all(extraPadding),
-        child: TextFormField(
-          onChanged: onChange,
-          keyboardType: keyboardType,
-          focusNode: focusNode,
-          key: formFieldKey,
-          controller: textEditingController,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            prefix: prefix != null ? Text(prefix) : null,
-            suffix: surfix != null ? Text(surfix) : null,
-            prefixIcon: prefixIcon != null
-                ? Material(
-                    elevation: 0,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    child: Icon(
-                      prefixIcon,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  )
-                : null,
-            hintText: hitText,
-            labelText: labelText,
-            border: InputBorder.none,
-          ),
-          validator: (value) {
-            if (message != null) {
-              if (value.isEmpty) {
-                return "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + message;
-              } else
-                return null;
-            } else
-              return null;
-          },
-        ),
+    return TextFormField(
+      onChanged: onChange,
+      keyboardType: keyboardType,
+      focusNode: focusNode,
+      key: formFieldKey,
+      controller: textEditingController,
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        prefix: prefix != null ? Text(prefix) : null,
+        suffix: surfix != null ? Text(surfix) : null,
+        prefixIcon: prefixIcon != null
+            ? Material(
+                elevation: 0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Icon(
+                  prefixIcon,
+                  color: Theme.of(context).primaryColor,
+                ),
+              )
+            : null,
+        hintText: hitText,
+        labelText: labelText,
       ),
+      validator: (value) {
+        if (message != null) {
+          if (value.isEmpty) {
+            return "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + message;
+          } else
+            return null;
+        } else
+          return null;
+      },
     );
   }
 }

@@ -59,24 +59,84 @@ class AppointmentProvider with ChangeNotifier {
     return hasError;
   }
 
-  Future<bool> postAppointment(
-      {@required String agentUuid,
-      @required int userId,
-      @required int senderId,
-      @required String sender}) async {
+  Future<bool> postProcedureAppointment({
+    @required String agentUuid,
+    @required int userId,
+    @required String date,
+    @required int procedureId,
+    @required String phoneNumber,
+  }) async {
     bool hasError = true;
     _isCreatingAppointmentData = true;
     notifyListeners();
 
     final Map<String, dynamic> appointmentData = {
-      'date': DateTime.now().toString(),
+      'date': date,
       'user_id': userId,
       'agent_uuid': agentUuid,
-      'status': 'booked'
+      'status': 'booked',
+      'orderable_type': 'App\\Procedure',
+      'orderable_id': procedureId,
+      'no_of_items': 1,
+      'payment_phone': phoneNumber
     };
+
+    print("+++++++++++++++++++++++");
+    print(appointmentData);
+    print("+++++++++++++++++++++++");
+    // try {
+    //   final http.Response response = await http.post(
+    //     api + "procedure/appointment/" + procedureId.toString(),
+    //     body: json.encode(appointmentData),
+    //     headers: {'Content-Type': 'application/json'},
+    //   );
+
+    //   final Map<String, dynamic> data = json.decode(response.body);
+
+    //   if (response.statusCode == 201) {
+    //     print(data);
+    //     hasError = false;
+    //   }
+    // } catch (error) {
+    //   print(error);
+    //   hasError = true;
+    // }
+    // _isCreatingAppointmentData = false;
+
+    // notifyListeners();
+    // fetchAppointments(clientId: userId);
+
+    return hasError;
+  }
+
+  ///consultation.........
+  Future<bool> postConsultationAppointment({
+    @required String agentUuid,
+    @required String date,
+    @required int userId,
+    @required String phoneNumber,
+    @required int consultationId,
+  }) async {
+    bool hasError = true;
+    _isCreatingAppointmentData = true;
+    notifyListeners();
+
+    final Map<String, dynamic> appointmentData = {
+      'date': date,
+      'user_id': userId,
+      'agent_uuid': agentUuid,
+      'status': 'booked',
+      'orderable_type': 'App\\Consultation',
+      'orderable_id': consultationId,
+      'no_of_items': 1,
+      'payment_phone': phoneNumber
+    };
+
+    print("+++++++++++++++++++++++");
+    print(appointmentData);
     try {
       final http.Response response = await http.post(
-        api + sender + "/appointment/" + senderId.toString(),
+        api + "consultation/appointment/" + consultationId.toString(),
         body: json.encode(appointmentData),
         headers: {'Content-Type': 'application/json'},
       );
@@ -98,7 +158,4 @@ class AppointmentProvider with ChangeNotifier {
 
     return hasError;
   }
-
-
-
 }

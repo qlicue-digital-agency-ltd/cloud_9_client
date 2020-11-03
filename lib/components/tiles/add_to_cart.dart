@@ -83,7 +83,8 @@ class _AddToCartState extends State<AddToCart> {
                             child: _isPaying
                                 ? CircularProgressIndicator(
                                     strokeWidth: 2.0,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
                                   )
                                 : Text('Pay'.toUpperCase()),
                             onPressed: () {

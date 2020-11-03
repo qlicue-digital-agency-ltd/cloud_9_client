@@ -54,40 +54,20 @@ class ProcedureAppointmentCard extends StatelessWidget {
                 )
               ],
             ),
+          
+          
           ]),
         ),
-        SizedBox(width: 10),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(procedure.date,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        ),
-        SizedBox(width: 20),
-        SizedBox(height: 10),
+     
         Padding(
           padding: const EdgeInsets.only(
             top: 10,
           ),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text('From',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                Text('To',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              ]),
+          child: Form(child: Column(children: [
+            TextFormField(),
+          ],),)
         ),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
-            Widget>[
-          Chip(
-              label: Text(procedure.startTime,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-          Chip(
-              label: Text(procedure.endTime,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-        ]),
+       
         SizedBox(
           height: 20,
         ),

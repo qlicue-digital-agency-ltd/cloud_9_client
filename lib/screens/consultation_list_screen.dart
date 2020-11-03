@@ -3,8 +3,6 @@ import 'package:cloud_9_client/models/consultation.dart';
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 
-import 'package:cloud_9_client/screens/background.dart';
-
 import 'package:cloud_9_client/screens/service_detail_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -106,12 +104,11 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               _appointmentProvider
-                                  .postAppointment(
-                                      agentUuid: _codeTextController.text,
-                                      userId:
-                                          _authProvider.authenticatedUser.id,
-                                      senderId: consultation.id,
-                                      sender: 'consultation')
+                                  .postConsultationAppointment(
+                                agentUuid: _codeTextController.text,
+                                userId: _authProvider.authenticatedUser.id,
+                                consultationId: consultation.id,
+                              )
                                   .then((value) {
                                 if (_appointmentProvider
                                     .isCreatingAppointmentData) {
@@ -188,11 +185,11 @@ class _ConsultationListScreenState extends State<ConsultationListScreen> {
                           color: Colors.blue,
                           onPressed: () {
                             _appointmentProvider
-                                .postAppointment(
-                                    agentUuid: null,
-                                    userId: _authProvider.authenticatedUser.id,
-                                    senderId: consultation.id,
-                                    sender: 'consultation')
+                                .postConsultationAppointment(
+                              agentUuid: null,
+                              userId: _authProvider.authenticatedUser.id,
+                              consultationId: consultation.id,
+                            )
                                 .then((value) {
                               if (_appointmentProvider
                                   .isCreatingAppointmentData) {
