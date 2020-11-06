@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/components/text-fields/label_text_field.dart';
 import 'package:cloud_9_client/components/text-fields/mobile_number.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/models/product.dart';
@@ -21,10 +22,13 @@ class AddToCart extends StatefulWidget {
 
 class _AddToCartState extends State<AddToCart> {
   final FocusNode _mobileFocusNode = FocusNode();
+  final FocusNode _codeFocusNode = FocusNode();
 
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _mobileTextEditingController = TextEditingController();
+  TextEditingController _codeTextController = TextEditingController();
+
   bool _isPaying = false;
   @override
   Widget build(BuildContext context) {
@@ -61,6 +65,18 @@ class _AddToCartState extends State<AddToCart> {
                     SizedBox(
                       height: 10,
                     ),
+                    LabelTextfield(
+                      focusNode: _codeFocusNode,
+                      hitText: "Eg. AG0001A",
+                      keyboardType: TextInputType.text,
+                      labelText: "Agent Code",
+                      maxLines: 1,
+                      message: null,
+                      textEditingController: _codeTextController,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -83,7 +99,8 @@ class _AddToCartState extends State<AddToCart> {
                             child: _isPaying
                                 ? CircularProgressIndicator(
                                     strokeWidth: 2.0,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
                                   )
                                 : Text('Pay'.toUpperCase()),
                             onPressed: () {
@@ -104,7 +121,8 @@ class _AddToCartState extends State<AddToCart> {
                                             _authProvider.authenticatedUser.id,
                                         paymentPhone: _phone,
                                         noOfItems: 1,
-                                        productId: widget.product.id)
+                                        productId: widget.product.id,
+                                        agentCode: _codeTextController.text)
                                     .then((value) {
                                   setState(() {
                                     _isPaying = false;

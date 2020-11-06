@@ -1,23 +1,26 @@
 import 'package:cloud_9_client/components/text-fields/date_text_field.dart';
 import 'package:cloud_9_client/components/text-fields/label_text_field.dart';
 import 'package:cloud_9_client/components/text-fields/mobile_number.dart';
-import 'package:cloud_9_client/models/service.dart';
+import 'package:cloud_9_client/models/consultation.dart';
 import 'package:cloud_9_client/provider/appointment_provider.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/provider/utility_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SetAppointmentScreen extends StatefulWidget {
-  final Service service;
+class SetConsultationAppointmentScreen extends StatefulWidget {
+  final Consultation consultation;
 
-  SetAppointmentScreen({Key key, @required this.service}) : super(key: key);
+  SetConsultationAppointmentScreen({Key key, @required this.consultation})
+      : super(key: key);
 
   @override
-  _SetAppointmentScreenState createState() => _SetAppointmentScreenState();
+  _SetConsultationAppointmentScreenState createState() =>
+      _SetConsultationAppointmentScreenState();
 }
 
-class _SetAppointmentScreenState extends State<SetAppointmentScreen> {
+class _SetConsultationAppointmentScreenState
+    extends State<SetConsultationAppointmentScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode _codeFocusNode = FocusNode();
@@ -60,13 +63,16 @@ class _SetAppointmentScreenState extends State<SetAppointmentScreen> {
                     Row(
                       children: <Widget>[
                         SizedBox(width: 10),
-                        Image.asset('assets/icons/procedure.png', height: 50),
+                        Image.asset('assets/icons/consultation.png',
+                            height: 50),
                         SizedBox(
                           width: 10,
                         ),
                         Expanded(
                           child: Text(
-                            'Appointment for ' + widget.service.title + ' Procedure',
+                            'Appointment for ' +
+                                widget.consultation.service.title +
+                                ' Consultation',
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -152,10 +158,10 @@ class _SetAppointmentScreenState extends State<SetAppointmentScreen> {
                                           .replaceAll(' ', '');
                               if (_formKey.currentState.validate()) {
                                 _appointmentProvider
-                                    .postProcedureAppointment(
+                                    .postConsultationAppointment(
                                   agentUuid: _codeTextController.text,
                                   userId: _authProvider.authenticatedUser.id,
-                                  procedureId: widget.service.id,
+                                  consultationId: widget.consultation.id,
                                   date: _dateTextController.text,
                                   phoneNumber: _mobile,
                                 )

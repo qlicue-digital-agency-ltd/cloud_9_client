@@ -104,6 +104,7 @@ class OrderProvider with ChangeNotifier {
   Future<bool> createOrder(
       {@required int userId,
       @required String paymentPhone,
+      @required String agentCode,
       @required int productId,
       @required int noOfItems}) async {
     _isSubmitingPaymentData = true;
@@ -113,6 +114,9 @@ class OrderProvider with ChangeNotifier {
       'payment_phone': paymentPhone,
       'product_id': productId,
       'no_of_items': noOfItems,
+      'agent_uuid': agentCode,
+      'orderable_type': 'App\\Product',
+      'orderable_id': productId
     };
 
     final http.Response response = await http.post(

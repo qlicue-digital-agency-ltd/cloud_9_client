@@ -41,61 +41,53 @@ class MobileTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 2.0,
-      borderRadius: BorderRadius.all(Radius.circular(30)),
-      child: Padding(
-        padding: EdgeInsets.all(extraPadding),
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 10,
-            ),
-            CountryPicker(
-              dense: false,
-              showFlag: true,
-              showDialingCode: true,
-              showName: false,
-              onChanged: onCodeChange,
-              selectedCountry: selectedCountry,
-            ),
-            Expanded(
-              child: TextFormField(
-                onChanged: onChange,
-                keyboardType: keyboardType,
-                focusNode: focusNode,
-                key: formFieldKey,
-                inputFormatters: <TextInputFormatter>[
-                  LengthLimitingTextInputFormatter(13),
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter,
-                  _phoneNumberFormatter,
-                ],
-                controller: textEditingController,
-                maxLines: maxLines,
-                decoration: InputDecoration(
-                  hintText: hitText,
-                  labelText: labelText,
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (message != null) {
-                    if (value.isEmpty) {
-                      return   message;
-                    } else
-                      return null;
-                  } else
-                    return null;
-                },
-              ),
-            ),
-          ],
+    return Row(
+      children: <Widget>[
+        SizedBox(
+          width: 10,
         ),
-      ),
+        CountryPicker(
+          dense: false,
+          showFlag: true,
+          showDialingCode: true,
+          showName: false,
+          onChanged: onCodeChange,
+          selectedCountry: selectedCountry,
+        ),
+        Expanded(
+          child: TextFormField(
+            onChanged: onChange,
+            keyboardType: keyboardType,
+            focusNode: focusNode,
+            key: formFieldKey,
+            inputFormatters: <TextInputFormatter>[
+              LengthLimitingTextInputFormatter(13),
+              FilteringTextInputFormatter.digitsOnly,
+              FilteringTextInputFormatter.singleLineFormatter,
+              _phoneNumberFormatter,
+            ],
+            controller: textEditingController,
+            maxLines: maxLines,
+            decoration: InputDecoration(
+              hintText: hitText,
+              labelText: labelText,
+              border: OutlineInputBorder(),
+            ),
+            validator: (value) {
+              if (message != null) {
+                if (value.isEmpty) {
+                  return message;
+                } else
+                  return null;
+              } else
+                return null;
+            },
+          ),
+        ),
+      ],
     );
   }
 }
-
 
 /// Format incoming numeric text to fit the format of (###) ###-#### ##...
 class _UsNumberTextInputFormatter extends TextInputFormatter {
@@ -110,23 +102,19 @@ class _UsNumberTextInputFormatter extends TextInputFormatter {
     final StringBuffer newText = StringBuffer();
     if (newTextLength >= 1) {
       newText.write('(');
-      if (newValue.selection.end >= 1)
-        selectionIndex++;
+      if (newValue.selection.end >= 1) selectionIndex++;
     }
     if (newTextLength >= 4) {
       newText.write(newValue.text.substring(0, usedSubstringIndex = 3) + ') ');
-      if (newValue.selection.end >= 3)
-        selectionIndex += 2;
+      if (newValue.selection.end >= 3) selectionIndex += 2;
     }
     if (newTextLength >= 7) {
       newText.write(newValue.text.substring(3, usedSubstringIndex = 6) + '-');
-      if (newValue.selection.end >= 6)
-        selectionIndex++;
+      if (newValue.selection.end >= 6) selectionIndex++;
     }
     if (newTextLength >= 11) {
       newText.write(newValue.text.substring(6, usedSubstringIndex = 10) + ' ');
-      if (newValue.selection.end >= 10)
-        selectionIndex++;
+      if (newValue.selection.end >= 10) selectionIndex++;
     }
     // Dump the rest.
     if (newTextLength >= usedSubstringIndex)

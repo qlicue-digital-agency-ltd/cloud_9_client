@@ -13,7 +13,7 @@ class CategoryProvider with ChangeNotifier {
   List<Service> _availableServices = [];
 
   Procedure _procedure;
-  int _procedurePosition = 1;
+ 
 
   CategoryProvider() {
     fetchCategories();
@@ -27,7 +27,7 @@ class CategoryProvider with ChangeNotifier {
   // List<Procedure> get availableProcedures => _availableProcedures;
 
   Procedure get selectedProcedure => _procedure;
-  int get procedurePosition => _procedurePosition;
+
 
   // //setters
   set setSelectedServiceList(List<Service> serviceList) {
@@ -94,9 +94,5 @@ class CategoryProvider with ChangeNotifier {
     return hasError;
   }
 
-  toNextProdure(int counter) {
-    _procedurePosition += counter;
-
-    notifyListeners();
-  }
+  
 }
