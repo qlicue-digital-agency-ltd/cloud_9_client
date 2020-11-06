@@ -175,15 +175,14 @@ class _LoginPageState extends State<LoginPage> {
                                                 password:
                                                     _passwordEditingController
                                                         .text)
-                                            .then((val) {
-                                          if (!val) {
+                                            .then((response) {
+                                          if (response['status']) {
                                             Navigator.of(context)
                                                 .pushReplacementNamed(
                                                     homeScreen);
                                           } else {
-                                            Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    landingScreen);
+                                            showInSnackBar(
+                                                response['message']);
                                           }
                                         });
                                       }

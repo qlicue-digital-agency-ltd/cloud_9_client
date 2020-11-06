@@ -235,11 +235,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   password:
                                                       _passwordEditingController
                                                           .text)
-                                              .then((val) {
-                                            if (!val) {
+                                              .then((response) {
+                                            if (response['status']) {
                                               Navigator.of(context)
                                                   .pushReplacementNamed(
                                                       profileScreen);
+                                            }else{
+
+                                              showInSnackBar(response['message']);
                                             }
                                           });
                                         } else {

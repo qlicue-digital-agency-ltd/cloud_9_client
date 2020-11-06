@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_country_picker/country.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   AuthProvider() {
@@ -90,10 +91,14 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    _sharedPref.remove('id');
-    _sharedPref.remove('token');
-    _sharedPref.remove('email');
-    _sharedPref.remove('profile');
+    // _sharedPref.remove('id');
+    // _sharedPref.remove('token');
+    // _sharedPref.remove('email');
+    // _sharedPref.remove('profile');
+
+     SharedPreferences.getInstance().then((sharedPreference) => sharedPreference.clear());
+
+
 
     notifyListeners();
   }
@@ -103,7 +108,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   //Sign in User function..
-  Future<bool> signInUser(
+  Future<Map<String,dynamic>> signInUser(
       {@required String email, @required String password}) async {
     _isSignInUser = true;
     notifyListeners();
@@ -137,11 +142,12 @@ class AuthProvider with ChangeNotifier {
     }
     _isSignInUser = false;
     notifyListeners();
-    return hasError;
+
+    return {'status' : responseData['status'],'message' : responseData['message']};
   }
 
   //Register in User function..
-  Future<bool> registerUser(
+  Future<Map<String,dynamic>> registerUser(
       {@required String email, @required String password}) async {
     _isSignInUser = true;
     notifyListeners();
@@ -159,6 +165,7 @@ class AuthProvider with ChangeNotifier {
 
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
+
     print(responseData);
 
     if (responseData.containsKey('access_token')) {
@@ -172,7 +179,7 @@ class AuthProvider with ChangeNotifier {
     }
     _isSignInUser = false;
     notifyListeners();
-    return hasError;
+    return {'status' : responseData['status'], 'message' : responseData['message']};
   }
 
 //update profile
