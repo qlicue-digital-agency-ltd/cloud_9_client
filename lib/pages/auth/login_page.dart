@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -20,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+
+  bool isSigningIn = false;
 
   TextEditingController _emailEditingController = TextEditingController();
   TextEditingController _passwordEditingController = TextEditingController();
@@ -56,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.only(top: 10.0),
                     child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: AssetImage(
+                        child: Image.asset(
                             'assets/icons/cloud9_transparent_logo.png'))),
                 SizedBox(
                   height: 20,
@@ -82,15 +85,44 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 50.0, bottom: 0.0, left: 25.0, right: 25.0),
-                          child: LabelTextfield(
-                            prefixIcon: FontAwesomeIcons.envelope,
-                            message: 'Please enter your email',
-                            maxLines: 1,
-                            hitText: 'Email',
-                            labelText: null,
-                            focusNode: _emailFocusNode,
-                            textEditingController: _emailEditingController,
-                            keyboardType: TextInputType.text,
+                          child: Material(
+                            elevation: 2.0,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: TextFormField(
+                              focusNode: _emailFocusNode,
+                              controller: _emailEditingController,
+                              textInputAction: TextInputAction.next,
+                              onEditingComplete: () {
+                                _emailFocusNode.unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(_passwordFocusNode);
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter Email';
+                                }
+                                if (!RegExp(
+                                        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                    .hasMatch(value))
+                                  return 'Please enter valid email';
+                                return null;
+                              },
+                              cursorColor: Theme.of(context).cursorColor,
+                              decoration: InputDecoration(
+                                  hintText: "Email",
+                                  prefixIcon: Material(
+                                    elevation: 0,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    child: Icon(
+                                      Icons.mail_outline,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 13)),
+                            ),
                           ),
                         ),
                         Padding(
@@ -103,7 +135,11 @@ class _LoginPageState extends State<LoginPage> {
                               focusNode: _passwordFocusNode,
                               controller: _passwordEditingController,
                               obscureText: _isObscure,
-                              onChanged: (String value) {},
+                              textInputAction: TextInputAction.send,
+                              onEditingComplete: () {
+                                _emailFocusNode.unfocus();
+                                login(_authProvider);
+                              },
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Please enter password';
@@ -147,46 +183,28 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               Expanded(
                                 child: RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(25))),
-                                    color: Colors.white,
-                                    child: Container(
-                                      height: 50,
-                                      child: Center(
-                                          child: _authProvider.isSignInUser
-                                              ? CircularProgressIndicator()
-                                              : Text(
-                                                  "LOG IN",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontFamily:
-                                                          "WorkSansBold"),
-                                                )),
-                                    ),
-                                    onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        _authProvider
-                                            .signInUser(
-                                                email: _emailEditingController
-                                                    .text,
-                                                password:
-                                                    _passwordEditingController
-                                                        .text)
-                                            .then((response) {
-                                          if (response['status']) {
-                                            Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    homeScreen);
-                                          } else {
-                                            showInSnackBar(
-                                                response['message']);
-                                          }
-                                        });
-                                      }
-                                    }),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(25))),
+                                  color: Colors.white,
+                                  child: Container(
+                                    height: 50,
+                                    child: Center(
+                                        child: isSigningIn
+                                            ? CircularProgressIndicator()
+                                            : Text(
+                                                "LOG IN",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontFamily: "WorkSansBold"),
+                                              )),
+                                  ),
+                                  onPressed: () {
+                                    login(_authProvider);
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -224,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         "Don't have an account? Sign Up!",
                         style: TextStyle(
-                           decoration: TextDecoration.underline,
+                            decoration: TextDecoration.underline,
                             color: Colors.white,
                             fontSize: 16.0,
                             fontFamily: "WorkSansMedium",
@@ -242,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void showInSnackBar(String value) {
+  void showInSnackBar(String value, {Color color}) {
     FocusScope.of(context).requestFocus(new FocusNode());
     _scaffoldKey.currentState?.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -254,8 +272,32 @@ class _LoginPageState extends State<LoginPage> {
             fontSize: 16.0,
             fontFamily: "WorkSansSemiBold"),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: color ?? Colors.blue,
       duration: Duration(seconds: 3),
     ));
+  }
+
+  void login(AuthProvider authProvider) {
+    FocusScope.of(context).unfocus();
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        isSigningIn = true;
+      });
+      authProvider
+          .signInUser(
+              email: _emailEditingController.text,
+              password: _passwordEditingController.text)
+          .then((response) {
+        setState(() {
+          isSigningIn = false;
+        });
+        authProvider.isSignInUser;
+        if (response['status']) {
+          Navigator.of(context).pushReplacementNamed(homeScreen);
+        } else {
+          showInSnackBar(response['message'], color: Colors.red);
+        }
+      });
+    }
   }
 }

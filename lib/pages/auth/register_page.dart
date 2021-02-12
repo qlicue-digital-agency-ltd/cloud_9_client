@@ -93,15 +93,46 @@ class _RegisterPageState extends State<RegisterPage> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 50.0, bottom: 0.0, left: 25.0, right: 25.0),
-                          child: LabelTextfield(
-                            prefixIcon: FontAwesomeIcons.envelope,
-                            message: 'Please enter your email',
-                            maxLines: 1,
-                            hitText: 'Email',
-                            labelText: null,
-                            focusNode: _emailFocusNode,
-                            textEditingController: _emailEditingController,
-                            keyboardType: TextInputType.text,
+                          child: Material(
+                            elevation: 2.0,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            child: TextFormField(
+                              focusNode: _emailFocusNode,
+                              controller: _emailEditingController,
+                              textInputAction: TextInputAction.next,
+                              onEditingComplete: () {
+                                _emailFocusNode.unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(_passwordFocusNode);
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter Email';
+                                }
+                                else if (!RegExp(
+                                    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                    .hasMatch(value)){
+                                  return 'Please enter valid email';
+                                }
+
+                               else return null;
+                              },
+                              cursorColor: Theme.of(context).cursorColor,
+                              decoration: InputDecoration(
+                                  hintText: "Email",
+                                  prefixIcon: Material(
+                                    elevation: 0,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                    child: Icon(
+                                      Icons.mail_outline,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 13)),
+                            ),
                           ),
                         ),
                         Padding(
@@ -114,7 +145,11 @@ class _RegisterPageState extends State<RegisterPage> {
                               focusNode: _passwordFocusNode,
                               controller: _passwordEditingController,
                               obscureText: _isObscure,
-                              onChanged: (String value) {},
+                              textInputAction: TextInputAction.next,
+                              onEditingComplete: (){
+                                _passwordFocusNode.unfocus();
+                                FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+                              },
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Please enter password';
@@ -161,16 +196,20 @@ class _RegisterPageState extends State<RegisterPage> {
                               focusNode: _confirmPasswordFocusNode,
                               controller: _confirmPasswordTextEditingController,
                               obscureText: _isObscure,
-                              onChanged: (String value) {},
+                              textInputAction: TextInputAction.send,
+                              onEditingComplete: () {
+                                _confirmPasswordFocusNode.unfocus();
+                                register(_authProvider);
+                              },
                               validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter password';
+                                if (value != _passwordEditingController.text) {
+                                  return 'Password mismatch';
                                 }
                                 return null;
                               },
                               cursorColor: Theme.of(context).cursorColor,
                               decoration: InputDecoration(
-                                  hintText: "Password",
+                                  hintText: "Confirm Password",
                                   prefixIcon: Material(
                                     elevation: 0,
                                     borderRadius:
@@ -224,32 +263,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 )),
                                     ),
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        if (_passwordEditingController.text ==
-                                            _confirmPasswordTextEditingController
-                                                .text) {
-                                          _authProvider
-                                              .registerUser(
-                                                  email: _emailEditingController
-                                                      .text,
-                                                  password:
-                                                      _passwordEditingController
-                                                          .text)
-                                              .then((response) {
-                                            if (response['status']) {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      profileScreen);
-                                            }else{
-
-                                              showInSnackBar(response['message']);
-                                            }
-                                          });
-                                        } else {
-                                          showInSnackBar(
-                                              'Passwords don\'t match');
-                                        }
-                                      }
+                                      register(_authProvider);
                                     }),
                               ),
                             ],
@@ -260,25 +274,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.only(
-                //       top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                //   child: ConfirmPasswordLabelTextfield(
-                //     message: 'Make sure passwords do match',
-                //     maxLines: 1,
-                //     hitText: 'Confirm Password',
-                //     prefixIcon: Icons.lock,
-                //     formFieldKey: _formFieldKey,
-                //     labelText: null,
-                //     focusNode: _confirmPasswordFocusNode,
-                //     password: passwordText,
-                //     textEditingController: _confirmPasswordTextEditingController,
-                //     keyboardType: TextInputType.text,
-                //     onChange: (val) {
-                //       _formFieldKey.currentState.validate();
-                //     },
-                //   ),
-                // ),
 
                 SizedBox(
                   height: 100,
@@ -306,5 +301,35 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.red,
       duration: Duration(seconds: 3),
     ));
+  }
+
+  void register(AuthProvider _authProvider){
+    FocusScope.of(context).unfocus();
+    if (_formKey.currentState.validate()) {
+      if (_passwordEditingController.text ==
+          _confirmPasswordTextEditingController
+              .text) {
+        _authProvider
+            .registerUser(
+            email: _emailEditingController
+                .text,
+            password:
+            _passwordEditingController
+                .text)
+            .then((response) {
+          if (response['status']) {
+            Navigator.of(context)
+                .pushReplacementNamed(
+                profileScreen);
+          }else{
+
+            showInSnackBar(response['message']);
+          }
+        });
+      } else {
+        showInSnackBar(
+            'Passwords don\'t match');
+      }
+    }
   }
 }
