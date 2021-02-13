@@ -42,6 +42,13 @@ class SplashScreenState extends State<AnimatedSplashScreen>
     startTime();
   }
 
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
    
