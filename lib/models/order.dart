@@ -1,4 +1,5 @@
 import 'package:cloud_9_client/models/product.dart';
+import 'package:cloud_9_client/models/service.dart';
 import 'package:flutter/material.dart';
 
 class Order {
@@ -21,6 +22,7 @@ class Order {
   final String paymentGatewayUrl;
   final String paymentStatus;
   final Product product;
+  final Service service;
 
   Order(
       {@required this.id,
@@ -41,7 +43,8 @@ class Order {
       @required this.qr,
       @required this.paymentGatewayUrl,
       @required this.paymentStatus,
-      @required this.product});
+      @required this.product,
+      @required this.service});
 
   Order.fromMap(Map<String, dynamic> map)
       : assert(map['id'] != null),
@@ -63,6 +66,7 @@ class Order {
         paymentToken = map['payment_token'].toString(),
         qr = map['qr'].toString(),
         paymentGatewayUrl = map['payment_gateway_url'].toString(),
-        product = Product.fromMap(map['product']),
+        product =  map['orderable_type'] == "App\\Product" ? Product.fromMap(map['orderable']) : null ,
+        service =  map['orderable_type'] != "App\\Product" ? Service.fromMap(map['orderable']['service']): null,
         paymentStatus = map['payment_status'].toString();
 }

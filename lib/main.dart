@@ -8,6 +8,7 @@ import 'package:cloud_9_client/provider/service_provider.dart';
 import 'package:cloud_9_client/provider/staff_provider.dart';
 import 'package:cloud_9_client/provider/transaction_provider.dart';
 import 'package:cloud_9_client/provider/utility_provider.dart';
+import 'package:cloud_9_client/provider/weight_care_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,7 @@ void main() => runApp(
           ChangeNotifierProvider(create: (_) => PostProvider()),
           ChangeNotifierProvider(create: (_) => TransactionProvider()),
           ChangeNotifierProvider(create: (_) => StaffProvider()),
+          ChangeNotifierProvider(create: (_) => WeightCareProvider())
         ],
         child: App(),
       ),

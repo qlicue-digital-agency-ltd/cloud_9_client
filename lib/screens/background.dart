@@ -7,6 +7,7 @@ class Background extends StatelessWidget {
   final Widget screen;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Background({Key key, @required this.screen}) : super(key: key);
 
   @override
@@ -37,4 +38,5 @@ class Background extends StatelessWidget {
       endDrawer: DrawerScreen(),
     );
   }
+
 }

@@ -1,6 +1,6 @@
-
 import 'package:cloud_9_client/models/service.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 typedef ServiceCardOnTap = Function();
 
@@ -15,6 +15,7 @@ class ServiceCard extends StatelessWidget {
       @required this.onTapMore,
       @required this.service})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -26,14 +27,28 @@ class ServiceCard extends StatelessWidget {
             height: 400,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(service.images[0].url),
-                        fit: BoxFit.cover)),
-              ),
+                   CachedNetworkImage(
+                      imageUrl: service.images[0].url,
+                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          Center(child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(value: downloadProgress.progress),
+                          )),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                     height: 200,
+                     width: MediaQuery.of(context).size.width,
+                     fit: BoxFit.cover,
+                    ),
+
+              // Container(
+              //   height: 200,
+              //   width: MediaQuery.of(context).size.width,
+              //   decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //         image: NetworkImage(service.images[0].url),
+              //         fit: BoxFit.cover),
+              //   ),
+              // ),
               SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -54,11 +69,16 @@ class ServiceCard extends StatelessWidget {
               Spacer(),
               Row(children: [
                 Spacer(),
-                IconButton(
-                  color: Colors.blue,
-                  icon: Icon(Icons.calendar_today),
+                // IconButton(
+                //   color: Colors.blue,
+                //   icon: Icon(Icons.calendar_today),
+                //   onPressed: onTapCalender,
+                //   tooltip: 'Schedule Appointment',
+                // ),
+                FlatButton(
                   onPressed: onTapCalender,
-                  tooltip: 'Schedule Appointment',
+                  child: const Text('Make Appointment'),
+                  textColor: Colors.blue,
                 ),
                 FlatButton(
                   onPressed: onTapMore,

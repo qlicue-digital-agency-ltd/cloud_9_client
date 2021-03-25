@@ -1,24 +1,80 @@
 import 'package:cloud_9_client/components/buttons/mno_dropdown.dart';
+import 'package:cloud_9_client/components/text-fields/mobile_number.dart';
 import 'package:cloud_9_client/components/text-fields/rowed_text_field.dart';
+import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/order_provider.dart';
 import 'package:cloud_9_client/utils/currency_convertor.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class OrderDetailScreen extends StatelessWidget {
+  OrderProvider _orderProvider;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
   @override
   Widget build(BuildContext context) {
-    final _orderProvider = Provider.of<OrderProvider>(context);
+    _orderProvider = Provider.of<OrderProvider>(context);
 
     return Scaffold(
+      key: _scaffoldKey,
         appBar: AppBar(title: Text('Order details')),
         body: _orderProvider.getSelectedOrder.paymentStatus == "null"
             ? CustomScrollView(slivers: [
                 SliverList(
                     delegate: SliverChildListDelegate([
                   SizedBox(height: 10),
+                  Card(
+                    margin: EdgeInsets.only(
+                        left: 10, top: 10, right: 10, bottom: 10),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RowedTextField(
+                            title: 'Item',
+                            subtitle: _orderProvider.getSelectedOrder.product != null ? _orderProvider
+                                .getSelectedOrder.product.name : _orderProvider.getSelectedOrder.service.title,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RowedTextField(
+                            title: 'Number of Items',
+                            subtitle:
+                            _orderProvider.getSelectedOrder.noOfItems,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RowedTextField(
+                            title: 'Amount',
+                            subtitle: currencyCovertor.currencyCovertor(
+                              amount: double.parse(
+                                  _orderProvider.getSelectedOrder.amount),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8.0),
+                          child: FlatButton(
+                            onPressed: () => _showDialog(context),
+                            child: Text('REQUEST USSD QUICK PAY'),
+                            color: Colors.green,
+                            textColor: Colors.white,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                              'Or You can complete order by following instructions bellow'),
+                        )
+                      ],
+                    ),
+                  ),
                   Card(
                     margin: EdgeInsets.only(
                       left: 10,
@@ -149,7 +205,10 @@ class OrderDetailScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: RowedTextField(
                                   title: 'Product',
-                                  subtitle: _orderProvider.getSelectedOrder.product.name,
+                                  subtitle: _orderProvider
+                                      .getSelectedOrder.product != null ? _orderProvider
+                                      .getSelectedOrder.product.name : _orderProvider
+                                      .getSelectedOrder.service.title,
                                 ),
                               ),
                               Padding(
@@ -227,7 +286,9 @@ class OrderDetailScreen extends StatelessWidget {
                               child: RowedTextField(
                                 title: 'Product',
                                 subtitle: _orderProvider
-                                    .getSelectedOrder.product.name,
+                                    .getSelectedOrder.product != null ? _orderProvider
+                                    .getSelectedOrder.product.name : _orderProvider
+                                    .getSelectedOrder.service.title,
                               ),
                             ),
                             Padding(
@@ -279,4 +340,126 @@ class OrderDetailScreen extends StatelessWidget {
                 ),
               )));
   }
+
+  Future<void> _showDialog(BuildContext context) async {
+    TextEditingController _mobileTextEditingController = TextEditingController();
+    final FocusNode _mobileFocusNode = FocusNode();
+    final _formKey = GlobalKey<FormState>();
+    bool _isPaying = false;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Add Phone Number to Pay'),
+          content: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Form(
+                    key: _formKey,
+                    child: MobileTextfield(
+                        hitText: 'Phone Number',
+                        labelText: 'Phone Number',
+                        focusNode: _mobileFocusNode,
+                        textEditingController: _mobileTextEditingController,
+                        maxLines: 1,
+                        message: 'Phone number required',
+                        onCodeChange: (country) {
+                          print(country);
+                          _orderProvider.setSelectedCountry = country;
+                        },
+                        selectedCountry: _orderProvider.selectedCountry,
+                        keyboardType: TextInputType.number),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: FlatButton(
+                          color: Colors.red,
+                          textColor: Colors.white,
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: FlatButton(
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          child: _isPaying
+                              ? CircularProgressIndicator(
+                                  strokeWidth: 2.0,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                )
+                              : Text('Pay'.toUpperCase()),
+                          onPressed: () {
+                            setState(() {
+                              _isPaying = true;
+                            });
+                            if (_formKey.currentState.validate()) {
+                              final _phone =
+                                  _orderProvider.selectedCountry.dialingCode +
+                                      _mobileTextEditingController.text
+                                          .replaceAll('(', '')
+                                          .replaceAll(')', '')
+                                          .replaceAll('-', '')
+                                          .replaceAll(' ', '');
+                              _orderProvider
+                                  .sendUssdPush(
+                                      orderId: _orderProvider
+                                          .getSelectedOrder.id
+                                          .toString(),
+                                      phone: _phone)
+                                  .then((response) {
+                                setState(() {
+                                  _isPaying = false;
+                                });
+                                if (!response['success']) {
+                                  showInSnackBar(value: response['message'] + '. Pay using given instructions or change payment number', context: context,color: Colors.red);
+                                } else {
+                                  showInSnackBar(value: response['message'] + '. Enter Pin to Verify the Payment', context: context);
+                                }
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            );
+          }),
+        );
+      },
+    );
+  }
+
+  void showInSnackBar({@required String value,@required BuildContext context,Color color}) {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    _scaffoldKey.currentState?.removeCurrentSnackBar();
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(
+        value,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.0,
+            fontFamily: "WorkSansSemiBold"),
+      ),
+      backgroundColor: color == null ? Colors.green : color,
+      duration: Duration(seconds: 3),
+    ));
+  }
+
 }

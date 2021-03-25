@@ -5,6 +5,7 @@ import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_9_client/pages/auth/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -41,17 +42,6 @@ class _RegisterPageState extends State<RegisterPage> {
     final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white54,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(
-          color: Color(0xFF6395e6), //change your color here
-        ),
-        elevation: 0,
-        title: Text(
-          'Register',
-          style: TextStyle(color: Color(0xFF6395e6)),
-        ),
-      ),
       key: _scaffoldKey,
       //   backgroundColor: Color(0xFF6395e6),
       body: Stack(
@@ -66,6 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                     padding: EdgeInsets.only(top: 50.0),
                     child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
                         radius: 60,
                         backgroundImage: AssetImage(
                             'assets/icons/cloud9_transparent_logo.png'))),
@@ -111,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 }
                                 else if (!RegExp(
                                     r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                                    .hasMatch(value)){
+                                    .hasMatch(value.trim())){
                                   return 'Please enter valid email';
                                 }
 
@@ -273,6 +264,28 @@ class _RegisterPageState extends State<RegisterPage> {
                       ],
                     ),
                   ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: FlatButton(
+                      onPressed: () {
+                        //showInSnackBar("Not implemented yet");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ));
+                      },
+                      child: Text(
+                        "Do you have an account? Login !",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontFamily: "WorkSansMedium",
+                            fontWeight: FontWeight.bold),
+                      )),
                 ),
 
                 SizedBox(

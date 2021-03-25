@@ -75,11 +75,12 @@ class OrderProvider with ChangeNotifier {
     final List<Order> _fetchedOrders = [];
     try {
       final http.Response response =
-          await http.get(api + "selcom/orders/" + clientId.toString());
+          await http.get(api + "orders/" + clientId.toString());
 
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
+        print(data.toString());
         data['orders'].forEach((orderData) {
           final order = Order.fromMap(orderData);
           _fetchedOrders.add(order);
@@ -105,18 +106,20 @@ class OrderProvider with ChangeNotifier {
       {@required int userId,
       @required String paymentPhone,
       @required String agentCode,
-      @required int productId,
-      @required int noOfItems}) async {
+      @required int orderableId,
+      @required String orderableType,
+      @required int noOfItems, @required  double amount}) async {
     _isSubmitingPaymentData = true;
     notifyListeners();
     final Map<String, dynamic> authData = {
       'user_id': userId,
       'payment_phone': paymentPhone,
-      'product_id': productId,
+      'product_id': orderableId,
+      'amount':amount,
       'no_of_items': noOfItems,
       'agent_uuid': agentCode,
-      'orderable_type': 'App\\Product',
-      'orderable_id': productId
+      'orderable_type': orderableType,
+      'orderable_id': orderableId
     };
 
     final http.Response response = await http.post(
@@ -142,7 +145,7 @@ class OrderProvider with ChangeNotifier {
         case "78":
         case "68":
         case "69":
-          sendUssdPush(orderId: _order.id.toString());
+          sendUssdPush(orderId: _order.id.toString(),phone: paymentPhone);
           break;
         default:
       }
@@ -155,9 +158,10 @@ class OrderProvider with ChangeNotifier {
   }
 
   //Register in User function..
-  Future<bool> sendUssdPush({@required String orderId}) async {
+  Future<Map<String,dynamic>> sendUssdPush({@required String orderId,@required String phone}) async {
     final Map<String, dynamic> _data = {
       'order_id': orderId,
+      'phone':phone
     };
 
     final http.Response response = await http.post(
@@ -172,6 +176,11 @@ class OrderProvider with ChangeNotifier {
     print(responseData);
     print('++++++++++++++++++++++++++++++');
     notifyListeners();
-    return hasError;
+    if(!responseData.containsKey('status')){
+      if(!responseData['status'])
+        return {'status':false,'message':'Error Occurred, Please Pay using given Procedures','success':false};
+    }
+    if(responseData['transaction']['result_code'] == '000' ) print('TTTTTTTRRRRRUUUUUEEEEE');
+    return {'status':responseData['status'],'message':responseData['transaction']['message'],'success':responseData['transaction']['result_code'] == '000' ? true : false};
   }
 }

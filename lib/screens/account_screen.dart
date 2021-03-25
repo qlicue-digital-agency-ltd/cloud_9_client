@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:cloud_9_client/pages/auth/profile_page.dart';
+
 class AccountScreen extends StatefulWidget {
   @override
   _AccountScreenState createState() => _AccountScreenState();
@@ -29,6 +31,14 @@ class _AccountScreenState extends State<AccountScreen> {
             SizedBox(
               height: 15,
             ),
+            ListTile(
+              leading: const Icon(Icons.account_box_rounded,color: Colors.grey),
+              title: const Text('Edit Profile'),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              },
+            ),
+            Divider(),
             ListTile(
               leading: const Icon(Icons.lock, color: Colors.deepOrange),
               title: Text('Reset Password'),

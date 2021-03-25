@@ -1,7 +1,7 @@
 name: cloud_9_client
 description: An application to book procedures and buy products from cloud 9 clinic.
 
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -27,9 +27,14 @@ dependencies:
   badges: ^1.1.1
   flutter_custom_clippers: ^1.1.1
   random_string: ^2.0.0
-  share: ^0.6.4+3
+  share: 0.6.4+3
   flutter_country_picker: ^0.1.6
   qr_flutter: ^3.1.0
+  sticky_headers: ^0.1.8
+  firebase_core: ^0.7.0
+  firebase_dynamic_links: ^0.7.0+1
+  cached_network_image: ^2.5.1
+  carousel_slider: ^3.0.0
   
 
 

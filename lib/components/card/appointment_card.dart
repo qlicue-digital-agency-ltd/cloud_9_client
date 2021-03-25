@@ -37,10 +37,22 @@ class AppointmentCard extends StatelessWidget {
               appointment.appointmentable.service.title,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            subtitle: Text('Date ' +
-                appointment.date +
-                '\nstarting at ' +
-                appointment.appointmentable.startTime),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Date ' +
+                    appointment.date +
+                    '\nstarting at ' +
+                    appointment.appointmentable.startTime),
+                Row(children: [Padding(
+                  padding: const EdgeInsets.only(right:8.0),
+                  child: Icon(Icons.monetization_on_outlined,color: Colors.blue,),
+                ),
+                  appointment.appointmentable.orders.length == 0 ?  Text('Unpaid',style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold)) :Text( appointment.appointmentable.orders[0].paymentStatus == 'null' ?  'Unpaid' : appointment.appointmentable.orders[0].paymentStatus,style: TextStyle(color: appointment.appointmentable.orders[0].paymentStatus == 'null' ? Colors.red : Colors.green,fontWeight: FontWeight.bold))
+                ],),
+
+              ],
+            ),
             trailing: IconButton(
                 icon: Icon(Icons.more_vert), onPressed: appointmentMoreOnTap),
           )),

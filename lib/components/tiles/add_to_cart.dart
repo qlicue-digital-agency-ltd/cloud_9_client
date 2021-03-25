@@ -121,7 +121,9 @@ class _AddToCartState extends State<AddToCart> {
                                             _authProvider.authenticatedUser.id,
                                         paymentPhone: _phone,
                                         noOfItems: 1,
-                                        productId: widget.product.id,
+                                        orderableId: widget.product.id,
+                                        orderableType: 'Product',
+                                        amount: widget.product.price,
                                         agentCode: _codeTextController.text)
                                     .then((value) {
                                   setState(() {

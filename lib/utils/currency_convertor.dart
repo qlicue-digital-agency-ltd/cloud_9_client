@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-class CurrencyCovertor {
+class CurrencyConverter {
   final int decimalDigits;
   final String currency;
 
-  CurrencyCovertor({@required this.decimalDigits, @required this.currency});
+  CurrencyConverter({@required this.decimalDigits, @required this.currency});
   String currencyCovertor({@required double amount}) {
     final formatter = NumberFormat.simpleCurrency(
         decimalDigits: decimalDigits, name: currency);
@@ -14,7 +14,7 @@ class CurrencyCovertor {
 }
 
 ///currency converter
-CurrencyCovertor currencyCovertor = CurrencyCovertor(
+CurrencyConverter currencyCovertor = CurrencyConverter(
   decimalDigits: 0,
   currency: 'TZ\t',
 );

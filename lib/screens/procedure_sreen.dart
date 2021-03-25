@@ -53,12 +53,12 @@ class ProcedureScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return ServiceCard(
                             onTapCalender: () {
-                              if (_serviceProvider.availableServices[index]
-                                  .procedures.isNotEmpty) {
-                              } else {
-                                showSnackBar(
-                                    'There are no procedures scheduled for this event');
-                              }
+                              // if (_serviceProvider.availableServices[index]
+                              //     .procedures.isNotEmpty) {
+                              // } else {
+                              //   showSnackBar(
+                              //       'There are no procedures scheduled for this event');
+                              // }
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -73,7 +73,6 @@ class ProcedureScreen extends StatelessWidget {
                             },
                             service: _serviceProvider.availableServices[index],
                             onTapMore: () {
-                              print('moreeeee');
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

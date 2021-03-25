@@ -33,6 +33,8 @@ class ServiceProvider with ChangeNotifier {
 
       final Map<String, dynamic> data = json.decode(response.body);
 
+      print('XXXXXXXXXXXXXXXXX');
+      print(data);
       if (response.statusCode == 200) {
         data['services'].forEach((serviceData) {
           final service = Service.fromMap(serviceData);

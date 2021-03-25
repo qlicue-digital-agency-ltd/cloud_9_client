@@ -38,9 +38,13 @@ class _ProfilePageState extends State<ProfilePage> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
+    _fullnameController.text = _authProvider.authenticatedUser.profile.fullname;
+    _locationTextEditingController.text = _authProvider.authenticatedUser.profile.location;
+    _mobileTextEditingController.text = _authProvider.authenticatedUser.profile.phone;
     return Scaffold(
       backgroundColor: Colors.white54,
       key: _scaffoldKey,

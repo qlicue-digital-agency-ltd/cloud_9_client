@@ -6,6 +6,7 @@ import 'package:cloud_9_client/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:developer';
 
 class PostProvider with ChangeNotifier {
   //variable declaration
@@ -51,20 +52,23 @@ class PostProvider with ChangeNotifier {
 
       final Map<String, dynamic> data = json.decode(response.body);
 
+      log(response.body,name:'EDU');
+
       if (response.statusCode == 200) {
-        print('+++++++++++++++++++++++++++');
-        print(data['posts'][0]['comments'][0]['user']['profile']);
-        print('+++++++++++++++++++++++++++');
+        // print('+++++++++++++++++++++++++++');
+        // print(data['posts'][0]['comments'][0]['user']['profile']);
+        // print('+++++++++++++++++++++++++++');
         data['posts'].forEach((postData) {
           final post = Post.fromMap(postData);
-          print('+++++++++++++++++++++++++++');
-          print(post);
-          print('+++++++++++++++++++++++++++');
+          // print('+++++++++++++++++++++++++++');
+          // print(post);
+          // print('+++++++++++++++++++++++++++');
           _fetchedPosts.add(post);
         });
         hasError = false;
       }
     } catch (error) {
+      log(error.toString() ,name:'ERR');
       print(error);
       hasError = true;
     }

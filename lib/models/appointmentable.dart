@@ -1,4 +1,5 @@
 import 'package:cloud_9_client/models/service.dart';
+import 'package:cloud_9_client/models/order.dart';
 import 'package:flutter/material.dart';
 
 class Appointmentable {
@@ -10,6 +11,7 @@ class Appointmentable {
   final int serviceId;
   final String practionerUuid;
   Service service;
+  List<Order> orders;
 
   Appointmentable(
       {@required this.id,
@@ -18,7 +20,8 @@ class Appointmentable {
       @required this.endTime,
       @required this.day,
       @required this.serviceId,
-      @required this.practionerUuid});
+      @required this.practionerUuid,
+      @required this.orders});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -44,6 +47,8 @@ class Appointmentable {
         endTime = map['end_time'],
         day = map['day'],
         serviceId = int.parse(map['service_id'].toString()),
-        practionerUuid = map['practioner_uuid'],
-        service = Service.fromMap(map['service']);
+        practionerUuid = '',//map['practioner_uuid'],
+        service = Service.fromMap(map['service']),
+        orders =(map['orders'] as List).map((i) => Order.fromMap(i)).toList();
+  // order.add(Order.fromMap(map['o'])
 }

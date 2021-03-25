@@ -9,7 +9,7 @@ class Service {
   final String title;
   final String body;
   final int categoryId;
-  List<ServieImage> images = [];
+  List<ServiceImage> images = [];
   List<Procedure> procedures = [];
   List<Consultation> consultations = [];
 
@@ -41,19 +41,19 @@ class Service {
         categoryId = int.parse(map['category_id'].toString()),
         images = map['images'] != null
             ? (map['images'] as List)
-                .map((i) => ServieImage.fromMap(i))
+                .map((i) => ServiceImage.fromMap(i))
                 .toList()
-            : [],
-        consultations = map['consultations'] != null
-            ? (map['consultations'] as List)
-                .map((i) => Consultation.fromMap(i))
-                .toList()
-            : [],
-        procedures = map['procedures'] != null
-            ? (map['procedures'] as List).map((i) {
-                print('00000');
-                print(i.toString().length);
-                return Procedure.fromMap(i);
-              }).toList()
             : [];
+        // consultations = map['consultations'] != null
+        //     ? (map['consultations'] as List)
+        //         .map((i) => Consultation.fromMap(i))
+        //         .toList()
+        //     : [],
+        // procedures = map['procedures'] != null
+        //     ? (map['procedures'] as List).map((i) {
+        //         print('00000');
+        //         print(i.toString().length);
+        //         return Procedure.fromMap(i);
+        //       }).toList()
+        //     : [];
 }

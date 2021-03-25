@@ -39,11 +39,15 @@ class AppointmentProvider with ChangeNotifier {
 
       final Map<String, dynamic> data = json.decode(response.body);
 
+      print('RRRRRRRRR');
+      print(data);
+
       if (response.statusCode == 200) {
         data['appointments'].forEach((appointmentData) {
           final appointment = Appointment.fromMap(appointmentData);
           _fetchedAppointments.add(appointment);
         });
+
         hasError = false;
       }
     } catch (error) {
@@ -59,14 +63,15 @@ class AppointmentProvider with ChangeNotifier {
     return hasError;
   }
 
-  Future<bool> postProcedureAppointment({
+  Future<Map<String,dynamic>> postProcedureAppointment({
     @required String agentUuid,
     @required int userId,
     @required String date,
-    @required int procedureId,
+    @required int serviceId,
     @required String phoneNumber,
   }) async {
     bool hasError = true;
+    Appointment _appointment ;
     _isCreatingAppointmentData = true;
     notifyListeners();
 
@@ -76,7 +81,7 @@ class AppointmentProvider with ChangeNotifier {
       'agent_uuid': agentUuid,
       'status': 'booked',
       'orderable_type': 'App\\Procedure',
-      'orderable_id': procedureId,
+      'orderable_id': serviceId,
       'no_of_items': 1,
       'payment_phone': phoneNumber
     };
@@ -86,15 +91,17 @@ class AppointmentProvider with ChangeNotifier {
     print("+++++++++++++++++++++++");
     try {
       final http.Response response = await http.post(
-        api + "procedure/appointment/" + procedureId.toString(),
+        api + "procedure/appointment/" + serviceId.toString(),
         body: json.encode(appointmentData),
         headers: {'Content-Type': 'application/json'},
       );
 
       final Map<String, dynamic> data = json.decode(response.body);
-
+      print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+      print(data);
       if (response.statusCode == 201) {
-        print(data);
+        // print(data);
+         _appointment = Appointment.fromMap(data['appointment']);
         hasError = false;
       }
     } catch (error) {
@@ -106,11 +113,11 @@ class AppointmentProvider with ChangeNotifier {
     notifyListeners();
     fetchAppointments(clientId: userId);
 
-    return hasError;
+    return {'success':! hasError, 'appointment':_appointment};
   }
 
   ///consultation.........
-  Future<bool> postConsultationAppointment({
+  Future<Map<String,dynamic>> postConsultationAppointment({
     @required String agentUuid,
     @required String date,
     @required int userId,
@@ -118,6 +125,7 @@ class AppointmentProvider with ChangeNotifier {
     @required int consultationId,
   }) async {
     bool hasError = true;
+    Appointment _appointment ;
     _isCreatingAppointmentData = true;
     notifyListeners();
 
@@ -144,7 +152,7 @@ class AppointmentProvider with ChangeNotifier {
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 201) {
-        print(data);
+        _appointment = Appointment.fromMap(data['appointment']);
         hasError = false;
       }
     } catch (error) {
@@ -156,6 +164,6 @@ class AppointmentProvider with ChangeNotifier {
     notifyListeners();
     fetchAppointments(clientId: userId);
 
-    return hasError;
+    return {'success': !hasError , 'appointment' : _appointment};
   }
 }

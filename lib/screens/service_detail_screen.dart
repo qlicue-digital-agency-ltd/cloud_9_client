@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_9_client/models/service.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_9_client/screens/set_appointment_screen.dart';
 
 import 'media_preview_list_page.dart';
 
@@ -8,6 +10,7 @@ class ServiceDetailScreen extends StatelessWidget {
 
   const ServiceDetailScreen({Key key, @required this.service})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +29,13 @@ class ServiceDetailScreen extends StatelessWidget {
               size: 30,
             ),
             onPressed: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => SetAppointmentScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SetAppointmentScreen(
+                      service: service,
+                    ),
+                  ));
             },
           )
         ],
@@ -53,7 +59,7 @@ class ServiceDetailScreen extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                            image: NetworkImage(
+                                            image: CachedNetworkImageProvider(
                                                 service.images[0].url),
                                             fit: BoxFit.cover)),
                                     height: 200,
@@ -62,49 +68,50 @@ class ServiceDetailScreen extends StatelessWidget {
                                 width: 10,
                               ),
                               Expanded(
-                                  flex: 1,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  MediaPreviewListPage(
-                                                    media: service.images,
-                                                  )));
-                                    },
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Hero(
-                                          tag: service.images[0].url,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        service.images[0].url),
-                                                    fit: BoxFit.cover)),
-                                            height: 200,
+                                flex: 1,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                MediaPreviewListPage(
+                                                  media: service.images,
+                                                )));
+                                  },
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Hero(
+                                        tag: service.images[0].url,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                                image: CachedNetworkImageProvider(
+                                                    service.images[0].url),
+                                                fit: BoxFit.cover),
                                           ),
+                                          height: 200,
                                         ),
-                                        Positioned(
-                                          top: 80,
-                                          left: 40,
-                                          child: Text(
-                                            '+' +
-                                                service.images.length
-                                                    .toString(),
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ))
+                                      ),
+                                      Positioned(
+                                        top: 80,
+                                        left: 40,
+                                        child: Text(
+                                          '+' +
+                                              service.images.length.toString(),
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
                             ],
                           )
                         : Container(),

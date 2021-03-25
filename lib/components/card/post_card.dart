@@ -48,9 +48,7 @@ class _PostCardState extends State<PostCard> {
             Row(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundImage: NetworkImage(api +
-                      'profile/avatar/' +
-                      widget.post.user.profile.id.toString()),
+                  backgroundImage: NetworkImage(widget.post.user.profile.avatar),
                 ),
                 SizedBox(
                   width: 20,
@@ -62,8 +60,7 @@ class _PostCardState extends State<PostCard> {
               height: 10,
             ),
             widget.post.image != null
-                ? Image.network(
-                    api + 'post/img/' + widget.post.id.toString(),
+                ? Image.network( widget.post.image,
                     fit: BoxFit.cover,
                   )
                 : Container(),

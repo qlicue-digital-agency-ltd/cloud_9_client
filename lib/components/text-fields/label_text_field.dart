@@ -9,6 +9,8 @@ class LabelTextfield extends StatelessWidget {
   final String message;
   final String prefix;
   final String surfix;
+  final bool readOnly;
+  final Function onTap;
   final IconData prefixIcon;
   final TextInputType keyboardType;
   final LabelTextfieldOnChange onChange;
@@ -19,22 +21,33 @@ class LabelTextfield extends StatelessWidget {
 
   final TextEditingController textEditingController;
 
-  LabelTextfield(
-      {Key key,
-      @required this.hitText,
-      @required this.labelText,
-      @required this.focusNode,
-      @required this.textEditingController,
-      @required this.maxLines,
-      @required this.message,
-      @required this.keyboardType,
-      this.prefix,
-      this.prefixIcon,
-      this.surfix,
-      this.onChange,
-      this.formFieldKey,
-      this.extraPadding = 0.0})
-      : super(key: key);
+   Function onEditingComplete;
+   TextInputAction textInputAction;
+
+   Function validator;
+
+  LabelTextfield({
+    Key key,
+    @required this.hitText,
+    @required this.labelText,
+    @required this.focusNode,
+    @required this.textEditingController,
+    @required this.maxLines,
+    @required this.message,
+    @required this.keyboardType,
+    this.prefix,
+    this.prefixIcon,
+    this.surfix,
+    this.onChange,
+    this.formFieldKey,
+    this.extraPadding = 0.0,
+    this.readOnly = false,
+    this.onTap,
+    this.textInputAction,
+    this.onEditingComplete,
+    this.validator,
+
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +58,10 @@ class LabelTextfield extends StatelessWidget {
       key: formFieldKey,
       controller: textEditingController,
       maxLines: maxLines,
+      onTap: onTap,
+      readOnly: readOnly,
+      onEditingComplete: onEditingComplete,
+        textInputAction: textInputAction,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         prefix: prefix != null ? Text(prefix) : null,
@@ -62,7 +79,7 @@ class LabelTextfield extends StatelessWidget {
         hintText: hitText,
         labelText: labelText,
       ),
-      validator: (value) {
+      validator: validator ?? (value) {
         if (message != null) {
           if (value.isEmpty) {
             return "\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + message;

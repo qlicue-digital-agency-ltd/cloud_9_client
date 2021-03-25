@@ -8,7 +8,7 @@ class Background extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/1.jpg'),
+          image: AssetImage('assets/images/login_background.jpg'),
           fit: BoxFit.cover,
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/components/text-fields/rowed_text_field.dart';
 import 'package:cloud_9_client/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,29 +26,54 @@ class OrderCard extends StatelessWidget {
       child: Material(
           elevation: 1,
           borderRadius: BorderRadius.circular(15),
-          child: ListTile(
-            leading: Icon(
-              FontAwesomeIcons.clipboard,
-              color: order.paymentStatus == "null" ? Colors.red : Colors.blue,
-            ),
+          child: InkWell(
             onTap: orderListCardOnTap,
-            title: Text(
-              order.product.name,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
               children: [
-                Text('No of Items:\t' + order.noOfItems),
-                Text(
-                  order.paymentStatus == "null"
-                      ? "Not Paid"
-                      : order.paymentStatus,
+                ListTile(
+                  leading: Icon(
+                    FontAwesomeIcons.clipboard,
+                    color: order.paymentStatus == "null" ? Colors.red : Colors.blue,
+                  ),
+                  onTap: orderListCardOnTap,
+                  title:
+                  order.product != null ? Text(
+                    order.product.name,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ) : Text(
+                    order.service.title,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('No of Items:\t' + order.noOfItems),
+                      Text(
+                        order.paymentStatus == "null"
+                            ? "Not Paid"
+                            : order.paymentStatus,
+                      ),
+
+                    ],
+                  ),
+                  trailing: IconButton(
+                      icon: Icon(Icons.more_vert), onPressed: orderMoreOnTap),
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(children: [Text('Payment Status'),Spacer(),Text(order.paymentStatus == 'null' ? 'Unpaid': order.paymentStatus,style: TextStyle(fontWeight: FontWeight.bold,color: order.paymentStatus == 'null' ? Colors.red : Colors.green),)],),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 8.0),
+                  child: RowedTextField( title: 'Order For',subtitle: order.orderFor,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 8.0),
+                  child: RowedTextField( title: 'Amount',subtitle: order.amount.toString(),),
                 ),
               ],
             ),
-            trailing: IconButton(
-                icon: Icon(Icons.more_vert), onPressed: orderMoreOnTap),
           )),
     );
   }

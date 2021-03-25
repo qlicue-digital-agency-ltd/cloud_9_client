@@ -39,12 +39,20 @@ class EducationScreen extends StatelessWidget {
       body: _postProvider.isFetchingPostData
           ? Center(child: CircularProgressIndicator())
           : _postProvider.availablePosts.isEmpty
-              ? Center(
-                  child: NoItemTile(
-                      icon: 'assets/icons/agent.png',
-                      title: 'No Posts',
-                      subtitle: 'We have no posts of yet'),
-                )
+              ? RefreshIndicator(
+        onRefresh: _getData,
+                child: ListView(
+                  children:[
+                    SizedBox(height: MediaQuery.of(context).size.height/4,),
+                    Center(
+                      child: NoItemTile(
+                          icon: 'assets/icons/agent.png',
+                          title: 'No Posts',
+                          subtitle: 'We have no posts of yet'),
+                    ),
+                  ]
+                ),
+              )
               : RefreshIndicator(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

@@ -8,9 +8,9 @@ class Post {
   final String title;
   final String body;
 
-  final int likeCount;
+  // final int likeCount;
 
-  final bool likedByMe;
+  // final bool likedByMe;
   User user;
   final int userId;
   List<Comment> comments = [];
@@ -21,8 +21,9 @@ class Post {
       @required this.title,
       @required this.body,
       @required this.userId,
-      @required this.likeCount,
-      @required this.likedByMe});
+      // @required this.likeCount,
+      // @required this.likedByMe
+      });
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{'title': title, 'body': body, 'image': image};
@@ -38,11 +39,11 @@ class Post {
         title = map['title'],
         body = map['body'],
         image = map['image'],
-        likeCount = map['likes_count'],
-        likedByMe = map['liked_by_me'],
+        // likeCount = map['likes_count'],
+        // likedByMe = map['liked_by_me'],
         userId = map['user_id'],
-        comments = map['comments'] != null
-            ? (map['comments'] as List).map((i) => Comment.fromMap(i)).toList()
-            : null,
+        // comments = map['comments'] != null
+        //     ? (map['comments'] as List).map((i) => Comment.fromMap(i)).toList()
+        //     : null,
         user = User.fromMap(map['user']);
 }

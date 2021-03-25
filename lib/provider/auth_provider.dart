@@ -117,16 +117,19 @@ class AuthProvider with ChangeNotifier {
       'password': password,
     };
 
-    final http.Response response = await http.post(
+    bool hasError = true;
+    http.Response response;
+
+    try{
+    response = await http.post(
       api + "login",
       body: json.encode(authData),
       headers: {'Content-Type': 'application/json'},
     );
 
-    log('QQQQQQQQQQQQQQQQQQQQQ');
-    print(response.body.toString());
+    log(response.statusCode.toString(),name:'INN');
     final Map<String, dynamic> responseData = json.decode(response.body);
-    bool hasError = true;
+
 
     if (responseData.containsKey('access_token')) {
       hasError = false;
@@ -144,6 +147,17 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
 
     return {'status' : responseData['status'],'message' : responseData['message']};
+    } on SocketException{
+      return {'status' : false,'message' : 'Network, please try again'};
+    } on FormatException catch (e) {
+      return {'status' : false,'message' : 'Unable to process the request, please try again:${e.message}'};
+    } catch (e) {
+
+      return {'status' : false,'message' : 'Something went wrong, please try again'};
+    }
+
+    // log('QQQQQQQQQQQQQQQQQQQQQ');
+
   }
 
   //Register in User function..

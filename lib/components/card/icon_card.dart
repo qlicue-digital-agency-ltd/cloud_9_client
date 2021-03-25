@@ -9,6 +9,7 @@ class IconCard extends StatelessWidget {
   final String title;
   final Color backgroundColor;
   final IconCardOnTap onTap;
+  final Widget loader;
 
   const IconCard(
       {Key key,
@@ -17,7 +18,8 @@ class IconCard extends StatelessWidget {
       @required this.title,
       @required this.textColor,
       @required this.backgroundColor,
-      @required this.onTap})
+      @required this.onTap,
+      this.loader})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class IconCard extends StatelessWidget {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                loader ??
                 Image.asset(icon,
                 height: 40,),
                 Text(

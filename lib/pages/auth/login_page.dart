@@ -57,10 +57,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                     padding: EdgeInsets.only(top: 10.0),
-                    child: CircleAvatar(
-                        radius: 60,
-                        child: Image.asset(
-                            'assets/icons/cloud9_transparent_logo.png'))),
+                    child: Image.asset(
+                        'assets/icons/cloud9_transparent_logo.png',width: 120.0,)),
                 SizedBox(
                   height: 20,
                 ),
@@ -103,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                                 }
                                 if (!RegExp(
                                         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                                    .hasMatch(value))
+                                    .hasMatch(value.trim()))
                                   return 'Please enter valid email';
                                 return null;
                               },
