@@ -23,10 +23,8 @@ class AuthProvider with ChangeNotifier {
 
   User _authenticatedUser;
   final List<String> _genderList = [
-   
-   'male',
+    'male',
     'female',
-   
   ];
 
   bool _hasUserProfile = false;
@@ -48,6 +46,7 @@ class AuthProvider with ChangeNotifier {
 
   //get the choosen Image.
   Country get selectedCountry => _selectedCountry;
+
   File get pickedImage => _pickedImage;
 
   bool get isSignInUser => _isSignInUser;
@@ -96,9 +95,8 @@ class AuthProvider with ChangeNotifier {
     // _sharedPref.remove('email');
     // _sharedPref.remove('profile');
 
-     SharedPreferences.getInstance().then((sharedPreference) => sharedPreference.clear());
-
-
+    SharedPreferences.getInstance()
+        .then((sharedPreference) => sharedPreference.clear());
 
     notifyListeners();
   }
@@ -108,7 +106,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   //Sign in User function..
-  Future<Map<String,dynamic>> signInUser(
+  Future<Map<String, dynamic>> signInUser(
       {@required String email, @required String password}) async {
     _isSignInUser = true;
     notifyListeners();
@@ -120,48 +118,54 @@ class AuthProvider with ChangeNotifier {
     bool hasError = true;
     http.Response response;
 
-    try{
-    response = await http.post(
-      api + "login",
-      body: json.encode(authData),
-      headers: {'Content-Type': 'application/json'},
-    );
+    try {
+      response = await http.post(
+        api + "login",
+        body: json.encode(authData),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-    log(response.statusCode.toString(),name:'INN');
-    final Map<String, dynamic> responseData = json.decode(response.body);
+      log(response.statusCode.toString(), name: 'INN');
+      final Map<String, dynamic> responseData = json.decode(response.body);
 
+      if (responseData.containsKey('access_token')) {
+        hasError = false;
 
-    if (responseData.containsKey('access_token')) {
-      hasError = false;
+        _authenticatedUser = User.fromMap(responseData['user']);
 
+        _sharedPref.save('user', responseData['user']);
+        _sharedPref.saveSingleString('token', responseData['access_token']);
+      } else {
+        print('XXXXXXXXXXXXXXXXXXXXXXXXXX');
+        hasError = true;
+      }
+      _isSignInUser = false;
+      notifyListeners();
 
-      _authenticatedUser = User.fromMap(responseData['user']);
-
-      _sharedPref.save('user', responseData['user']);
-      _sharedPref.saveSingleString('token', responseData['access_token']);
-    } else {
-      print('XXXXXXXXXXXXXXXXXXXXXXXXXX');
-      hasError = true;
-    }
-    _isSignInUser = false;
-    notifyListeners();
-
-    return {'status' : responseData['status'],'message' : responseData['message']};
-    } on SocketException{
-      return {'status' : false,'message' : 'Network, please try again'};
+      return {
+        'status': responseData['status'],
+        'message': responseData['message']
+      };
+    } on SocketException {
+      return {'status': false, 'message': 'Network, please try again'};
     } on FormatException catch (e) {
-      return {'status' : false,'message' : 'Unable to process the request, please try again:${e.message}'};
+      return {
+        'status': false,
+        'message':
+            'Unable to process the request, please try again:${e.message}'
+      };
     } catch (e) {
-
-      return {'status' : false,'message' : 'Something went wrong, please try again'};
+      return {
+        'status': false,
+        'message': 'Something went wrong, please try again'
+      };
     }
 
     // log('QQQQQQQQQQQQQQQQQQQQQ');
-
   }
 
   //Register in User function..
-  Future<Map<String,dynamic>> registerUser(
+  Future<Map<String, dynamic>> registerUser(
       {@required String email, @required String password}) async {
     _isSignInUser = true;
     notifyListeners();
@@ -193,7 +197,53 @@ class AuthProvider with ChangeNotifier {
     }
     _isSignInUser = false;
     notifyListeners();
-    return {'status' : responseData['status'], 'message' : responseData['message']};
+    return {
+      'status': responseData['status'],
+      'message': responseData['message']
+    };
+  }
+
+  Future<Map<String,dynamic>> updateFCMToken({@required String fcmToken,@required  int userId}) async {
+    final Map<String, dynamic> data = {
+      'fcm_token': fcmToken,
+      'user_id': userId,
+    };
+
+    bool hasError = true;
+    http.Response response;
+
+    try {
+      response = await http.post(
+        api + "fcmToken",
+        body: json.encode(data),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+
+      _authenticatedUser = User.fromMap(responseData['user']);
+
+
+      _sharedPref.save('user', responseData['user']);
+    } on SocketException {
+      return {'status': false, 'message': 'Network, please try again'};
+    } on FormatException catch (e) {
+      return {
+        'status': false,
+        'message':
+            'Unable to process the request, please try again:${e.message}'
+      };
+    } catch (e) {
+      return {
+        'status': false,
+        'message': 'Something went wrong, please try again'
+      };
+    }
+    return {
+
+    };
   }
 
 //update profile

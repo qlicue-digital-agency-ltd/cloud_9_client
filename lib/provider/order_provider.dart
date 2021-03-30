@@ -66,6 +66,16 @@ class OrderProvider with ChangeNotifier {
   /// getter
   Order get getSelectedOrder => _selecetedOrder;
 
+void updateOrderStatus(Order order){
+  if(_availableOrders.isNotEmpty) {
+    String orderId = order.orderId;
+    _availableOrders[_availableOrders.indexWhere((order) =>
+    order.orderId == orderId)] = order;
+    notifyListeners();
+  }
+  // _availableOrders.where((order) => order.orderId == orderId);
+}
+
 //fetch orders
   Future<bool> fetchOrders({@required int clientId}) async {
     bool hasError = true;

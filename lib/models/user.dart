@@ -5,20 +5,22 @@ class User {
   int id;
   final String email;
   String token;
+  String fcmToken;
   Profile profile;
 
   User({
     this.id,
     this.token,
     @required this.email,
+    this.fcmToken,
     this.profile,
     uid,
   });
 
   User.fromMap(Map<String, dynamic> map)
-      : 
-        id = map['id'],
+      : id = map['id'],
         token = map['token'].toString(),
         email = map['email'].toString(),
-       profile = Profile.fromMap(map['profile']);
+        fcmToken = map['fcm_token'],
+        profile = Profile.fromMap(map['profile']);
 }

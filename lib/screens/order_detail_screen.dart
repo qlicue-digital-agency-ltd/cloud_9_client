@@ -14,265 +14,186 @@ class OrderDetailScreen extends StatelessWidget {
   OrderProvider _orderProvider;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   @override
   Widget build(BuildContext context) {
     _orderProvider = Provider.of<OrderProvider>(context);
 
     return Scaffold(
       key: _scaffoldKey,
-        appBar: AppBar(title: Text('Order details')),
-        body: _orderProvider.getSelectedOrder.paymentStatus == "null"
-            ? CustomScrollView(slivers: [
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  SizedBox(height: 10),
-                  Card(
-                    margin: EdgeInsets.only(
-                        left: 10, top: 10, right: 10, bottom: 10),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RowedTextField(
-                            title: 'Item',
-                            subtitle: _orderProvider.getSelectedOrder.product != null ? _orderProvider
-                                .getSelectedOrder.product.name : _orderProvider.getSelectedOrder.service.title,
-                          ),
+      appBar: AppBar(title: Text('Order details')),
+      body: _orderProvider.getSelectedOrder.paymentStatus == "null"
+          ? CustomScrollView(slivers: [
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                SizedBox(height: 10),
+                Card(
+                  margin:
+                      EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Item',
+                          subtitle: _orderProvider.getSelectedOrder.product !=
+                                  null
+                              ? _orderProvider.getSelectedOrder.product.name
+                              : _orderProvider.getSelectedOrder.service.title,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RowedTextField(
-                            title: 'Number of Items',
-                            subtitle:
-                            _orderProvider.getSelectedOrder.noOfItems,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Number of Items',
+                          subtitle: _orderProvider.getSelectedOrder.noOfItems,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RowedTextField(
-                            title: 'Amount',
-                            subtitle: currencyCovertor.currencyCovertor(
-                              amount: double.parse(
-                                  _orderProvider.getSelectedOrder.amount),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(8.0),
-                          child: FlatButton(
-                            onPressed: () => _showDialog(context),
-                            child: Text('REQUEST USSD QUICK PAY'),
-                            color: Colors.green,
-                            textColor: Colors.white,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                              'Or You can complete order by following instructions bellow'),
-                        )
-                      ],
-                    ),
-                  ),
-                  Card(
-                    margin: EdgeInsets.only(
-                      left: 10,
-                      top: 10,
-                      right: 10,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10),
-                        Center(
-                          child: Text(
-                            'Use Pay Number',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            '8	1	8	1	5	1	3	6',
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Center(
-                          child: Text(
-                            'USSD Payment Instructions',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MNODropdown(
-                            items: _orderProvider.mnoList,
-                            onChange: (val) {
-                              _orderProvider.setSelectedMNO = val;
-                            },
-                            title: 'Select MNO',
-                            value: _orderProvider.selectedMNO,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                ])),
-                SliverList(
-                    delegate: SliverChildBuilderDelegate((_, int index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: (index == 0 ? 20 : 0)),
-                    child: Material(
-                      elevation: 2,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            _orderProvider.selectedMNO.instructions[index],
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Amount',
+                          subtitle: currencyCovertor.currencyCovertor(
+                            amount: double.parse(
+                                _orderProvider.getSelectedOrder.amount),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }, childCount: _orderProvider.selectedMNO.instructions.length)),
-                SliverList(
-                    delegate: SliverChildListDelegate([
-                  Card(
-                    margin: EdgeInsets.only(
-                      left: 10,
-                      top: 10,
-                      right: 10,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20),
-                        Center(
-                          child: Text(
-                            'or Pay by Mastercard QR',
-                            style: TextStyle(fontSize: 20),
-                          ),
+                      Container(
+                        margin: EdgeInsets.all(8.0),
+                        child: FlatButton(
+                          onPressed: () => _showDialog(context),
+                          child: Text('REQUEST USSD QUICK PAY'),
+                          color: Colors.green,
+                          textColor: Colors.white,
                         ),
-                        Center(
-                          child: Text(
-                            'Scan QR and Pay',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            'Or You can complete order by following instructions bellow'),
+                      )
+                    ],
+                  ),
+                ),
+                Card(
+                  margin: EdgeInsets.only(
+                    left: 10,
+                    top: 10,
+                    right: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10),
+                      Center(
+                        child: Text(
+                          'Use Pay Number',
+                          style: TextStyle(fontSize: 20),
                         ),
-                        SizedBox(height: 10),
-                        Center(
-                          child: QrImage(
-                            data: _orderProvider.getSelectedOrder.qr,
-                            version: QrVersions.auto,
-                            size: 200.0,
-                          ),
+                      ),
+                      Center(
+                        child: Text(
+                          // '8	1	8	1	5	1	3	6',
+                          _orderProvider.getSelectedOrder.paymentToken,
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 40),
-                        Divider(
-                          indent: 5,
-                          endIndent: 5,
-                          color: Theme.of(context).primaryColor,
+                      ),
+                      SizedBox(height: 10),
+                      Center(
+                        child: Text(
+                          'USSD Payment Instructions',
+                          style: TextStyle(fontSize: 20),
                         ),
-                        Center(
-                          child: Text(
-                            'Order Details',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MNODropdown(
+                          items: _orderProvider.mnoList,
+                          onChange: (val) {
+                            _orderProvider.setSelectedMNO = val;
+                          },
+                          title: 'Select MNO',
+                          value: _orderProvider.selectedMNO,
                         ),
-                        SizedBox(height: 20),
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RowedTextField(
-                                  title: 'Reference',
-                                  subtitle:
-                                      _orderProvider.getSelectedOrder.reference,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RowedTextField(
-                                  title: 'Product',
-                                  subtitle: _orderProvider
-                                      .getSelectedOrder.product != null ? _orderProvider
-                                      .getSelectedOrder.product.name : _orderProvider
-                                      .getSelectedOrder.service.title,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RowedTextField(
-                                  title: 'Number of Items',
-                                  subtitle:
-                                      _orderProvider.getSelectedOrder.noOfItems,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RowedTextField(
-                                  title: 'Phone',
-                                  subtitle: '+' +
-                                      _orderProvider
-                                          .getSelectedOrder.buyerPhone,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RowedTextField(
-                                  title: 'Amount',
-                                  subtitle: currencyCovertor.currencyCovertor(
-                                    amount: double.parse(
-                                        _orderProvider.getSelectedOrder.amount),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RowedTextField(
-                                  title: 'Status',
-                                  subtitle: _orderProvider
-                                              .getSelectedOrder.paymentStatus ==
-                                          "null"
-                                      ? "Not Paid"
-                                      : _orderProvider
-                                          .getSelectedOrder.paymentStatus,
-                                ),
-                              ),
-                              Image.asset(
-                                'assets/icons/cloud9_transparent_logo.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                      ),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+              ])),
+              SliverList(
+                  delegate: SliverChildBuilderDelegate((_, int index) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                      left: 10.0, right: 10.0, top: (index == 0 ? 20 : 0)),
+                  child: Material(
+                    elevation: 2,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          _orderProvider.selectedMNO.instructions[index],
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                   ),
-                ])),
-              ])
-            : SingleChildScrollView(
-                child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
+                );
+              }, childCount: _orderProvider.selectedMNO.instructions.length)),
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                Card(
+                  margin: EdgeInsets.only(
+                    left: 10,
+                    top: 10,
+                    right: 10,
+                  ),
                   child: Column(
                     children: [
                       SizedBox(height: 20),
+                      Center(
+                        child: Text(
+                          'or Pay by Mastercard QR',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          'Scan QR and Pay',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Center(
+                        child: QrImage(
+                          data: _orderProvider.getSelectedOrder.qr,
+                          version: QrVersions.auto,
+                          size: 200.0,
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                      Divider(
+                        indent: 5,
+                        endIndent: 5,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      Center(
+                        child: Text(
+                          'Order Details',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 20),
                       Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(children: [
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RowedTextField(
@@ -285,10 +206,96 @@ class OrderDetailScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: RowedTextField(
                                 title: 'Product',
+                                subtitle:
+                                    _orderProvider.getSelectedOrder.product !=
+                                            null
+                                        ? _orderProvider
+                                            .getSelectedOrder.product.name
+                                        : _orderProvider
+                                            .getSelectedOrder.service.title,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RowedTextField(
+                                title: 'Number of Items',
+                                subtitle:
+                                    _orderProvider.getSelectedOrder.noOfItems,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RowedTextField(
+                                title: 'Phone',
+                                subtitle: '+' +
+                                    _orderProvider.getSelectedOrder.buyerPhone,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RowedTextField(
+                                title: 'Amount',
+                                subtitle: currencyCovertor.currencyCovertor(
+                                  amount: double.parse(
+                                      _orderProvider.getSelectedOrder.amount),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RowedTextField(
+                                title: 'Status',
                                 subtitle: _orderProvider
-                                    .getSelectedOrder.product != null ? _orderProvider
-                                    .getSelectedOrder.product.name : _orderProvider
-                                    .getSelectedOrder.service.title,
+                                            .getSelectedOrder.paymentStatus ==
+                                        "null"
+                                    ? "Not Paid"
+                                    : _orderProvider
+                                        .getSelectedOrder.paymentStatus,
+                              ),
+                            ),
+                            Image.asset(
+                              'assets/icons/cloud9_transparent_logo.png',
+                              width: 80,
+                              height: 80,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ])),
+            ])
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RowedTextField(
+                                title: 'Reference',
+                                subtitle:
+                                    _orderProvider.getSelectedOrder.reference,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RowedTextField(
+                                title: 'Product',
+                                subtitle:
+                                    _orderProvider.getSelectedOrder.product !=
+                                            null
+                                        ? _orderProvider
+                                            .getSelectedOrder.product.name
+                                        : _orderProvider
+                                            .getSelectedOrder.service.title,
                               ),
                             ),
                             Padding(
@@ -334,15 +341,20 @@ class OrderDetailScreen extends StatelessWidget {
                               width: 80,
                               height: 80,
                             )
-                          ]))
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
-              )));
+              ),
+            ),
+    );
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    TextEditingController _mobileTextEditingController = TextEditingController();
+    TextEditingController _mobileTextEditingController =
+        TextEditingController();
     final FocusNode _mobileFocusNode = FocusNode();
     final _formKey = GlobalKey<FormState>();
     bool _isPaying = false;
@@ -425,9 +437,16 @@ class OrderDetailScreen extends StatelessWidget {
                                   _isPaying = false;
                                 });
                                 if (!response['success']) {
-                                  showInSnackBar(value: response['message'] + '. Pay using given instructions or change payment number', context: context,color: Colors.red);
+                                  showInSnackBar(
+                                      value: response['message'] +
+                                          '. Pay using given instructions or change payment number',
+                                      context: context,
+                                      color: Colors.red);
                                 } else {
-                                  showInSnackBar(value: response['message'] + '. Enter Pin to Verify the Payment', context: context);
+                                  showInSnackBar(
+                                      value: response['message'] +
+                                          '. Enter Pin to Verify the Payment',
+                                      context: context);
                                 }
                               });
                             }
@@ -445,7 +464,8 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 
-  void showInSnackBar({@required String value,@required BuildContext context,Color color}) {
+  void showInSnackBar(
+      {@required String value, @required BuildContext context, Color color}) {
     FocusScope.of(context).requestFocus(new FocusNode());
     _scaffoldKey.currentState?.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -461,5 +481,4 @@ class OrderDetailScreen extends StatelessWidget {
       duration: Duration(seconds: 3),
     ));
   }
-
 }

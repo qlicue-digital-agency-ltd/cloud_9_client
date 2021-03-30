@@ -1,5 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cloud_9_client/components/card/icon_card.dart';
+import 'package:cloud_9_client/components/text-fields/rowed_text_field.dart';
+import 'package:cloud_9_client/models/order.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
+import 'package:cloud_9_client/provider/order_provider.dart';
 import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/education_screen.dart';
@@ -7,6 +13,7 @@ import 'package:cloud_9_client/screens/procedure_sreen.dart';
 import 'package:cloud_9_client/screens/product_screen.dart';
 
 import 'package:cloud_9_client/screens/transactions_screen.dart';
+import 'package:cloud_9_client/utils/currency_convertor.dart';
 import 'diary_screen.dart';
 import 'weight_care_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,25 +23,93 @@ import 'package:provider/provider.dart';
 import 'package:cloud_9_client/provider/weight_care_provider.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'payment_completed_screen.dart';
 
-import 'consultation_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+Future<void> _myBackgroundMessageHandler(Map<String, dynamic> message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('Handling a background message $message');
+
+  if (message.containsKey('data')) {
+    final dynamic data = message['data'];
+    print('Notification data is ');
+    print(message['data']);
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+    print('This was a Notification');
+  }
+}
+
 
 class _HomeScreenState extends State<HomeScreen> {
+  FirebaseMessaging _messaging = FirebaseMessaging();
   Future<void> initializeDefault() async {
     FirebaseApp app = await Firebase.initializeApp();
     assert(app != null);
     print('Initialized default app $app');
   }
 
+
+
   @override
   void initState() {
     super.initState();
     initDynamicLinks();
+    _messaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        Order order = Order.fromMap(json.decode(message['data']['order']));
+        _showPaymentCompleteDialog(context: context, order: order);
+      //  _showItemDialog(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('ON LAUNCH');
+        log(message['data']['order'],name: 'THE ORDER');
+
+        Order order = Order.fromMap(json.decode(message['data']['order']));
+        print('ORDER ID: ${order.orderId}');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentCompleted(order: order,)));
+       // _navigateToItemDetail(message);
+      },
+     onBackgroundMessage: _myBackgroundMessageHandler,
+      onResume: (Map<String, dynamic> message) async {
+        // print("onResume: $message");
+        print('ON RESUME');
+        log(message['data']['order'],name: 'THE ORDER');
+        Order order = Order.fromMap(json.decode(message['data']['order']));
+        print('ORDER ID: ${order.orderId}');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentCompleted(order: order,)));
+       // _navigateToItemDetail(message);
+      },
+    );
+    _messaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _messaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    final authProvider = Provider.of<AuthProvider>(context,listen: false);
+
+    _messaging.getToken().then((String token) {
+      assert(token != null);
+      if(authProvider.authenticatedUser.fcmToken != token){
+        authProvider.updateFCMToken(fcmToken: token,userId: authProvider.authenticatedUser.id);
+      }
+      print('MESSAGING TOKEN: $token >>');
+      print('Token: ${authProvider.authenticatedUser.fcmToken}');
+    });
+
   }
 
   void initDynamicLinks() async {
@@ -344,6 +419,105 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     ));
+  }
+
+  void _showPaymentCompleteDialog({@required BuildContext context,@required Order order}) async {
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        final orderProvider = Provider.of<OrderProvider>(context);
+        orderProvider.updateOrderStatus(order);
+        return Dialog(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          insetPadding: EdgeInsets.all(10),
+          // title: Text('Appointment Booked'),
+          child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Container(
+                  // color: Colors.white,
+                  padding: EdgeInsets.all(8),
+                  // decoration:
+                  //     new BoxDecoration(color: Theme.of(context).primaryColor),
+                  child: Column(
+                    children: [
+                      AppBar(
+                        title: Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text('PAYMENT ${order.paymentStatus}'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Reference',
+                          subtitle: order.reference,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Order Type',
+                          subtitle: order.orderFor,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Number of Items',
+                          subtitle: order.noOfItems,
+                        ),
+                      ),
+                      order.product != null ?
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(title: 'Product', subtitle: order.product.name),
+                      ) : Container(),
+                      order.service != null ?
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(title: 'Service', subtitle: order.service.title,),
+                      ) : Container(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Phone',
+                          subtitle: '+' + order.buyerPhone,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Amount',
+                          subtitle: currencyCovertor.currencyCovertor(
+                            amount: double.parse(order.amount),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RowedTextField(
+                          title: 'Status',
+                          subtitle: order.paymentStatus == "null"
+                              ? "Not Paid"
+                              : order.paymentStatus,
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      Image.asset(
+                        'assets/icons/cloud9_transparent_logo.png',
+                        width: 80,
+                        height: 80,
+                      ),
+
+                    ],
+                  ),
+                );
+              }),
+        );
+      },
+    );
   }
 
   void showInSnackBar(String value,
