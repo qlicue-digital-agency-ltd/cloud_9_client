@@ -1,7 +1,7 @@
 name: cloud_9_client
 description: An application to book procedures and buy products from cloud 9 clinic.
 
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

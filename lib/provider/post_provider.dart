@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/comment.dart';
 import 'package:cloud_9_client/models/post.dart';
@@ -31,7 +33,9 @@ class PostProvider with ChangeNotifier {
 
 //getters
   bool get isFetchingPostData => _isFetchingPostData;
+
   List<Post> get availablePosts => _availablePosts;
+
   bool get isSubmitingCommentData => _isSubmitingCommentData;
 
   Future<bool> fetchPosts(userId) async {
@@ -47,12 +51,12 @@ class PostProvider with ChangeNotifier {
       final http.Response response = await http.post(
         api + "posts",
         body: json.encode(_data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'},
       );
 
       final Map<String, dynamic> data = json.decode(response.body);
 
-      log(response.body,name:'EDU');
+      log(response.body, name: 'EDU');
 
       if (response.statusCode == 200) {
         // print('+++++++++++++++++++++++++++');
@@ -68,7 +72,7 @@ class PostProvider with ChangeNotifier {
         hasError = false;
       }
     } catch (error) {
-      log(error.toString() ,name:'ERR');
+      log(error.toString(), name: 'ERR');
       print(error);
       hasError = true;
     }
@@ -99,7 +103,7 @@ class PostProvider with ChangeNotifier {
       final http.Response response = await http.post(
         api + "comment",
         body: json.encode(_data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'},
       );
 
       final Map<String, dynamic> data = json.decode(response.body);

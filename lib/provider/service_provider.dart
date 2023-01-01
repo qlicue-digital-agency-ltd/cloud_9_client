@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/service.dart';
+import 'package:cloud_9_client/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'auth_provider.dart';
+
 class ServiceProvider with ChangeNotifier {
+
   ServiceProvider() {
     fetchServices();
   }
@@ -29,12 +35,11 @@ class ServiceProvider with ChangeNotifier {
 
     final List<Service> _fetchedServices = [];
     try {
-      final http.Response response = await http.get(api + "services");
+      final http.Response response = await http.get(api + "services",headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
-      print('XXXXXXXXXXXXXXXXX');
-      print(data);
+
       if (response.statusCode == 200) {
         data['services'].forEach((serviceData) {
           final service = Service.fromMap(serviceData);

@@ -1,6 +1,6 @@
 import 'package:cloud_9_client/provider/utility_provider.dart';
 import 'package:cloud_9_client/screens/categories_screen.dart';
-import 'package:cloud_9_client/screens/procedure_sreen.dart';
+import 'package:cloud_9_client/screens/procedure_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

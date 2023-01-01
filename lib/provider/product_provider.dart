@@ -1,6 +1,10 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/order.dart';
 import 'package:cloud_9_client/models/product.dart';
+import 'package:cloud_9_client/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -20,8 +24,10 @@ class ProductProvider with ChangeNotifier {
   List<Order> _availableOrders = [];
 
   /** Shopping cart */
+
   /// The IDs and quantities of products currently in the cart.
   final Map<int, int> _productsInCart = <int, int>{};
+
   //default constants
   double _salesTaxRate = 0.18;
   double _shippingCostPerItem = 0.0;
@@ -35,23 +41,41 @@ class ProductProvider with ChangeNotifier {
 
 //getters
   bool get isFetchingProductData => _isFetchingProductData;
+
   bool get isCreatingOrderData => _isCreatingOrderData;
+
   bool get isFetchingOrderData => _isFetchingOrderData;
 
   List<Product> get availableProducts => _availableProducts;
+
   List<Product> get originalProducts => _originalProducts;
+
   List<Order> get availableOrders => _availableOrders;
 
   Future<bool> fetchProducts() async {
+    //print('The TOKEN: ' + authProvider.authenticatedUser.token);
     bool hasError = true;
     _isFetchingProductData = true;
     notifyListeners();
 
     final List<Product> _fetchedProducts = [];
     try {
-      final http.Response response = await http.get(api + "products");
-
+      final http.Response response = await http.get(api + "products", headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'
+      });
+      log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
+      log(response.body, name: 'Prod Response');
       final Map<String, dynamic> data = json.decode(response.body);
+
+      if (response.statusCode == 403) {
+        switch (data['message']) {
+          case 'Token Invalid':
+           TokenService().logoutUser();
+           // notifyListeners();
+            break;
+        }
+      }
 
       if (response.statusCode == 200) {
         data['products'].forEach((productData) {
@@ -82,7 +106,10 @@ class ProductProvider with ChangeNotifier {
 
     final List<Order> _fetchedOrders = [];
     try {
-      final http.Response response = await http.get(api + "orders");
+      final http.Response response = await http.get(api + "orders", headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'
+      });
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -251,7 +278,10 @@ class ProductProvider with ChangeNotifier {
       final http.Response response = await http.post(
         api + "order/" + userId.toString(),
         body: json.encode(appointmentData),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'
+        },
       );
 
       final Map<String, dynamic> data = json.decode(response.body);

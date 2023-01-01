@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/appointment.dart';
 import 'package:cloud_9_client/models/user.dart';
@@ -35,12 +37,10 @@ class AppointmentProvider with ChangeNotifier {
     final List<Appointment> _fetchedAppointments = [];
     try {
       final http.Response response =
-          await http.get(api + "appointment/client/" + clientId.toString());
+          await http.get(api + "appointment/client/" + clientId.toString(),headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader:'Bearer ${authenticatedUser.token}'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
-      print('RRRRRRRRR');
-      print(data);
 
       if (response.statusCode == 200) {
         data['appointments'].forEach((appointmentData) {
@@ -51,13 +51,13 @@ class AppointmentProvider with ChangeNotifier {
         hasError = false;
       }
     } catch (error) {
-      print(error);
+
       hasError = true;
     }
 
     _availableAppointments = _fetchedAppointments;
     _isFetchingAppointmentData = false;
-    print(_availableAppointments.length);
+
     notifyListeners();
 
     return hasError;
@@ -86,26 +86,23 @@ class AppointmentProvider with ChangeNotifier {
       'payment_phone': phoneNumber
     };
 
-    print("+++++++++++++++++++++++");
-    print(appointmentData);
-    print("+++++++++++++++++++++++");
+
     try {
       final http.Response response = await http.post(
         api + "procedure/appointment/" + serviceId.toString(),
         body: json.encode(appointmentData),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${authenticatedUser.token}'},
       );
 
       final Map<String, dynamic> data = json.decode(response.body);
-      print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
-      print(data);
+
       if (response.statusCode == 201) {
-        // print(data);
+
          _appointment = Appointment.fromMap(data['appointment']);
         hasError = false;
       }
     } catch (error) {
-      print(error);
+
       hasError = true;
     }
     _isCreatingAppointmentData = false;
@@ -140,13 +137,12 @@ class AppointmentProvider with ChangeNotifier {
       'payment_phone': phoneNumber
     };
 
-    print("+++++++++++++++++++++++");
-    print(appointmentData);
+
     try {
       final http.Response response = await http.post(
         api + "consultation/appointment/" + consultationId.toString(),
         body: json.encode(appointmentData),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${authenticatedUser.token}'},
       );
 
       final Map<String, dynamic> data = json.decode(response.body);
@@ -156,7 +152,7 @@ class AppointmentProvider with ChangeNotifier {
         hasError = false;
       }
     } catch (error) {
-      print(error);
+
       hasError = true;
     }
     _isCreatingAppointmentData = false;

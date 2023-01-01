@@ -4,12 +4,13 @@ import 'dart:developer';
 import 'package:cloud_9_client/components/card/icon_card.dart';
 import 'package:cloud_9_client/components/text-fields/rowed_text_field.dart';
 import 'package:cloud_9_client/models/order.dart';
+import 'package:cloud_9_client/pages/auth/login_page.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/provider/order_provider.dart';
 import 'package:cloud_9_client/screens/appointment_screen.dart';
 import 'package:cloud_9_client/screens/background.dart';
 import 'package:cloud_9_client/screens/education_screen.dart';
-import 'package:cloud_9_client/screens/procedure_sreen.dart';
+import 'package:cloud_9_client/screens/procedure_screen.dart';
 import 'package:cloud_9_client/screens/product_screen.dart';
 
 import 'package:cloud_9_client/screens/transactions_screen.dart';
@@ -149,11 +150,25 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
     final _weightCareProvider = Provider.of<WeightCareProvider>(context);
     bool _loadDiary = false;
+    Future(() => _authProvider.getUser().then((response) {
+      if(response['code'] == 403){
+        switch (response['message']) {
+          case 'Token Invalid':
+          case 'Token Exception':
+           _authProvider.logout();
+           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            break;
+        }
+      }
+    }));
     return Background(
         screen: SafeArea(
       child: SingleChildScrollView(

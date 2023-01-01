@@ -1,6 +1,6 @@
 import 'package:cloud_9_client/animations/backgroud/home_background_major_clipper.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_9_client/pages/background/background.dart' as doctor;
 import 'drawer_sreen.dart';
 
 class Background extends StatelessWidget {
@@ -17,21 +17,22 @@ class Background extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Container(
         child: Stack(children: <Widget>[
-          Container(
-            color: Colors.blue[200],
-          ),
-          ClipPath(
-            clipper: HomeBackgroundMajorClipper(),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.3,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.blue[700], Colors.blue[200]],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight)),
-            ),
-          ),
+          doctor.Background(),
+          // Container(
+          //   color: Colors.blue[200],
+          // ),
+          // ClipPath(
+          //   clipper: HomeBackgroundMajorClipper(),
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width,
+          //     height: MediaQuery.of(context).size.height * 0.3,
+          //     decoration: BoxDecoration(
+          //         gradient: LinearGradient(
+          //             colors: [Colors.blue[700], Colors.blue[200]],
+          //             begin: Alignment.topLeft,
+          //             end: Alignment.bottomRight)),
+          //   ),
+          // ),
           screen
         ]),
       ),

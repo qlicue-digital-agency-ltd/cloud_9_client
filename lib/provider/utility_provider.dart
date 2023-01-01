@@ -13,8 +13,8 @@ class UtilityProvider with ChangeNotifier {
   AnimationController get animationController => _animationController;
   Country get selectedCountry => _selectedCountry;
   //setters
-  set setAnimationController(AnimationController _animationCtrlr) {
-    _animationController = _animationCtrlr;
+  set setAnimationController(AnimationController _animationController) {
+    _animationController = _animationController;
     notifyListeners();
   }
 

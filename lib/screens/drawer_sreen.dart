@@ -1,3 +1,4 @@
+import '../screens/our_team_screen.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/provider/auth_provider.dart';
 import 'package:cloud_9_client/provider/weight_care_provider.dart';
@@ -86,6 +87,21 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                     leading: Icon(Icons.account_box),
                     title: Text('Account'),
+                  ),
+                ),
+                SizedBox(height: 2),
+                Material(
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OurTeam(),
+                          ));
+                    },
+                    leading: Icon(Icons.group),
+                    title: Text('Our Team'),
                   ),
                 ),
                 SizedBox(height: 2),

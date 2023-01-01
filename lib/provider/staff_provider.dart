@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/doctor.dart';
 import 'package:cloud_9_client/models/nurse.dart';
+import 'package:cloud_9_client/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'auth_provider.dart';
+
 class StaffProvider with ChangeNotifier {
+
   //variable declaration
   bool _isFetchingDoctorData = false;
   bool _isFetchingNurseData = false;
@@ -32,7 +38,7 @@ class StaffProvider with ChangeNotifier {
 
     final List<Doctor> _fetcheddoctors = [];
     try {
-      final http.Response response = await http.get(api + "doctors");
+      final http.Response response = await http.get(api + "doctors", headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -63,9 +69,9 @@ class StaffProvider with ChangeNotifier {
     _isFetchingNurseData = true;
     notifyListeners();
 
-    final List<Nurse> _fetchednurses = [];
+    final List<Nurse> _fetchedNurses = [];
     try {
-      final http.Response response = await http.get(api + "nurses");
+      final http.Response response = await http.get(api + "nurses",headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -73,7 +79,7 @@ class StaffProvider with ChangeNotifier {
         print(data['nurses']);
         data['nurses'].forEach((nurseData) {
           final nurse = Nurse.fromMap(nurseData);
-          _fetchednurses.add(nurse);
+          _fetchedNurses.add(nurse);
         });
         hasError = false;
       }
@@ -82,7 +88,7 @@ class StaffProvider with ChangeNotifier {
       hasError = true;
     }
 
-    _availablenurses = _fetchednurses;
+    _availablenurses = _fetchedNurses;
     _isFetchingNurseData = false;
     print(_availablenurses);
     notifyListeners();

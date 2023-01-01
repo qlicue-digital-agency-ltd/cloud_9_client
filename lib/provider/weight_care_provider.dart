@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:developer';
+import 'package:cloud_9_client/models/user.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -12,13 +12,21 @@ import 'package:cloud_9_client/models/diary.dart';
 import 'package:cloud_9_client/models/meal.dart';
 import 'package:cloud_9_client/models/physical_activity.dart';
 
+import 'auth_provider.dart';
+
 class WeightCareProvider with ChangeNotifier {
+
+
   final List<Diary> diaries = [];
   Diary activeDiary;
 
   Future<Map<String, dynamic>> fetchDiaries(int userId) async {
     try {
-      http.Response response = await http.get('${api}diaries/$userId').timeout(Duration(seconds: 45));
+      http.Response response =
+          await http.get('${api}diaries/$userId', headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'
+      }).timeout(Duration(seconds: 45));
       final Map<String, dynamic> responseData = json.decode(response.body);
       if (responseData['status']) {
         diaries.clear();
@@ -52,22 +60,21 @@ class WeightCareProvider with ChangeNotifier {
           });
 
           diaries.add(Diary(
-            id: int.parse('${diaryMap['id']}'),
-            from: DateTime.parse(diaryMap['from']),
-            to: DateTime.parse(diaryMap['to']),
-            weight: double.parse('${diaryMap['initial_weight']}'),
-            height: double.parse('${diaryMap['initial_height']}'),
-            bmi: double.parse('${diaryMap['initial_BMI']}'),
-            waist: double.parse('${diaryMap['initial_waist_circumference']}'),
-            bodyComposition:
-                double.parse('${diaryMap['body_fat_and_water_composition']}'),
-            bloodPressure: double.parse('${diaryMap['blood_pressure']}'),
-            meals: _diaryMeals,
-            activities: _diaryActivities
-          ));
+              id: int.parse('${diaryMap['id']}'),
+              from: DateTime.parse(diaryMap['from']),
+              to: DateTime.parse(diaryMap['to']),
+              weight: double.parse('${diaryMap['initial_weight']}'),
+              height: double.parse('${diaryMap['initial_height']}'),
+              bmi: double.parse('${diaryMap['initial_BMI']}'),
+              waist: double.parse('${diaryMap['initial_waist_circumference']}'),
+              bodyComposition:
+                  double.parse('${diaryMap['body_fat_and_water_composition']}'),
+              bloodPressure: double.parse('${diaryMap['blood_pressure']}'),
+              meals: _diaryMeals,
+              activities: _diaryActivities));
         });
 
-        if(diaries.length == 0){
+        if (diaries.length == 0) {
           return {'status': true, 'message': 'No Diary'};
         }
 
@@ -81,7 +88,7 @@ class WeightCareProvider with ChangeNotifier {
       };
     } on SocketException {
       return {'status': false, 'message': 'No Network, please try again later'};
-    } on FormatException catch (e) {
+    } on FormatException catch (_) {
       return {
         'status': false,
         'message': 'Unable to process the request, please try again:'
@@ -130,29 +137,28 @@ class WeightCareProvider with ChangeNotifier {
     };
 
     try {
-      http.Response response = await http.post(api + 'diary/$userId',
-          body: json.encode(diary),
-          headers: {
-            'Content-Type': 'application/json'
-          }).timeout(Duration(seconds: 45));
+      http.Response response = await http
+          .post(api + 'diary/$userId', body: json.encode(diary), headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'
+      }).timeout(Duration(seconds: 45));
       final Map<String, dynamic> responseData = json.decode(response.body);
       if (responseData['status']) {
         Map<String, dynamic> diaryMap = responseData['diary'];
 
         activeDiary = Diary(
-          id: int.parse(diaryMap['id'].toString()),
-          from: DateTime.parse(diaryMap['from']),
-          to: DateTime.parse(diaryMap['to']),
-          weight: double.parse('${diaryMap['initial_weight']}'),
-          height: double.parse('${diaryMap['initial_height']}'),
-          bmi: double.parse('${diaryMap['initial_BMI']}'),
-          waist: double.parse('${diaryMap['initial_waist_circumference']}'),
-          bodyComposition:
-              double.parse('${diaryMap['body_fat_and_water_composition']}'),
-          bloodPressure: double.parse('${diaryMap['blood_pressure']}'),
-          meals: [],
-          activities: []
-        );
+            id: int.parse(diaryMap['id'].toString()),
+            from: DateTime.parse(diaryMap['from']),
+            to: DateTime.parse(diaryMap['to']),
+            weight: double.parse('${diaryMap['initial_weight']}'),
+            height: double.parse('${diaryMap['initial_height']}'),
+            bmi: double.parse('${diaryMap['initial_BMI']}'),
+            waist: double.parse('${diaryMap['initial_waist_circumference']}'),
+            bodyComposition:
+                double.parse('${diaryMap['body_fat_and_water_composition']}'),
+            bloodPressure: double.parse('${diaryMap['blood_pressure']}'),
+            meals: [],
+            activities: []);
 
         diaries.add(activeDiary);
         notifyListeners();
@@ -207,20 +213,18 @@ class WeightCareProvider with ChangeNotifier {
       "others": others,
     };
     try {
-      http.Response response = await http.post(api + 'meal',
-          body: json.encode(_mealMap),
-          headers: {
-            'Content-Type': 'application/json'
-          }).timeout(Duration(seconds: 45));
+      http.Response response =
+          await http.post(api + 'meal', body: json.encode(_mealMap), headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'
+      }).timeout(Duration(seconds: 45));
       final Map<String, dynamic> responseData = json.decode(response.body);
       if (responseData['status']) {
         Map<String, dynamic> mealMap = responseData['meal'];
 
-
         activeDiary.meals.add(Meal(
           date: DateTime.parse(mealMap['date']),
-          time:
-          TimeOfDay.fromDateTime(DateFormat.Hm().parse(mealMap['time'])),
+          time: TimeOfDay.fromDateTime(DateFormat.Hm().parse(mealMap['time'])),
           type: mealMap['type'],
           carbohydrates: mealMap['carbohydrates'] ?? "",
           proteins: mealMap['proteins'] ?? "",
@@ -248,8 +252,7 @@ class WeightCareProvider with ChangeNotifier {
         'status': false,
         'message': 'The request timed out, please try again later'
       };
-    }
-    catch (e) {
+    } catch (e) {
       print(e.toString());
 
       return {
@@ -280,22 +283,21 @@ class WeightCareProvider with ChangeNotifier {
       http.Response response = await http.post(api + 'activity',
           body: json.encode(_physicalActivityMap),
           headers: {
-            'Content-Type': 'application/json'
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'
           }).timeout(Duration(seconds: 45));
       final Map<String, dynamic> responseData = json.decode(response.body);
       if (responseData['status']) {
         print(responseData.toString());
         Map<String, dynamic> activityMap = responseData['activity'];
 
-        activeDiary.activities.add(
-            PhysicalActivity(
-              date: DateTime.parse(activityMap['date']),
-              time: TimeOfDay.fromDateTime(
-                  DateFormat.Hm().parse(activityMap['time'])),
-              activity: activityMap['activity'],
-              duration: activityMap['duration'],
-            )
-        );
+        activeDiary.activities.add(PhysicalActivity(
+          date: DateTime.parse(activityMap['date']),
+          time: TimeOfDay.fromDateTime(
+              DateFormat.Hm().parse(activityMap['time'])),
+          activity: activityMap['activity'],
+          duration: activityMap['duration'],
+        ));
 
         notifyListeners();
         return {'status': true, 'message': 'Data ready'};

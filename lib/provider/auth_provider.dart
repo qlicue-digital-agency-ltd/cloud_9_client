@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/user.dart';
 import 'package:cloud_9_client/shared/shared_preference.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -12,8 +13,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_country_picker/country.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
 
 class AuthProvider with ChangeNotifier {
+  FirebaseMessaging _fMessaging = FirebaseMessaging();
   AuthProvider() {
     autoAuthenticate();
   }
@@ -66,16 +69,25 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setIsAuthenticated(bool status){
+    _isAuthenticated = status;
+  }
+
   set setSelectedCountry(Country country) {
     _selectedCountry = country;
     notifyListeners();
   }
 
   Future<bool> autoAuthenticate() async {
+
     await _sharedPref.readSingleString('token').then((token) {
       if (token != null) {
         _sharedPref.read('user').then((value) {
+          log(value.toString(),name: 'Shared Pref');
           _authenticatedUser = User.fromMap(value);
+          TokenService().authProvider = this;
+          TokenService().token = _authenticatedUser.token;
+          notifyListeners();
           if (_authenticatedUser.profile.fullname != null) {
             _hasUserProfile = true;
           }
@@ -90,11 +102,6 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    // _sharedPref.remove('id');
-    // _sharedPref.remove('token');
-    // _sharedPref.remove('email');
-    // _sharedPref.remove('profile');
-
     SharedPreferences.getInstance()
         .then((sharedPreference) => sharedPreference.clear());
 
@@ -113,6 +120,7 @@ class AuthProvider with ChangeNotifier {
     final Map<String, dynamic> authData = {
       'email': email,
       'password': password,
+      'fcm_token': await _fMessaging.getToken()
     };
 
     bool hasError = true;
@@ -133,7 +141,11 @@ class AuthProvider with ChangeNotifier {
 
         _authenticatedUser = User.fromMap(responseData['user']);
 
+
         _sharedPref.save('user', responseData['user']);
+        log(responseData['user'].toString(),name: 'USER DATUM');
+        TokenService().token = _authenticatedUser.token;
+        TokenService().authProvider = this;
         _sharedPref.saveSingleString('token', responseData['access_token']);
       } else {
         print('XXXXXXXXXXXXXXXXXXXXXXXXXX');
@@ -154,7 +166,9 @@ class AuthProvider with ChangeNotifier {
         'message':
             'Unable to process the request, please try again:${e.message}'
       };
-    } catch (e) {
+    }
+    catch (e) {
+      log(e.toString(),name: 'THE ERROR');
       return {
         'status': false,
         'message': 'Something went wrong, please try again'
@@ -172,7 +186,8 @@ class AuthProvider with ChangeNotifier {
     final Map<String, dynamic> authData = {
       'email': email,
       'password': password,
-      "role": "client"
+      "role": "client",
+      'fcm_token': await _fMessaging.getToken()
     };
 
     final http.Response response = await http.post(
@@ -180,6 +195,7 @@ class AuthProvider with ChangeNotifier {
       body: json.encode(authData),
       headers: {'Content-Type': 'application/json'},
     );
+
 
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
@@ -190,6 +206,8 @@ class AuthProvider with ChangeNotifier {
       hasError = false;
 
       _authenticatedUser = User.fromMap(responseData['user']);
+      TokenService().authProvider = this;
+      TokenService().token = _authenticatedUser.token;
       _sharedPref.save('user', responseData['user']);
       _sharedPref.saveSingleString('token', responseData['access_token']);
     } else {
@@ -216,7 +234,7 @@ class AuthProvider with ChangeNotifier {
       response = await http.post(
         api + "fcmToken",
         body: json.encode(data),
-        headers: {'Content-Type': 'application/json'},
+        headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${authenticatedUser.token}'},
       );
 
 
@@ -246,14 +264,35 @@ class AuthProvider with ChangeNotifier {
     };
   }
 
+  // Get User
+  Future<Map<String,dynamic>> getUser() async {
+    try {
+      final http.Response response = await http.get(api + "get_user", headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer ${authenticatedUser.token}'
+      });
+      log(authenticatedUser.token,name: 'token');
+      log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
+      log(response.body, name: 'User Response');
+      final Map<String, dynamic> data = json.decode(response.body);
+
+
+        return {'code': response.statusCode ,'status': data['status'],'message': data['message']};
+
+    } catch (error) {
+      print(error);
+     return {'code': 400,'status': false, 'message': 'An error occurred'};
+    }
+
+  }
+
+
 //update profile
   Future<bool> updateProfile(
       {@required String fullname,
       @required String phone,
       @required String location}) async {
-    print('tooooooo');
-    print(_authenticatedUser.id);
-    print('tooooooo');
+
     _isSubmitingProfileData = true;
     bool hasError = false;
     notifyListeners();
@@ -275,6 +314,7 @@ class AuthProvider with ChangeNotifier {
             data: formData,
             options: Options(
                 method: 'POST',
+                headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${authenticatedUser.token}'},
                 responseType: ResponseType.json // or ResponseType.JSON
                 ))
         .then((response) {

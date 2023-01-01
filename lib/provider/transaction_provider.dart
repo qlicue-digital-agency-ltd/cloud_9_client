@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/transaction.dart';
+import 'package:cloud_9_client/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'auth_provider.dart';
+
 class TransactionProvider with ChangeNotifier {
+
   //variable declaration
   bool _isFetchingTransactionData = false;
   bool _isdeletingTransactionData = false;
@@ -27,7 +33,7 @@ class TransactionProvider with ChangeNotifier {
     final List<Transaction> _fetchedTransactions = [];
     try {
       final http.Response response =
-          await http.get(api + "transactions/client/" + clientId.toString());
+          await http.get(api + "transactions/client/" + clientId.toString(),headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -58,7 +64,7 @@ class TransactionProvider with ChangeNotifier {
 
     try {
       final http.Response response =
-          await http.delete(api + "transaction/" + transaction.id.toString());
+          await http.delete(api + "transaction/" + transaction.id.toString(),headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'});
       if (response.statusCode == 201) {
         hasError = false;
       }

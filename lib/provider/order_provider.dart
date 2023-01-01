@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/models/mno.dart';
 import 'package:cloud_9_client/models/order.dart';
@@ -13,7 +15,7 @@ class OrderProvider with ChangeNotifier {
   User authenticatedUser;
   Country _selectedCountry = Country.TZ;
 
-  bool _isSubmitingPaymentData = false;
+  bool _isSubmittingPaymentData = false;
   MNO _selectedMNO = automnoList[0];
   List<MNO> _mnoList;
 
@@ -22,11 +24,13 @@ class OrderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //get the choosen Image.
+  //get the chosen Image.
   Country get selectedCountry => _selectedCountry;
 
-  bool get isSubmitingPaymentData => _isSubmitingPaymentData;
+  bool get isSubmittingPaymentData => _isSubmittingPaymentData;
+
   List<MNO> get mnoList => _mnoList;
+
   MNO get selectedMNO => _selectedMNO;
 
   set setSelectedMNO(MNO mno) {
@@ -85,7 +89,7 @@ void updateOrderStatus(Order order){
     final List<Order> _fetchedOrders = [];
     try {
       final http.Response response =
-          await http.get(api + "orders/" + clientId.toString());
+          await http.get(api + "orders/" + clientId.toString(),headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -118,14 +122,15 @@ void updateOrderStatus(Order order){
       @required String agentCode,
       @required int orderableId,
       @required String orderableType,
-      @required int noOfItems, @required  double amount}) async {
-    _isSubmitingPaymentData = true;
+      @required int noOfItems,
+      @required double amount}) async {
+    _isSubmittingPaymentData = true;
     notifyListeners();
     final Map<String, dynamic> authData = {
       'user_id': userId,
       'payment_phone': paymentPhone,
       'product_id': orderableId,
-      'amount':amount,
+      'amount': amount,
       'no_of_items': noOfItems,
       'agent_uuid': agentCode,
       'orderable_type': orderableType,
@@ -135,7 +140,7 @@ void updateOrderStatus(Order order){
     final http.Response response = await http.post(
       apiCreateOder,
       body: json.encode(authData),
-      headers: {'Content-Type': 'application/json'},
+      headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'},
     );
 
     print(response.body.toString());
@@ -155,29 +160,27 @@ void updateOrderStatus(Order order){
         case "78":
         case "68":
         case "69":
-          sendUssdPush(orderId: _order.id.toString(),phone: paymentPhone);
+          sendUssdPush(orderId: _order.id.toString(), phone: paymentPhone);
           break;
         default:
       }
     } else {
       hasError = true;
     }
-    _isSubmitingPaymentData = false;
+    _isSubmittingPaymentData = false;
     notifyListeners();
     return hasError;
   }
 
   //Register in User function..
-  Future<Map<String,dynamic>> sendUssdPush({@required String orderId,@required String phone}) async {
-    final Map<String, dynamic> _data = {
-      'order_id': orderId,
-      'phone':phone
-    };
+  Future<Map<String, dynamic>> sendUssdPush(
+      {@required String orderId, @required String phone}) async {
+    final Map<String, dynamic> _data = {'order_id': orderId, 'phone': phone};
 
     final http.Response response = await http.post(
       apiUssdPush,
       body: json.encode(_data),
-      headers: {'Content-Type': 'application/json'},
+      headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.authorizationHeader: 'Bearer ${TokenService().token}'},
     );
 
     final Map<String, dynamic> responseData = json.decode(response.body);
@@ -186,11 +189,21 @@ void updateOrderStatus(Order order){
     print(responseData);
     print('++++++++++++++++++++++++++++++');
     notifyListeners();
-    if(!responseData.containsKey('status')){
-      if(!responseData['status'])
-        return {'status':false,'message':'Error Occurred, Please Pay using given Procedures','success':false};
+    if (!responseData.containsKey('status')) {
+      if (!responseData['status'])
+        return {
+          'status': false,
+          'message': 'Error Occurred, Please Pay using given Procedures',
+          'success': false
+        };
     }
-    if(responseData['transaction']['result_code'] == '000' ) print('TTTTTTTRRRRRUUUUUEEEEE');
-    return {'status':responseData['status'],'message':responseData['transaction']['message'],'success':responseData['transaction']['result_code'] == '000' ? true : false};
+    if (responseData['transaction']['result_code'] == '000')
+      print('TTTTTTTRRRRRUUUUUEEEEE');
+    return {
+      'status': responseData['status'],
+      'message': responseData['transaction']['message'],
+      'success':
+          responseData['transaction']['result_code'] == '000' ? true : false
+    };
   }
 }

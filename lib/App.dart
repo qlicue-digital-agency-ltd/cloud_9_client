@@ -1,3 +1,4 @@
+import 'package:cloud_9_client/api/api.dart';
 import 'package:cloud_9_client/constants/constants.dart';
 import 'package:cloud_9_client/pages/auth/login_page.dart';
 import 'package:cloud_9_client/pages/auth/profile_page.dart';
@@ -7,8 +8,6 @@ import 'package:cloud_9_client/screens/order_detail_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'animations/splash/animated_splash_screen.dart';
 
 class App extends StatelessWidget {
   @override
@@ -21,7 +20,9 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AnimatedSplashScreen(),
+      home:  _authProvider.isAuthenticated && _authProvider.hasUserProfile
+          ? HomeScreen()
+          : _authProvider.isAuthenticated ? ProfilePage() : LoginPage(),
       routes: {
         landingScreen: (BuildContext context) =>
             _authProvider.isAuthenticated && _authProvider.hasUserProfile
